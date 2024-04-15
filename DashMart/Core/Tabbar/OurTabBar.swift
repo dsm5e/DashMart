@@ -9,7 +9,36 @@ import SwiftUI
 
 struct OurTabBar: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        TabView {
+            Home()
+                .tabItem {
+                Image("home")
+                    .resizable()
+                    .scaledToFit()
+                Text("Home")
+            }
+            WishList()
+                .tabItem {
+                Image("heart")
+                    .resizable()
+                    .scaledToFit()
+                Text("WishList")
+            }
+            Manager()
+                .tabItem {
+                Image("paper")
+                    .resizable()
+                    .scaledToFit()
+                Text("Manager")
+            }
+            Account()
+                .tabItem {
+                    Image("profile")
+                        .resizable()
+                        .scaledToFit()
+                    Text("Account")
+                }
+        }
     }
 }
 
