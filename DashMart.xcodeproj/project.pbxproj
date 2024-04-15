@@ -11,7 +11,29 @@
 		3C1281532BCC2FC000DB8F49 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C1281522BCC2FC000DB8F49 /* ContentView.swift */; };
 		3C1281552BCC2FC100DB8F49 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3C1281542BCC2FC100DB8F49 /* Assets.xcassets */; };
 		3C1281582BCC2FC100DB8F49 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3C1281572BCC2FC100DB8F49 /* Preview Assets.xcassets */; };
+		7757B0222BCD888700C6F56A /* Entities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7757B0212BCD888700C6F56A /* Entities.swift */; };
+		7757B0252BCD891B00C6F56A /* ProductsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7757B0242BCD891B00C6F56A /* ProductsRequest.swift */; };
+		7757B0272BCD89B900C6F56A /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7757B0262BCD89B900C6F56A /* NetworkService.swift */; };
+		7757B0282BCD932F00C6F56A /* NetworkManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7757B00F2BCD849E00C6F56A /* NetworkManager.framework */; };
+		7757B02C2BCD9E4F00C6F56A /* CategoriesRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7757B02B2BCD9E4F00C6F56A /* CategoriesRequest.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		7757B00E2BCD849E00C6F56A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7757B0092BCD849E00C6F56A /* NetworkManager.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 7757AFF12BCD849D00C6F56A;
+			remoteInfo = NetworkManager;
+		};
+		7757B0102BCD849E00C6F56A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7757B0092BCD849E00C6F56A /* NetworkManager.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 7757AFF92BCD849E00C6F56A;
+			remoteInfo = NetworkManagerTests;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		3C12814D2BCC2FC000DB8F49 /* DashMart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DashMart.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -19,6 +41,11 @@
 		3C1281522BCC2FC000DB8F49 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		3C1281542BCC2FC100DB8F49 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3C1281572BCC2FC100DB8F49 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		7757B0092BCD849E00C6F56A /* NetworkManager.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = NetworkManager.xcodeproj; path = NetworkManager/NetworkManager.xcodeproj; sourceTree = "<group>"; };
+		7757B0212BCD888700C6F56A /* Entities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entities.swift; sourceTree = "<group>"; };
+		7757B0242BCD891B00C6F56A /* ProductsRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsRequest.swift; sourceTree = "<group>"; };
+		7757B0262BCD89B900C6F56A /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
+		7757B02B2BCD9E4F00C6F56A /* CategoriesRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesRequest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -26,6 +53,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7757B0282BCD932F00C6F56A /* NetworkManager.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -35,8 +63,10 @@
 		3C1281442BCC2FC000DB8F49 = {
 			isa = PBXGroup;
 			children = (
+				7757B0092BCD849E00C6F56A /* NetworkManager.xcodeproj */,
 				3C12814F2BCC2FC000DB8F49 /* DashMart */,
 				3C12814E2BCC2FC000DB8F49 /* Products */,
+				7757B0182BCD84BE00C6F56A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -52,8 +82,8 @@
 			isa = PBXGroup;
 			children = (
 				3C1281502BCC2FC000DB8F49 /* DashMartApp.swift */,
+				7757B02D2BCDA07500C6F56A /* Managers */,
 				3C1281602BCC32EE00DB8F49 /* Core */,
-				3C12815E2BCC316700DB8F49 /* Managers */,
 				3C12815F2BCC318500DB8F49 /* Extensions */,
 				3C1281542BCC2FC100DB8F49 /* Assets.xcassets */,
 				3C1281562BCC2FC100DB8F49 /* Preview Content */,
@@ -67,13 +97,6 @@
 				3C1281572BCC2FC100DB8F49 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
-			sourceTree = "<group>";
-		};
-		3C12815E2BCC316700DB8F49 /* Managers */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Managers;
 			sourceTree = "<group>";
 		};
 		3C12815F2BCC318500DB8F49 /* Extensions */ = {
@@ -147,6 +170,41 @@
 			path = AuthScreen;
 			sourceTree = "<group>";
 		};
+		7757B00A2BCD849E00C6F56A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7757B00F2BCD849E00C6F56A /* NetworkManager.framework */,
+				7757B0112BCD849E00C6F56A /* NetworkManagerTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		7757B0182BCD84BE00C6F56A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		7757B0232BCD88FA00C6F56A /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				7757B0212BCD888700C6F56A /* Entities.swift */,
+				7757B0242BCD891B00C6F56A /* ProductsRequest.swift */,
+				7757B02B2BCD9E4F00C6F56A /* CategoriesRequest.swift */,
+				7757B0262BCD89B900C6F56A /* NetworkService.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		7757B02D2BCDA07500C6F56A /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				7757B0232BCD88FA00C6F56A /* Network */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -193,12 +251,35 @@
 			mainGroup = 3C1281442BCC2FC000DB8F49;
 			productRefGroup = 3C12814E2BCC2FC000DB8F49 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 7757B00A2BCD849E00C6F56A /* Products */;
+					ProjectRef = 7757B0092BCD849E00C6F56A /* NetworkManager.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				3C12814C2BCC2FC000DB8F49 /* DashMart */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		7757B00F2BCD849E00C6F56A /* NetworkManager.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = NetworkManager.framework;
+			remoteRef = 7757B00E2BCD849E00C6F56A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7757B0112BCD849E00C6F56A /* NetworkManagerTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = NetworkManagerTests.xctest;
+			remoteRef = 7757B0102BCD849E00C6F56A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		3C12814B2BCC2FC000DB8F49 /* Resources */ = {
@@ -217,6 +298,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7757B0222BCD888700C6F56A /* Entities.swift in Sources */,
+				7757B0252BCD891B00C6F56A /* ProductsRequest.swift in Sources */,
+				7757B0272BCD89B900C6F56A /* NetworkService.swift in Sources */,
+				7757B02C2BCD9E4F00C6F56A /* CategoriesRequest.swift in Sources */,
 				3C1281532BCC2FC000DB8F49 /* ContentView.swift in Sources */,
 				3C1281512BCC2FC000DB8F49 /* DashMartApp.swift in Sources */,
 			);
@@ -277,7 +362,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -334,7 +419,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -352,7 +437,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"DashMart/Preview Content\"";
-				DEVELOPMENT_TEAM = A5PP5569YS;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -367,9 +452,12 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = dsm5e.DashMart;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -381,7 +469,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"DashMart/Preview Content\"";
-				DEVELOPMENT_TEAM = A5PP5569YS;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -396,9 +484,12 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = dsm5e.DashMart;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
