@@ -12,25 +12,25 @@ struct OurTabBar: View {
         TabView {
             Home()
                 .tabItem {
-                Image("home")
-                    .resizable()
-                    .scaledToFit()
-                Text("Home")
-            }
+                    Image("home")
+                        .resizable()
+                        .scaledToFit()
+                    Text("Home")
+                }
             WishList()
                 .tabItem {
-                Image("heart")
-                    .resizable()
-                    .scaledToFit()
-                Text("WishList")
-            }
+                    Image("heart")
+                        .resizable()
+                        .scaledToFit()
+                    Text("WishList")
+                }
             Manager()
                 .tabItem {
-                Image("paper")
-                    .resizable()
-                    .scaledToFit()
-                Text("Manager")
-            }
+                    Image("paper")
+                        .resizable()
+                        .scaledToFit()
+                    Text("Manager")
+                }
             Account()
                 .tabItem {
                     Image("profile")
@@ -39,6 +39,7 @@ struct OurTabBar: View {
                     Text("Account")
                 }
         }
+        .tint(.green)
     }
 }
 
