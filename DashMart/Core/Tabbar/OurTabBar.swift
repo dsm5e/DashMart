@@ -9,16 +9,7 @@ import SwiftUI
 
 struct OurTabBar: View {
     var body: some View {
-        TabView {
-            Home().tag("1")
-                .tabItem { Label("Everyone", systemImage: "person.3") }
-            WishList().tag("2")
-                .tabItem { Label("Everyone", systemImage: "person.3") }
-            Manager().tag("3")
-                .tabItem { Label("Everyone", systemImage: "person.3") }
-            Account().tag("4")
-                .tabItem { Label("Everyone", systemImage: "person.3") }
-        }
+        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
     }
 }
 
