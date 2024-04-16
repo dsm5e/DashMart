@@ -2,7 +2,7 @@
 //  ProductsRequest.swift
 //  DashMart
 //
-//  Created by Victor Rubenko on 15.04.2024.
+//  Created by Victor on 15.04.2024.
 //
 
 import Foundation

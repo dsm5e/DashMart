@@ -11,6 +11,11 @@ import SwiftUI
 
 struct OnboardingView: View {
     @State private var currentPageIndex = 0
+    private let router: RouterService
+    
+    init(router: RouterService) {
+        self.router = router
+    }
 
     var body: some View {
         VStack {
@@ -31,7 +36,7 @@ struct OnboardingView: View {
                     if currentPageIndex < onboardingData.count - 1 {
                         currentPageIndex += 1
                     } else {
-                        print("Onboarding completed!")
+                        router.openApp()
                     }
                 }) {
                     Image(systemName: "arrowtriangle.right.circle")
@@ -50,6 +55,6 @@ struct OnboardingView: View {
 
 struct OnboardingView_Previews: PreviewProvider {
     static var previews: some View {
-        OnboardingView()
+        OnboardingView(router: RouterService())
     }
 }

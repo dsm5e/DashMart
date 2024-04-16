@@ -6,12 +6,27 @@
 //
 
 import SwiftUI
+import FirebaseCore
+import FirebaseFirestore
+import FirebaseAuth
 
 @main
 struct DashMartApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    
     var body: some Scene {
         WindowGroup {
-            HomeScreen()
+            ContentView()
         }
+    }
+}
+
+class AppDelegate: NSObject, UIApplicationDelegate, ObservableObject {
+    func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil
+    ) -> Bool {
+        FirebaseApp.configure()
+        return true
     }
 }
