@@ -2,39 +2,51 @@
 //  OurTabBar.swift
 //  DashMart
 //
-//  Created by Ваня Науменко on 15.04.24.
+//  Created by Victor on 16.04.24.
 //
 
 import SwiftUI
 
-struct OurTabBar: View {
+struct TabBar: View {
+    
+    private let router: RouterService
+    @State private var selection = 0
+    
+    init(router: RouterService) {
+        self.router = router
+    }
+    
     var body: some View {
-        TabView {
-            Home()
+        TabView(selection: $selection) {
+            HomeScreen()
                 .tabItem {
-                    Image("home")
+                    Image(selection == 0 ? .Tab.Green.home : .Tab.home)
                     Text("Home")
                 }
+                .tag(0)
             WishList()
                 .tabItem {
-                    Image("heart")
+                    Image(selection == 1 ? .Tab.Green.heart : .Tab.heart)
                     Text("WishList")
                 }
+                .tag(1)
             Manager()
                 .tabItem {
-                    Image("paper")
-                    Text("WishList")
+                    Image(selection == 2 ? .Tab.Green.paper : .Tab.paper)
+                    Text("Manager")
                 }
-            Account()
+                .tag(2)
+            Account(router: router)
                 .tabItem {
-                    Image("profile")
-                    Text("WishList")
+                    Image(selection == 3 ? .Tab.Green.profile : .Tab.profile)
+                    Text("Account")
                 }
+                .tag(3)
         }
         .tint(.black)
     }
 }
 
 #Preview {
-    OurTabBar()
+    TabBar(router: RouterService())
 }
