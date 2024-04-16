@@ -115,16 +115,9 @@
 				3C1281632BCC332900DB8F49 /* WishlistScreen */,
 				3C1281642BCC333700DB8F49 /* ManagerScreen */,
 				3C1281652BCC333F00DB8F49 /* AccountScreen */,
-				3C1281612BCC32F200DB8F49 /* Tabbar */,
+				CAF7DC2B2BCD6A1C00BCE0DF /* Tabbar */,
 			);
 			path = Core;
-			sourceTree = "<group>";
-		};
-		3C1281612BCC32F200DB8F49 /* Tabbar */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Tabbar;
 			sourceTree = "<group>";
 		};
 		3C1281622BCC32F600DB8F49 /* HomeScreen */ = {
@@ -303,7 +296,12 @@
 				7757B0272BCD89B900C6F56A /* NetworkService.swift in Sources */,
 				7757B02C2BCD9E4F00C6F56A /* CategoriesRequest.swift in Sources */,
 				3C1281532BCC2FC000DB8F49 /* ContentView.swift in Sources */,
+				CAAC00662BCD6E2300DB134E /* Manager.swift in Sources */,
 				3C1281512BCC2FC000DB8F49 /* DashMartApp.swift in Sources */,
+				CAAC00622BCD6D1F00DB134E /* Home.swift in Sources */,
+				CAAC00642BCD6DD900DB134E /* WishList.swift in Sources */,
+				CAF7DC352BCD6C4300BCE0DF /* OurTabBar.swift in Sources */,
+				CAAC00682BCD6E9100DB134E /* Account.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
