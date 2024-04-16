@@ -44,7 +44,6 @@ struct OnboardingView: View {
                         .frame(width: 70, height: 70)
                         .foregroundStyle(.black)
                 }
-                .disabled(currentPageIndex == onboardingData.count - 1)
             }
             .padding()
         }

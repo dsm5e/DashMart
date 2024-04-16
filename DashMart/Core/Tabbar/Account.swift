@@ -8,11 +8,26 @@
 import SwiftUI
 
 struct Account: View {
+    
+    private let router: RouterService
+    
+    init(router: RouterService) {
+        self.router = router
+    }
+    
     var body: some View {
-        Text("Account")
+        Button("Logout") {
+            Task {
+                @MainActor in
+                
+                if await AuthorizeService.shared.logout() {
+                    router.openAuth()
+                }
+            }
+        }
     }
 }
 
 #Preview {
-    Account()
+    Account(router: RouterService())
 }

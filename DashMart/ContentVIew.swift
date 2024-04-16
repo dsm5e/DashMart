@@ -19,7 +19,7 @@ struct ContentView: View {
             case .authorization:
                 AuthorizeView(router: router)
             case .main:
-                HomeScreen()
+                OurTabBar(router: router)
             }
         }
         .animation(.smooth, value: router.screen)

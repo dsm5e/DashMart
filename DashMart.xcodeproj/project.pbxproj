@@ -19,6 +19,12 @@
 		7758CDE12BCED3A80038E801 /* Color+hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7758CDE02BCED3A80038E801 /* Color+hex.swift */; };
 		7758CDE32BCEDD510038E801 /* RoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7758CDE22BCEDD510038E801 /* RoundedButton.swift */; };
 		7758CDE62BCEDF970038E801 /* ContentVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7758CDE52BCEDF970038E801 /* ContentVIew.swift */; };
+		7768265E2BCEFFAE0004F714 /* Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 776826592BCEFFAE0004F714 /* Manager.swift */; };
+		7768265F2BCEFFAE0004F714 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7768265A2BCEFFAE0004F714 /* Home.swift */; };
+		776826602BCEFFAE0004F714 /* WishList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7768265B2BCEFFAE0004F714 /* WishList.swift */; };
+		776826612BCEFFAE0004F714 /* OurTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7768265C2BCEFFAE0004F714 /* OurTabBar.swift */; };
+		776826622BCEFFAE0004F714 /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7768265D2BCEFFAE0004F714 /* Account.swift */; };
+		776826642BCF03B40004F714 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 776826632BCF03B40004F714 /* GoogleService-Info.plist */; };
 		77F87E202BCECA6200506EB7 /* AuthorizeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F87E1D2BCECA6200506EB7 /* AuthorizeView.swift */; };
 		77F87E212BCECA6200506EB7 /* AuthorizeReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F87E1E2BCECA6200506EB7 /* AuthorizeReducer.swift */; };
 		77F87E222BCECA6200506EB7 /* AuthorizeStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F87E1F2BCECA6200506EB7 /* AuthorizeStore.swift */; };
@@ -29,7 +35,6 @@
 		77F87E3F2BCECADF00506EB7 /* FirebaseFirestoreCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 77F87E3E2BCECADF00506EB7 /* FirebaseFirestoreCombine-Community */; };
 		77F87E412BCECADF00506EB7 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 77F87E402BCECADF00506EB7 /* FirebaseFirestoreSwift */; };
 		77F87E572BCECADF00506EB7 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 77F87E562BCECADF00506EB7 /* FirebaseStorage */; };
-		77F87E5B2BCECB9B00506EB7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 77F87E5A2BCECB9B00506EB7 /* GoogleService-Info.plist */; };
 		77F87E5D2BCECC0000506EB7 /* AuthorizeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F87E5C2BCECC0000506EB7 /* AuthorizeService.swift */; };
 		77F87E5F2BCECC6400506EB7 /* RouterService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F87E5E2BCECC6400506EB7 /* RouterService.swift */; };
 		77F87E612BCECC8100506EB7 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F87E602BCECC8100506EB7 /* StorageService.swift */; };
@@ -80,10 +85,15 @@
 		7758CDE02BCED3A80038E801 /* Color+hex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Color+hex.swift"; sourceTree = "<group>"; };
 		7758CDE22BCEDD510038E801 /* RoundedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedButton.swift; sourceTree = "<group>"; };
 		7758CDE52BCEDF970038E801 /* ContentVIew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentVIew.swift; sourceTree = "<group>"; };
+		776826592BCEFFAE0004F714 /* Manager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Manager.swift; sourceTree = "<group>"; };
+		7768265A2BCEFFAE0004F714 /* Home.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
+		7768265B2BCEFFAE0004F714 /* WishList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WishList.swift; sourceTree = "<group>"; };
+		7768265C2BCEFFAE0004F714 /* OurTabBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OurTabBar.swift; sourceTree = "<group>"; };
+		7768265D2BCEFFAE0004F714 /* Account.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
+		776826632BCF03B40004F714 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = "GoogleService-Info.plist"; path = "DashMart/GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		77F87E1D2BCECA6200506EB7 /* AuthorizeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorizeView.swift; sourceTree = "<group>"; };
 		77F87E1E2BCECA6200506EB7 /* AuthorizeReducer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorizeReducer.swift; sourceTree = "<group>"; };
 		77F87E1F2BCECA6200506EB7 /* AuthorizeStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorizeStore.swift; sourceTree = "<group>"; };
-		77F87E5A2BCECB9B00506EB7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		77F87E5C2BCECC0000506EB7 /* AuthorizeService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorizeService.swift; sourceTree = "<group>"; };
 		77F87E5E2BCECC6400506EB7 /* RouterService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouterService.swift; sourceTree = "<group>"; };
 		77F87E602BCECC8100506EB7 /* StorageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
@@ -149,7 +159,7 @@
 				3C1281602BCC32EE00DB8F49 /* Core */,
 				77F87E642BCECF0A00506EB7 /* Extensions */,
 				3C1281542BCC2FC100DB8F49 /* Assets.xcassets */,
-				77F87E5A2BCECB9B00506EB7 /* GoogleService-Info.plist */,
+				776826632BCF03B40004F714 /* GoogleService-Info.plist */,
 				3C1281562BCC2FC100DB8F49 /* Preview Content */,
 			);
 			path = DashMart;
@@ -166,6 +176,7 @@
 		3C1281602BCC32EE00DB8F49 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				776826582BCEFFAE0004F714 /* Tabbar */,
 				7758CDE42BCEDEC30038E801 /* Views */,
 				77F87E1C2BCECA6200506EB7 /* Authorize */,
 				3C1281662BCC335800DB8F49 /* OnboardingScreen */,
@@ -262,6 +273,18 @@
 				7758CDE22BCEDD510038E801 /* RoundedButton.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		776826582BCEFFAE0004F714 /* Tabbar */ = {
+			isa = PBXGroup;
+			children = (
+				776826592BCEFFAE0004F714 /* Manager.swift */,
+				7768265A2BCEFFAE0004F714 /* Home.swift */,
+				7768265B2BCEFFAE0004F714 /* WishList.swift */,
+				7768265C2BCEFFAE0004F714 /* OurTabBar.swift */,
+				7768265D2BCEFFAE0004F714 /* Account.swift */,
+			);
+			path = Tabbar;
 			sourceTree = "<group>";
 		};
 		77F87E1C2BCECA6200506EB7 /* Authorize */ = {
@@ -403,7 +426,7 @@
 			files = (
 				3C1281582BCC2FC100DB8F49 /* Preview Assets.xcassets in Resources */,
 				3C1281552BCC2FC100DB8F49 /* Assets.xcassets in Resources */,
-				77F87E5B2BCECB9B00506EB7 /* GoogleService-Info.plist in Resources */,
+				776826642BCF03B40004F714 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -414,7 +437,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				776826602BCEFFAE0004F714 /* WishList.swift in Sources */,
 				7757B0222BCD888700C6F56A /* Entities.swift in Sources */,
+				7768265F2BCEFFAE0004F714 /* Home.swift in Sources */,
 				7758CDE32BCEDD510038E801 /* RoundedButton.swift in Sources */,
 				77F87E5D2BCECC0000506EB7 /* AuthorizeService.swift in Sources */,
 				77F87E222BCECA6200506EB7 /* AuthorizeStore.swift in Sources */,
@@ -423,6 +448,7 @@
 				7758CDE62BCEDF970038E801 /* ContentVIew.swift in Sources */,
 				F94506412BCE87F90017600B /* NavBarMenu.swift in Sources */,
 				7757B0272BCD89B900C6F56A /* NetworkService.swift in Sources */,
+				776826622BCEFFAE0004F714 /* Account.swift in Sources */,
 				F945064D2BCE88DD0017600B /* CustomButton.swift in Sources */,
 				F945064B2BCE88BB0017600B /* ProductCard.swift in Sources */,
 				77F87E612BCECC8100506EB7 /* StorageService.swift in Sources */,
@@ -433,10 +459,12 @@
 				3C1281512BCC2FC000DB8F49 /* DashMartApp.swift in Sources */,
 				77F87E5F2BCECC6400506EB7 /* RouterService.swift in Sources */,
 				CAF7DC162BCD5A7900BCE0DF /* PageIndicator.swift in Sources */,
+				7768265E2BCEFFAE0004F714 /* Manager.swift in Sources */,
 				CAF7DC142BCD5A6A00BCE0DF /* OnboardingPage.swift in Sources */,
 				CAF7DC182BCD5A8900BCE0DF /* OnboardingItem.swift in Sources */,
 				F945064F2BCE88FE0017600B /* CustomIconButton.swift in Sources */,
 				F94506522BCE89430017600B /* SearchResultScreen.swift in Sources */,
+				776826612BCEFFAE0004F714 /* OurTabBar.swift in Sources */,
 				F94506472BCE88760017600B /* TitleFilters.swift in Sources */,
 				F94506432BCE88300017600B /* SearchBar.swift in Sources */,
 				3C1281532BCC2FC000DB8F49 /* HomeScreen.swift in Sources */,

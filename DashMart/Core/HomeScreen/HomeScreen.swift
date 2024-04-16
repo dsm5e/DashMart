@@ -13,24 +13,26 @@ struct HomeScreen: View {
     
     var body: some View {
         VStack {
-            NavBarMenu()
-                .padding(6)
-            SearchBar(text: $searchText) {
-                isShowingSearchResults = true
+            VStack {
+                NavBarMenu()
+                    .padding(6)
+                SearchBar(text: $searchText) {
+                    isShowingSearchResults = true
+                }
+                
+                Categories()
+                
+                TitleFilters(text: "Products")
+            }
+            .padding()
+            .fullScreenCover(isPresented: $isShowingSearchResults) {
+                SearchResultScreen(searchTextResult: $searchText)
             }
             
-            Categories()
-            
-            TitleFilters(text: "Products")
-        }
-        .padding()
-        .fullScreenCover(isPresented: $isShowingSearchResults) {
-                    SearchResultScreen(searchTextResult: $searchText)
+            VStack {
+                ScrollView {
+                    ProductList()
                 }
-        
-        VStack {
-            ScrollView {
-                ProductList()
             }
         }
     }

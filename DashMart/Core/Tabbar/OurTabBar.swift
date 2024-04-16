@@ -8,9 +8,16 @@
 import SwiftUI
 
 struct OurTabBar: View {
+    
+    private let router: RouterService
+    
+    init(router: RouterService) {
+        self.router = router
+    }
+    
     var body: some View {
         TabView {
-            Home()
+            HomeScreen()
                 .tabItem {
                     Image("home")
                         .resizable()
@@ -31,7 +38,7 @@ struct OurTabBar: View {
                         .scaledToFit()
                     Text("Manager")
                 }
-            Account()
+            Account(router: router)
                 .tabItem {
                     Image("profile")
                         .resizable()
@@ -44,5 +51,5 @@ struct OurTabBar: View {
 }
 
 #Preview {
-    OurTabBar()
+    OurTabBar(router: RouterService())
 }
