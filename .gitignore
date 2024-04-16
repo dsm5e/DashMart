@@ -88,3 +88,5 @@ fastlane/test_output
 # https://github.com/johnno1962/injectionforxcode
 
 iOSInjectionProject/
+DashMart.xcodeproj/project.xcworkspace/xcuserdata/vanyanaumenko.xcuserdatad/UserInterfaceState.xcuserstate
+NetworkManager/NetworkManager.xcodeproj/xcuserdata/vanyanaumenko.xcuserdatad/xcschemes/xcschememanagement.plist
