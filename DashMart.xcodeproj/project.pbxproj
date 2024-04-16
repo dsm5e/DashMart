@@ -18,11 +18,11 @@
 		7757B02C2BCD9E4F00C6F56A /* CategoriesRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7757B02B2BCD9E4F00C6F56A /* CategoriesRequest.swift */; };
 		7758CDE12BCED3A80038E801 /* Color+hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7758CDE02BCED3A80038E801 /* Color+hex.swift */; };
 		7758CDE32BCEDD510038E801 /* RoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7758CDE22BCEDD510038E801 /* RoundedButton.swift */; };
-		7758CDE62BCEDF970038E801 /* ContentVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7758CDE52BCEDF970038E801 /* ContentVIew.swift */; };
+		7758CDE62BCEDF970038E801 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7758CDE52BCEDF970038E801 /* ContentView.swift */; };
 		7768265E2BCEFFAE0004F714 /* Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 776826592BCEFFAE0004F714 /* Manager.swift */; };
 		7768265F2BCEFFAE0004F714 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7768265A2BCEFFAE0004F714 /* Home.swift */; };
 		776826602BCEFFAE0004F714 /* WishList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7768265B2BCEFFAE0004F714 /* WishList.swift */; };
-		776826612BCEFFAE0004F714 /* OurTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7768265C2BCEFFAE0004F714 /* OurTabBar.swift */; };
+		776826612BCEFFAE0004F714 /* TabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7768265C2BCEFFAE0004F714 /* TabBar.swift */; };
 		776826622BCEFFAE0004F714 /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7768265D2BCEFFAE0004F714 /* Account.swift */; };
 		776826642BCF03B40004F714 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 776826632BCF03B40004F714 /* GoogleService-Info.plist */; };
 		77F87E202BCECA6200506EB7 /* AuthorizeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F87E1D2BCECA6200506EB7 /* AuthorizeView.swift */; };
@@ -84,11 +84,11 @@
 		7757B02B2BCD9E4F00C6F56A /* CategoriesRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesRequest.swift; sourceTree = "<group>"; };
 		7758CDE02BCED3A80038E801 /* Color+hex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Color+hex.swift"; sourceTree = "<group>"; };
 		7758CDE22BCEDD510038E801 /* RoundedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedButton.swift; sourceTree = "<group>"; };
-		7758CDE52BCEDF970038E801 /* ContentVIew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentVIew.swift; sourceTree = "<group>"; };
+		7758CDE52BCEDF970038E801 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		776826592BCEFFAE0004F714 /* Manager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Manager.swift; sourceTree = "<group>"; };
 		7768265A2BCEFFAE0004F714 /* Home.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
 		7768265B2BCEFFAE0004F714 /* WishList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WishList.swift; sourceTree = "<group>"; };
-		7768265C2BCEFFAE0004F714 /* OurTabBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OurTabBar.swift; sourceTree = "<group>"; };
+		7768265C2BCEFFAE0004F714 /* TabBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBar.swift; sourceTree = "<group>"; };
 		7768265D2BCEFFAE0004F714 /* Account.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
 		776826632BCF03B40004F714 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = "GoogleService-Info.plist"; path = "DashMart/GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		77F87E1D2BCECA6200506EB7 /* AuthorizeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorizeView.swift; sourceTree = "<group>"; };
@@ -154,7 +154,7 @@
 			isa = PBXGroup;
 			children = (
 				3C1281502BCC2FC000DB8F49 /* DashMartApp.swift */,
-				7758CDE52BCEDF970038E801 /* ContentVIew.swift */,
+				7758CDE52BCEDF970038E801 /* ContentView.swift */,
 				7757B02D2BCDA07500C6F56A /* Managers */,
 				3C1281602BCC32EE00DB8F49 /* Core */,
 				77F87E642BCECF0A00506EB7 /* Extensions */,
@@ -281,7 +281,7 @@
 				776826592BCEFFAE0004F714 /* Manager.swift */,
 				7768265A2BCEFFAE0004F714 /* Home.swift */,
 				7768265B2BCEFFAE0004F714 /* WishList.swift */,
-				7768265C2BCEFFAE0004F714 /* OurTabBar.swift */,
+				7768265C2BCEFFAE0004F714 /* TabBar.swift */,
 				7768265D2BCEFFAE0004F714 /* Account.swift */,
 			);
 			path = Tabbar;
@@ -445,7 +445,7 @@
 				77F87E222BCECA6200506EB7 /* AuthorizeStore.swift in Sources */,
 				77F87E632BCECF0200506EB7 /* View+Extension.swift in Sources */,
 				7757B0252BCD891B00C6F56A /* ProductsRequest.swift in Sources */,
-				7758CDE62BCEDF970038E801 /* ContentVIew.swift in Sources */,
+				7758CDE62BCEDF970038E801 /* ContentView.swift in Sources */,
 				F94506412BCE87F90017600B /* NavBarMenu.swift in Sources */,
 				7757B0272BCD89B900C6F56A /* NetworkService.swift in Sources */,
 				776826622BCEFFAE0004F714 /* Account.swift in Sources */,
@@ -464,7 +464,7 @@
 				CAF7DC182BCD5A8900BCE0DF /* OnboardingItem.swift in Sources */,
 				F945064F2BCE88FE0017600B /* CustomIconButton.swift in Sources */,
 				F94506522BCE89430017600B /* SearchResultScreen.swift in Sources */,
-				776826612BCEFFAE0004F714 /* OurTabBar.swift in Sources */,
+				776826612BCEFFAE0004F714 /* TabBar.swift in Sources */,
 				F94506472BCE88760017600B /* TitleFilters.swift in Sources */,
 				F94506432BCE88300017600B /* SearchBar.swift in Sources */,
 				3C1281532BCC2FC000DB8F49 /* HomeScreen.swift in Sources */,

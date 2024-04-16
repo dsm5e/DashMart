@@ -2,7 +2,7 @@
 //  Account.swift
 //  DashMart
 //
-//  Created by Ваня Науменко on 15.04.24.
+//  Created by Victor on 16.04.24.
 //
 
 import SwiftUI
@@ -25,6 +25,10 @@ struct Account: View {
                 }
             }
         }
+        .padding()
+        .foregroundColor(.white)
+        .background(.blue)
+        .clipShape(.capsule)
     }
 }
 

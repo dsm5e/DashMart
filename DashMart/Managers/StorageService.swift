@@ -81,11 +81,17 @@ final actor StorageService: ObservableObject {
     
     func addToWishlist(_ id: Int) async throws {
         var wishlistIds = await getWishlist()
+        guard !wishlistIds.contains(id) else {
+            return
+        }
         wishlistIds.append(id)
         try await setWishlist(wishlistIds: wishlistIds)
     }
     
     func removeFromWishlist(_ id: Int) async throws {
+        guard wishlistIds.contains(id) else {
+            return
+        }
         wishlistIds.removeAll(where: { $0 == id })
         try await setWishlist(wishlistIds: wishlistIds)
     }

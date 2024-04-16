@@ -1,5 +1,5 @@
 //
-//  ContentVIew.swift
+//  ContentView.swift
 //  DashMart
 //
 //  Created by Victor on 16.04.2024.
@@ -19,7 +19,7 @@ struct ContentView: View {
             case .authorization:
                 AuthorizeView(router: router)
             case .main:
-                OurTabBar(router: router)
+                TabBar(router: router)
             }
         }
         .animation(.smooth, value: router.screen)
