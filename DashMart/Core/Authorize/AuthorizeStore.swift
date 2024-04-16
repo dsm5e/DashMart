@@ -39,7 +39,7 @@ final class AuthorizeStore: ObservableObject {
             }
         case .signUp(let model):
             guard model.password == model.repeatedPassword else {
-                state = .init(loginType: .signUp, error: "Password mismatch".localized())
+                state = .init(loginType: .signUp, error: "Password mismatch")
                 return
             }
             state = .init(loginType: .signUp, loader: true)
