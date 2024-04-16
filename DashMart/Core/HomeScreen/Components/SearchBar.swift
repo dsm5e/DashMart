@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SearchBar: View {
     @Binding var text: String
+    var onCommit: () -> Void
     
     private enum Drawing {
         static let imagePadding: CGFloat = 10
@@ -29,7 +30,7 @@ struct SearchBar: View {
                 Image(.search)
                     .padding(Drawing.imagePadding)
                 
-                TextField("Search here ...", text: $text)
+                TextField("Search here ...", text: $text, onCommit: onCommit)
                     .font(.system(size: Drawing.titleFontSize))
             }
             .padding(.horizontal, Drawing.imagePadding)
@@ -39,5 +40,5 @@ struct SearchBar: View {
 }
 
 #Preview {
-    SearchBar(text: .constant(""))
+    SearchBar(text: .constant(""), onCommit: {})
 }

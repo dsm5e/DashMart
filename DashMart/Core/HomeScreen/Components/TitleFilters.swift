@@ -20,9 +20,11 @@ struct TitleFilters: View {
         static let buttonHeigth: CGFloat = 27
     }
     
+    let text: String
+    
     var body: some View {
         HStack {
-            Text("Products")
+            Text(text)
                 .font(.system(size: Drawing.titleFontSize))
                 .foregroundStyle(Drawing.titleColor)
             Spacer()
@@ -47,5 +49,5 @@ struct TitleFilters: View {
 }
 
 #Preview {
-    TitleFilters()
+    TitleFilters(text: "Products")
 }

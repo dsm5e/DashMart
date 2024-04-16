@@ -18,12 +18,8 @@ struct NavBarMenu: View {
         static let titleBaseFontSize: CGFloat = 12
         static let imageBuy: String = "buy"
         static let imageBell: String = "bell"
-        static let buttonWidth: CGFloat = 28
-        static let buttonHeigth: CGFloat = 28
         static let colorButton = Color(hex: "#200E32")
         static let titleButtonFontSize: CGFloat = 7
-        static let badgeColor = Color(hex: "#D65B5B")
-        static let badgeTitleColor = Color(hex: "#FFFFFF")
     }
     
     var body: some View {
@@ -48,38 +44,13 @@ struct NavBarMenu: View {
                 }
             }
             Spacer()
-            Button {
+            
+            CustomIconButton(imageName: Drawing.imageBuy, badgeCount: 2) {
                 // action
-            } label: {
-                ZStack {
-                    Image(Drawing.imageBuy)
-                    if badgeCountBuy > 0 {
-                        Text("\(badgeCountBuy)")
-                            .foregroundColor(Drawing.badgeTitleColor)
-                            .font(Font.system(size: 10, weight: .bold))
-                            .padding(5)
-                            .background(Drawing.badgeColor)
-                            .clipShape(Circle())
-                            .offset(x: 10, y: -10)
-                    }
-                }
             }
             
-            Button {
+            CustomIconButton(imageName: Drawing.imageBell, badgeCount: 0) {
                 // action
-            } label: {
-                ZStack {
-                    Image(Drawing.imageBell)
-                    if badgeCountBell > 0 {
-                        Text("\(badgeCountBell)")
-                            .foregroundColor(Drawing.badgeTitleColor)
-                            .font(Font.system(size: 10, weight: .bold))
-                            .padding(5)
-                            .background(Drawing.badgeColor)
-                            .clipShape(Circle())
-                            .offset(x: 10, y: -10)
-                    }
-                }
             }
         }
         

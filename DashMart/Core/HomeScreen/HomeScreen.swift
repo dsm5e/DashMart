@@ -9,26 +9,30 @@ import SwiftUI
 
 struct HomeScreen: View {
     @State private var searchText: String = ""
+    @State private var isShowingSearchResults = false
+    
     var body: some View {
         VStack {
             NavBarMenu()
                 .padding(6)
-            SearchBar(text: $searchText)
+            SearchBar(text: $searchText) {
+                isShowingSearchResults = true
+            }
+            
+            Categories()
+            
+            TitleFilters(text: "Products")
         }
         .padding()
-        Spacer()
+        .fullScreenCover(isPresented: $isShowingSearchResults) {
+                    SearchResultScreen(searchTextResult: $searchText)
+                }
         
-//        HStack {
-//            Categories()
-//        }
-//        
-//        VStack {
-//            TitleFilters()
-//        }
-//        .padding()
-//        ScrollView {
-//            ProductList()
-//        }
+        VStack {
+            ScrollView {
+                ProductList()
+            }
+        }
     }
 }
 

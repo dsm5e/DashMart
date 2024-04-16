@@ -27,8 +27,11 @@ struct ProductList: View {
         ("Monitor LG 22”inc 4K 120Fps", "$199.99", "monitor"),
         ("Aestechic Mug - white variant", "$19.99", "mug"),
         ("Playstation 4 - SSD 128 GB", "$1999.99", "ps4"),
-        ("Airpods pro", "$499.99", "airpods")
+        ("Airpods pro", "$499.99", "airpods"),
+        ("Earphones for monitor", "$199.99", "erp"),
+        ("Earphones for monitor Big", "$199.99", "erpB")
     ]
+    
     
     var body: some View {
         LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: Drawing.spacing) {

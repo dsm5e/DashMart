@@ -19,6 +19,8 @@
 		F945062A2BCD1E820017600B /* ProductList.swift in Sources */ = {isa = PBXBuildFile; fileRef = F94506292BCD1E820017600B /* ProductList.swift */; };
 		F945062C2BCD38B20017600B /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F945062B2BCD38B20017600B /* CustomButton.swift */; };
 		F945062E2BCD51100017600B /* ProductCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F945062D2BCD510F0017600B /* ProductCard.swift */; };
+		F94506312BCE34360017600B /* SearchResultScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = F94506302BCE34360017600B /* SearchResultScreen.swift */; };
+		F94506332BCE37A20017600B /* CustomIconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F94506322BCE37A20017600B /* CustomIconButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +37,8 @@
 		F94506292BCD1E820017600B /* ProductList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductList.swift; sourceTree = "<group>"; };
 		F945062B2BCD38B20017600B /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		F945062D2BCD510F0017600B /* ProductCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCard.swift; sourceTree = "<group>"; };
+		F94506302BCE34360017600B /* SearchResultScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultScreen.swift; sourceTree = "<group>"; };
+		F94506322BCE37A20017600B /* CustomIconButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomIconButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,6 +130,7 @@
 			children = (
 				3C1281522BCC2FC000DB8F49 /* HomeScreen.swift */,
 				F945061E2BCCD08A0017600B /* Components */,
+				F945062F2BCE33EE0017600B /* SearchResultScreen */,
 			);
 			path = HomeScreen;
 			sourceTree = "<group>";
@@ -175,8 +180,17 @@
 				F94506292BCD1E820017600B /* ProductList.swift */,
 				F945062D2BCD510F0017600B /* ProductCard.swift */,
 				F945062B2BCD38B20017600B /* CustomButton.swift */,
+				F94506322BCE37A20017600B /* CustomIconButton.swift */,
 			);
 			path = Components;
+			sourceTree = "<group>";
+		};
+		F945062F2BCE33EE0017600B /* SearchResultScreen */ = {
+			isa = PBXGroup;
+			children = (
+				F94506302BCE34360017600B /* SearchResultScreen.swift */,
+			);
+			path = SearchResultScreen;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -250,6 +264,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3C1281532BCC2FC000DB8F49 /* HomeScreen.swift in Sources */,
+				F94506332BCE37A20017600B /* CustomIconButton.swift in Sources */,
 				F945062A2BCD1E820017600B /* ProductList.swift in Sources */,
 				F945062C2BCD38B20017600B /* CustomButton.swift in Sources */,
 				F945062E2BCD51100017600B /* ProductCard.swift in Sources */,
@@ -258,6 +273,7 @@
 				F94506242BCCFCD40017600B /* SearchBar.swift in Sources */,
 				F94506262BCD0B5A0017600B /* Categories.swift in Sources */,
 				F94506202BCCD1250017600B /* NavBarMenu.swift in Sources */,
+				F94506312BCE34360017600B /* SearchResultScreen.swift in Sources */,
 				3C1281512BCC2FC000DB8F49 /* DashMartApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

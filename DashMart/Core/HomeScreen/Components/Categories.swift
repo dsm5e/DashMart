@@ -16,6 +16,7 @@ struct Categories: View {
         static let titleColor = Color(hex: "#939393")
         static let frameWidth: CGFloat = 40
         static let frameHeight: CGFloat = 40
+        static let conteinerFrameHeight: CGFloat = 55
         static let cornerRadius: CGFloat = 8
         static let spacingCategory: CGFloat = 25
     }
@@ -25,13 +26,13 @@ struct Categories: View {
         case school = "school"
         case sports = "sports"
         case electronic = "electronic"
-        case all = "All"
+        case all = "all C"
         
         static let popularCases: [ImageName] = [.clothes, .school, .sports, .electronic]
     }
     
     var body: some View {
-        ScrollView(.horizontal) {
+        ScrollView(.horizontal, showsIndicators: false) {
             LazyHStack {
                 ForEach(showAllCategories ? ImageName.allCases : ImageName.popularCases, id: \.self) { imageName in
                     VStack {
@@ -56,6 +57,7 @@ struct Categories: View {
                     }
                 }
             }
+            .frame(height: Drawing.conteinerFrameHeight)
             .padding()
         }
     }
