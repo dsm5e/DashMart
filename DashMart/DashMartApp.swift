@@ -11,7 +11,7 @@ import SwiftUI
 struct DashMartApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            HomeScreen()
         }
     }
 }
