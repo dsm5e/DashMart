@@ -90,3 +90,4 @@ fastlane/test_output
 iOSInjectionProject/
 DashMart.xcodeproj/project.xcworkspace/xcuserdata/vanyanaumenko.xcuserdatad/UserInterfaceState.xcuserstate
 NetworkManager/NetworkManager.xcodeproj/xcuserdata/vanyanaumenko.xcuserdatad/xcschemes/xcschememanagement.plist
+DashMart.xcodeproj/xcshareddata/xcschemes/DashMart.xcscheme
