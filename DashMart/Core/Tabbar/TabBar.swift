@@ -24,7 +24,7 @@ struct TabBar: View {
                     Text("Home")
                 }
                 .tag(0)
-            WishList()
+            WishlistScreen()
                 .tabItem {
                     Image(selection == 1 ? .Tab.Green.heart : .Tab.heart)
                     Text("WishList")
