@@ -29,8 +29,12 @@ struct SearchResultScreen: View {
             }
             .padding()
             
+            Divider()
+            
+
             TitleFilters(text: "Search result for \(searchTextResult)")
                 .padding(.horizontal)
+                .padding(.top)
             ScrollView {
                 ProductList()
             }
