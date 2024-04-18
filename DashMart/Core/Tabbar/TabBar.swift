@@ -24,7 +24,7 @@ struct TabBar: View {
                     Text("Home")
                 }
                 .tag(0)
-            WishList()
+            WishlistScreen()
                 .tabItem {
                     Image(selection == 1 ? .Tab.Green.heart : .Tab.heart)
                     Text("WishList")
@@ -36,7 +36,7 @@ struct TabBar: View {
                     Text("Manager")
                 }
                 .tag(2)
-            Account(router: router)
+            AccountView()
                 .tabItem {
                     Image(selection == 3 ? .Tab.Green.profile : .Tab.profile)
                     Text("Account")

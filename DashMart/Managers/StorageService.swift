@@ -18,7 +18,9 @@ final actor StorageService: ObservableObject {
     
     private var userName: String?
     private var userEmail: String?
-    private var wishlistIds = [Int]()
+    
+    @MainActor @Published private(set) var wishlistIds = [Int]()
+    @MainActor @Published private(set) var basket = [Int]()
     
     var needToShowOnbording: Bool {
         get {
@@ -32,6 +34,7 @@ final actor StorageService: ObservableObject {
     
     private init() { }
     
+    @MainActor
     func logout() {
         wishlistIds = []
     }
@@ -79,6 +82,7 @@ final actor StorageService: ObservableObject {
         return userEmail
     }
     
+    @MainActor
     func addToWishlist(_ id: Int) async throws {
         var wishlistIds = await getWishlist()
         guard !wishlistIds.contains(id) else {
@@ -88,6 +92,7 @@ final actor StorageService: ObservableObject {
         try await setWishlist(wishlistIds: wishlistIds)
     }
     
+    @MainActor
     func removeFromWishlist(_ id: Int) async throws {
         guard wishlistIds.contains(id) else {
             return
@@ -96,8 +101,9 @@ final actor StorageService: ObservableObject {
         try await setWishlist(wishlistIds: wishlistIds)
     }
     
+    @MainActor
     func setWishlist(wishlistIds: [Int]) async throws {
-        guard let userId else {
+        guard let userId = await self.userId else {
             return
         }
         
@@ -108,9 +114,11 @@ final actor StorageService: ObservableObject {
         
     }
     
+    @MainActor
+    @discardableResult
     func getWishlist() async -> [Int] {
         
-        guard let userId else {
+        guard let userId = await self.userId else {
             return []
         }
         
@@ -131,5 +139,21 @@ final actor StorageService: ObservableObject {
     
     func setNeedToShowOnbording(_ value: Bool) {
         needToShowOnbording = value
+    }
+    
+    @MainActor
+    func addToBasket(_ id: Int) {
+        guard !basket.contains(id) else {
+            return
+        }
+        basket.append(id)
+    }
+    
+    @MainActor
+    func removeFromBasket(_ id: Int) {
+        guard basket.contains(id) else {
+            return
+        }
+        basket.removeAll(where: { $0 == id })
     }
 }
