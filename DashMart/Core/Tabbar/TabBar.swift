@@ -36,7 +36,7 @@ struct TabBar: View {
                     Text("Manager")
                 }
                 .tag(2)
-            Account(router: router)
+            AccountView()
                 .tabItem {
                     Image(selection == 3 ? .Tab.Green.profile : .Tab.profile)
                     Text("Account")
