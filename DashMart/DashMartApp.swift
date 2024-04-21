@@ -18,6 +18,7 @@ struct DashMartApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .preferredColorScheme(.light) // Set to use light mode only
         }
         .onChange(of: scenePhase) {
             phase in
