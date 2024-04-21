@@ -10,6 +10,7 @@ import SwiftUI
 struct TitleDetail: View {
     @State private var badgeCountBuy = 2
     @Environment(\.presentationMode) var presentationMode
+    @ObservedObject private var storage = StorageService.shared
     
     var body: some View {
         HStack {
@@ -26,9 +27,7 @@ struct TitleDetail: View {
                 .foregroundStyle(Color(hex: "#393F42"))
             
             Spacer()
-            CustomIconButton(imageName: "buy", badgeCount: 2) {
-                // action
-            }
+            CardButton(storage: storage)
         }
     }
 }

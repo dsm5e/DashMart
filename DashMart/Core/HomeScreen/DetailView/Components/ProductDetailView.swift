@@ -1,32 +1,34 @@
 //
-//  ProductPhoto.swift
+//  ProductDetailView.swift
 //  DashMart
 //
 //  Created by Максим Самороковский on 17.04.2024.
 //
 
 import SwiftUI
+import Kingfisher
 
-struct ProductPhoto: View {
-    let image: String
-    let titleName: String
-    let price: String
+struct ProductDetailView: View {
+    let product: ProductEntity
     let titleDescription: String
-    let descriptionText: String
+    @ObservedObject private var storage = StorageService.shared
+    private var isInWishlist: Bool {
+        storage.wishlistIds.contains(product.id)
+    }
     
     var body: some View {
         VStack {
-            Image(image)
+            KFImage(URL(string: product.images.first ?? ""))
                 .resizable()
                 .scaledToFit()
                 .frame(height: 286)
             
             HStack {
                 VStack(alignment: .leading) {
-                    Text(titleName)
+                    Text(product.title)
                         .font(.system(size: 16))
                         .foregroundStyle(Color(hex: "#393F42"))
-                    Text(price)
+                    Text(product.price.formatted(.currency(code: "USD")))
                         .font(.system(size: 18))
                         .foregroundStyle(Color(hex: "#393F42"))
                 }
@@ -34,9 +36,15 @@ struct ProductPhoto: View {
                 Spacer()
                 
                 Button(action: {
-                    // action
+                    Task {
+                        if isInWishlist {
+                            try? await storage.removeFromWishlist(product.id)
+                        } else {
+                            try? await storage.addToWishlist(product.id)
+                        }
+                    }
                 }) {
-                    Image("heart")
+                    Image(isInWishlist ? .Tab.Green.heart : .Tab.heart)
                     
                 }
                 .frame(width: 46, height: 46)
@@ -51,7 +59,7 @@ struct ProductPhoto: View {
                     .font(.system(size: 16))
                 .foregroundStyle(Color(hex: "#393F42"))
                 
-                Text(descriptionText)
+                Text(product.description)
                     .font(.system(size: 12))
                     .foregroundStyle(Color(hex: "#393F42"))
                     .lineSpacing(5)
@@ -59,8 +67,4 @@ struct ProductPhoto: View {
             .padding(.horizontal)
         }
     }
-}
-
-#Preview {
-    ProductPhoto(image: "erpL", titleName: "Air pods max by Apple", price: "$ 1999,99", titleDescription: "Description of product", descriptionText: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquet arcu id tincidunt tellus arcu rhoncus, turpis nisl sed. Neque viverra ipsum orci, morbi semper. Nulla bibendum purus tempor semper purus. Ut curabitur platea sed blandit. Amet non at proin justo nulla et. A, blandit morbi suspendisse vel malesuada purus massa mi. Faucibus neque a mi hendrerit.")
 }

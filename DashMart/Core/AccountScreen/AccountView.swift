@@ -9,6 +9,7 @@ import SwiftUI
 
 struct AccountView: View {
     
+    @State var router: RouterService
     @State private var name = ""
     @State private var email = ""
     @State private var isAvatarMenuPresented = false
@@ -76,7 +77,11 @@ struct AccountView: View {
                             rightIcon: Image(.signout),
                             handler: {
                                 Task {
-                                    await AuthorizeService.shared.logout()
+                                    @MainActor in
+                                    
+                                    if await AuthorizeService.shared.logout() {
+                                        router.openAuth()
+                                    }
                                 }
                             },
                             titleColor: Color(hex: "#666C8E")
@@ -124,8 +129,7 @@ private struct ChangeAvatarMenu: View {
                         .foregroundColor(.black)
                         .padding(.top, 24)
                         .padding(.bottom, 16)
-                    Color(hex: "#E8E8E8")
-                        .frame(height: 1)
+                    SeparatorView()
                     VStack(spacing: 20) {
                         AvatarMenuButton(
                             title: "Take a photo",
@@ -200,5 +204,5 @@ private struct AvatarMenuButton: View {
 }
 
 #Preview {
-    AccountView()
+    AccountView(router: RouterService())
 }

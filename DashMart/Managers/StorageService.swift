@@ -20,7 +20,12 @@ final actor StorageService: ObservableObject {
     private var userEmail: String?
     
     @MainActor @Published private(set) var wishlistIds = [Int]()
-    @MainActor @Published private(set) var basket = [Int]()
+    @MainActor @Published private(set) var basket = [Int: Int]()
+    @MainActor var basketCount: Int {
+        basket.reduce(0) {
+            $0 + $1.value
+        }
+    }
     
     var needToShowOnbording: Bool {
         get {
@@ -32,11 +37,18 @@ final actor StorageService: ObservableObject {
         }
     }
     
-    private init() { }
+    private init() {
+        Task {
+            await getWishlist()
+            await getBasket()
+        }
+    }
     
     @MainActor
-    func logout() {
+    func logout() async {
         wishlistIds = []
+        try? await saveBasket()
+        basket = [:]
     }
     
     func getUserName() async throws -> String? {
@@ -84,34 +96,25 @@ final actor StorageService: ObservableObject {
     
     @MainActor
     func addToWishlist(_ id: Int) async throws {
-        var wishlistIds = await getWishlist()
         guard !wishlistIds.contains(id) else {
             return
         }
         wishlistIds.append(id)
-        try await setWishlist(wishlistIds: wishlistIds)
     }
     
     @MainActor
     func removeFromWishlist(_ id: Int) async throws {
-        guard wishlistIds.contains(id) else {
-            return
-        }
         wishlistIds.removeAll(where: { $0 == id })
-        try await setWishlist(wishlistIds: wishlistIds)
     }
     
     @MainActor
-    func setWishlist(wishlistIds: [Int]) async throws {
+    func saveWishlist() async throws {
         guard let userId = await self.userId else {
             return
         }
         
-        self.wishlistIds = wishlistIds
-        
         let ref = Database.database().reference().child("users").child(userId)
         try await ref.updateChildValues(["wishlist": wishlistIds])
-        
     }
     
     @MainActor
@@ -143,17 +146,52 @@ final actor StorageService: ObservableObject {
     
     @MainActor
     func addToBasket(_ id: Int) {
-        guard !basket.contains(id) else {
-            return
-        }
-        basket.append(id)
+        basket[id] = basket[id, default: 0] + 1
     }
     
     @MainActor
     func removeFromBasket(_ id: Int) {
-        guard basket.contains(id) else {
+        if let amount = basket[id], amount > 1 {
+            basket[id] = amount - 1
+        } else {
+            totalRemoveFromBasket(id)
+        }
+    }
+    
+    @MainActor
+    func totalRemoveFromBasket(_ id: Int) {
+        basket[id] = nil
+    }
+    
+    @MainActor
+    func saveBasket() async throws {
+        guard let userId = await self.userId else {
             return
         }
-        basket.removeAll(where: { $0 == id })
+        
+        let ref = Database.database().reference().child("users").child(userId)
+        let mBasket = Dictionary(uniqueKeysWithValues: basket.map { (String($0.key), $0.value) })
+        try await ref.updateChildValues(["basket": mBasket])
+    }
+    
+    @MainActor
+    func getBasket() async {
+        guard let userId = await self.userId else {
+            return
+        }
+        
+        let ref = Database.database().reference().child("users").child(userId).child("basket")
+        guard let snapshot = try? await ref.getData() else {
+            return
+        }
+        guard let ids = snapshot.valueInExportFormat() as? [String: Int] else {
+            return
+        }
+        basket = Dictionary(uniqueKeysWithValues: ids.map { (Int($0.key)!, $0.value) })
+    }
+    
+    @MainActor
+    func save() async throws {
+        _ = await (try saveBasket(), try saveWishlist())
     }
 }
