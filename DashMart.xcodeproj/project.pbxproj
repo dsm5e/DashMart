@@ -36,6 +36,7 @@
 		7768267C2BCF37BF0004F714 /* WishlistScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7768267B2BCF37BF0004F714 /* WishlistScreen.swift */; };
 		77B87D8F2BD073D50003A468 /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77B87D8E2BD073D50003A468 /* AccountView.swift */; };
 		77B87D922BD0856E0003A468 /* TermsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77B87D912BD0856E0003A468 /* TermsView.swift */; };
+		77C25A262BD5C76800C55853 /* ManagerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77C25A252BD5C76800C55853 /* ManagerService.swift */; };
 		77F87E202BCECA6200506EB7 /* AuthorizeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F87E1D2BCECA6200506EB7 /* AuthorizeView.swift */; };
 		77F87E212BCECA6200506EB7 /* AuthorizeReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F87E1E2BCECA6200506EB7 /* AuthorizeReducer.swift */; };
 		77F87E222BCECA6200506EB7 /* AuthorizeStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F87E1F2BCECA6200506EB7 /* AuthorizeStore.swift */; };
@@ -123,6 +124,7 @@
 		7768267B2BCF37BF0004F714 /* WishlistScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WishlistScreen.swift; sourceTree = "<group>"; };
 		77B87D8E2BD073D50003A468 /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
 		77B87D912BD0856E0003A468 /* TermsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsView.swift; sourceTree = "<group>"; };
+		77C25A252BD5C76800C55853 /* ManagerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagerService.swift; sourceTree = "<group>"; };
 		77F87E1D2BCECA6200506EB7 /* AuthorizeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorizeView.swift; sourceTree = "<group>"; };
 		77F87E1E2BCECA6200506EB7 /* AuthorizeReducer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorizeReducer.swift; sourceTree = "<group>"; };
 		77F87E1F2BCECA6200506EB7 /* AuthorizeStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorizeStore.swift; sourceTree = "<group>"; };
@@ -284,6 +286,7 @@
 				77F87E5C2BCECC0000506EB7 /* AuthorizeService.swift */,
 				77F87E5E2BCECC6400506EB7 /* RouterService.swift */,
 				77F87E602BCECC8100506EB7 /* StorageService.swift */,
+				77C25A252BD5C76800C55853 /* ManagerService.swift */,
 				775E857B2BD5B2BC005E2E32 /* LocationService.swift */,
 				7757B0232BCD88FA00C6F56A /* Network */,
 			);
@@ -540,6 +543,7 @@
 				CAF7DC142BCD5A6A00BCE0DF /* OnboardingPage.swift in Sources */,
 				CAF7DC182BCD5A8900BCE0DF /* OnboardingItem.swift in Sources */,
 				F9ED78992BCFD976001EC482 /* ProductDetailView.swift in Sources */,
+				77C25A262BD5C76800C55853 /* ManagerService.swift in Sources */,
 				F94506522BCE89430017600B /* SearchResultScreen.swift in Sources */,
 				776826612BCEFFAE0004F714 /* TabBar.swift in Sources */,
 				F94506472BCE88760017600B /* TitleFilters.swift in Sources */,
