@@ -12,6 +12,7 @@ struct HomeScreen: View {
     @State private var searchInput: String = ""
     @State private var isShowingSearchResults = false
     @State private var isShowingDetails = false
+    @State private var isShowingCard = false
     @ObservedObject private var storage = StorageService.shared
     @State private var products = [ProductEntity]()
     @State private var filteredProducts = [ProductEntity]()
@@ -29,8 +30,13 @@ struct HomeScreen: View {
     
     var body: some View {
         VStack(spacing: 16) {
-            NavBarMenu(storage: storage)
-                .padding(.horizontal, 20)
+            NavBarMenu(
+                storage: storage,
+                cartButtonAction: {
+                    isShowingCard = true
+                }
+            )
+            .padding(.horizontal, 20)
             
             Button(
                 action: {
@@ -125,6 +131,9 @@ struct HomeScreen: View {
         }
         .fullScreenCover(isPresented: $isShowingDetails) {
             DetailScreen(product: $selectedProduct)
+        }
+        .fullScreenCover(isPresented: $isShowingCard) {
+            CartScreen()
         }
     }
 }

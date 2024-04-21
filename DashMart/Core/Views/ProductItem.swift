@@ -51,7 +51,7 @@ struct ProductItem: View {
                     }
                     Button(
                         action: {
-                            storage.addToBasket(product.id)
+                            storage.addToCart(product.id)
                         },
                         label: {
                             Text("Add to card")

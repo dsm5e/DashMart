@@ -19,6 +19,10 @@ struct ProductDetailView: View {
     var body: some View {
         VStack {
             KFImage(URL(string: product.images.first ?? ""))
+                .placeholder {
+                    Image(.productPlaceholder)
+                        .resizable()
+                }
                 .resizable()
                 .scaledToFit()
                 .frame(height: 286)
@@ -58,11 +62,13 @@ struct ProductDetailView: View {
                 Text(titleDescription)
                     .font(.system(size: 16))
                 .foregroundStyle(Color(hex: "#393F42"))
+                .frame(maxWidth: .infinity, alignment: .leading)
                 
                 Text(product.description)
                     .font(.system(size: 12))
                     .foregroundStyle(Color(hex: "#393F42"))
                     .lineSpacing(5)
+                    .frame(maxWidth: .infinity, alignment: .leading)
             }
             .padding(.horizontal)
         }

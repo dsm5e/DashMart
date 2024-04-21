@@ -10,13 +10,16 @@ import SwiftUI
 struct DetailScreen: View {
     
     @Binding var product: ProductEntity?
+    @State private var isCartPresented = false
     private let storage = StorageService.shared
     
     var body: some View {
         if let product {
             VStack {
                 VStack {
-                    TitleDetail()
+                    TitleDetail(cartButtonAction: {
+                        isCartPresented = true
+                    })
                         .padding()
                     ProductDetailView(
                         product: product,
@@ -29,13 +32,16 @@ struct DetailScreen: View {
                     .padding(.bottom)
                 HStack {
                     ButtonsDetail(title: "Add to Cart", type: .add) {
-                        storage.addToBasket(product.id)
+                        storage.addToCart(product.id)
                     }
                     
                     ButtonsDetail(title: "Buy Now", type: .buy) {
                         // action
                     }
                 }
+            }
+            .fullScreenCover(isPresented: $isCartPresented) {
+                CartScreen()
             }
         } else {
             VStack { }
