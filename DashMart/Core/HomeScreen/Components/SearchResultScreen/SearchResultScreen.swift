@@ -8,8 +8,16 @@
 import SwiftUI
 
 struct SearchResultScreen: View {
-    @Binding var searchTextResult: String
+    @Binding var searchInput: String
+    @Binding var products: [ProductEntity]
+    
     @Environment(\.presentationMode) var presentationMode
+    @ObservedObject private var storage = StorageService.shared
+    @State private var filteredProducts = [ProductEntity]()
+    @FocusState private var focused: Bool?
+    @State private var selectedProduct: ProductEntity? = nil
+    @State private var isDetailsPresented = false
+    @State private var keyboardHeight: CGFloat = .zero
     
     var body: some View {
         VStack {
@@ -22,24 +30,70 @@ struct SearchResultScreen: View {
                         
                 }
                 
-                SearchBar(text: $searchTextResult, onCommit: {})
-                CustomIconButton(imageName: "buy", badgeCount: 2) {
-                    // action
-                }
+                SearchTextField(searchInput: $searchInput)
+                    .focused($focused, equals: true)
+                CardButton(storage: storage)
             }
-            .padding()
+            .padding(.horizontal, 20)
+            .padding(.bottom, 14)
             
-            TitleFilters(text: "Search result for \(searchTextResult)")
-                .padding(.horizontal)
+            SeparatorView()
+                .padding(.bottom, 16)
+            
+
+            TitleFilters(text: "Search result for \(searchInput)")
+                .padding(.horizontal, 20)
+                .padding(.bottom, 16)
+            
             ScrollView {
-                ProductList()
+                LazyVGrid(
+                    columns: [.init(),.init()],
+                    spacing: 8
+                ) {
+                    ForEach(filteredProducts) {
+                        product in
+                        
+                        Button(
+                            action: {
+                                selectedProduct = product
+                                isDetailsPresented = true
+                            },
+                            label: {
+                                ProductItem(
+                                    product: product,
+                                    storage: storage,
+                                    showWishlistButton: false
+                                )
+                            }
+                        )
+                    }
+                }
+                .padding(.horizontal, 20)
+                .padding(.bottom, 24)
             }
-            Spacer()
+        }
+        .ignoresSafeArea(edges: .bottom)
+        .onChange(of: searchInput) {
+            value in
+            
+            guard !value.isEmpty else {
+                filteredProducts = products
+                return
+            }
+            
+            filteredProducts = products.filter { $0.title.contains(value) }
+        }
+        .onAppear {
+            filteredProducts = products
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.focused = true
+            }
+        }
+        .onTapGesture {
+            endTextEditing()
+        }
+        .fullScreenCover(isPresented: $isDetailsPresented) {
+            DetailScreen(product: $selectedProduct)
         }
     }
-}
-
-#Preview {
-    let searchTextBinding = Binding.constant("Earphone")
-           return SearchResultScreen(searchTextResult: searchTextBinding)
 }
