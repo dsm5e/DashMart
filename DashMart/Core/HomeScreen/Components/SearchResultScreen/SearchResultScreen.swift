@@ -17,6 +17,7 @@ struct SearchResultScreen: View {
     @FocusState private var focused: Bool?
     @State private var selectedProduct: ProductEntity? = nil
     @State private var isDetailsPresented = false
+    @State private var isCartPresented = false
     @State private var keyboardHeight: CGFloat = .zero
     
     var body: some View {
@@ -32,7 +33,12 @@ struct SearchResultScreen: View {
                 
                 SearchTextField(searchInput: $searchInput)
                     .focused($focused, equals: true)
-                CardButton(storage: storage)
+                CartButton(
+                    storage: storage,
+                    action: {
+                        isCartPresented = true
+                    }
+                )
             }
             .padding(.horizontal, 20)
             .padding(.bottom, 14)
@@ -94,6 +100,9 @@ struct SearchResultScreen: View {
         }
         .fullScreenCover(isPresented: $isDetailsPresented) {
             DetailScreen(product: $selectedProduct)
+        }
+        .fullScreenCover(isPresented: $isCartPresented) {
+            CartScreen()
         }
     }
 }

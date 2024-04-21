@@ -24,6 +24,7 @@
 		7758CDE12BCED3A80038E801 /* Color+hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7758CDE02BCED3A80038E801 /* Color+hex.swift */; };
 		7758CDE32BCEDD510038E801 /* RoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7758CDE22BCEDD510038E801 /* RoundedButton.swift */; };
 		7758CDE62BCEDF970038E801 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7758CDE52BCEDF970038E801 /* ContentView.swift */; };
+		775E85732BD56DF4005E2E32 /* CartScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775E85722BD56DF4005E2E32 /* CartScreen.swift */; };
 		7768265E2BCEFFAE0004F714 /* Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 776826592BCEFFAE0004F714 /* Manager.swift */; };
 		776826612BCEFFAE0004F714 /* TabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7768265C2BCEFFAE0004F714 /* TabBar.swift */; };
 		776826642BCF03B40004F714 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 776826632BCF03B40004F714 /* GoogleService-Info.plist */; };
@@ -95,6 +96,7 @@
 		7758CDE02BCED3A80038E801 /* Color+hex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Color+hex.swift"; sourceTree = "<group>"; };
 		7758CDE22BCEDD510038E801 /* RoundedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedButton.swift; sourceTree = "<group>"; };
 		7758CDE52BCEDF970038E801 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		775E85722BD56DF4005E2E32 /* CartScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartScreen.swift; sourceTree = "<group>"; };
 		776826592BCEFFAE0004F714 /* Manager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Manager.swift; sourceTree = "<group>"; };
 		7768265C2BCEFFAE0004F714 /* TabBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBar.swift; sourceTree = "<group>"; };
 		776826632BCF03B40004F714 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = "GoogleService-Info.plist"; path = "DashMart/GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
@@ -193,6 +195,7 @@
 				3C1281622BCC32F600DB8F49 /* HomeScreen */,
 				7768267D2BCF37D10004F714 /* WishlistScreen */,
 				77B87D902BD073D80003A468 /* AccountScreen */,
+				775E85742BD5ADC1005E2E32 /* CartScreen */,
 				3C1281642BCC333700DB8F49 /* ManagerScreen */,
 			);
 			path = Core;
@@ -276,6 +279,14 @@
 				7729E5F22BD479EE0036C1ED /* SeparatorView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		775E85742BD5ADC1005E2E32 /* CartScreen */ = {
+			isa = PBXGroup;
+			children = (
+				775E85722BD56DF4005E2E32 /* CartScreen.swift */,
+			);
+			path = CartScreen;
 			sourceTree = "<group>";
 		};
 		776826582BCEFFAE0004F714 /* Tabbar */ = {
@@ -487,6 +498,7 @@
 				F945064D2BCE88DD0017600B /* CustomButton.swift in Sources */,
 				77F87E612BCECC8100506EB7 /* StorageService.swift in Sources */,
 				77F87E202BCECA6200506EB7 /* AuthorizeView.swift in Sources */,
+				775E85732BD56DF4005E2E32 /* CartScreen.swift in Sources */,
 				F9ED789B2BCFE853001EC482 /* ButtonsDetail.swift in Sources */,
 				7757B02C2BCD9E4F00C6F56A /* CategoriesRequest.swift in Sources */,
 				7729E5F32BD479EE0036C1ED /* SeparatorView.swift in Sources */,

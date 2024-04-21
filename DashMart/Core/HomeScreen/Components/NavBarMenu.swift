@@ -11,6 +11,7 @@ struct NavBarMenu: View {
     @State private var badgeCountBuy = 2
     @State private var badgeCountBell = 0
     @ObservedObject var storage: StorageService
+    var cartButtonAction: (() -> Void)?
     
     private enum Drawing {
         static let titleSecondColor = Color(hex: "#C8C8CB")
@@ -44,7 +45,10 @@ struct NavBarMenu: View {
             }
             Spacer()
             
-            CardButton(storage: storage)
+            CartButton(
+                storage: storage,
+                action: cartButtonAction
+            )
                 .padding(.trailing, 12)
             Button(
                 action: {
