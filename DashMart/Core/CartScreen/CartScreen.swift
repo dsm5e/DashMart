@@ -12,6 +12,7 @@ struct CartScreen: View {
     
     @ObservedObject private var storage = StorageService.shared
     @State private var products = [ProductEntity]()
+    @State private var loading = false
     @Environment(\.dismiss) private var dismiss
     var total: Double {
         var total: Double = .zero
@@ -54,124 +55,130 @@ struct CartScreen: View {
             .frame(height: 24)
             SeparatorView()
             
-            if storage.cart.isEmpty {
+            if loading {
                 Spacer()
-                Text("Your cart is empty")
-                    .font(.system(size: 18, weight: .semibold))
-                    .foregroundColor(Color(hex: "#393F42"))
+                ProgressView()
                 Spacer()
             } else {
-                ScrollView {
-                    LazyVGrid(columns: [.init()], spacing: 30) {
-                        ForEach(products) {
-                            product in
-                            
-                            HStack(spacing: 8) {
-                                Button(
-                                    action: {
-                                        if storage.selectedCardIds.contains(product.id) {
-                                            storage.removeSelectedCardId(product.id)
-                                        } else {
-                                            storage.addSelectedCardId(product.id)
+                if storage.cart.isEmpty {
+                    Spacer()
+                    Text("Your cart is empty")
+                        .font(.system(size: 18, weight: .semibold))
+                        .foregroundColor(Color(hex: "#393F42"))
+                    Spacer()
+                } else {
+                    ScrollView {
+                        LazyVGrid(columns: [.init()], spacing: 30) {
+                            ForEach(products) {
+                                product in
+                                
+                                HStack(spacing: 8) {
+                                    Button(
+                                        action: {
+                                            if storage.selectedCardIds.contains(product.id) {
+                                                storage.removeSelectedCardId(product.id)
+                                            } else {
+                                                storage.addSelectedCardId(product.id)
+                                            }
+                                        },
+                                        label: {
+                                            ZStack {
+                                                Image(systemName: "checkmark")
+                                                    .resizable()
+                                                    .scaledToFit()
+                                                    .foregroundColor(.white)
+                                                    .padding(5)
+                                            }
+                                            .background(
+                                                storage.selectedCardIds.contains(product.id) ? Color(hex: "#67C4A7") : Color.clear
+                                            )
+                                            .frame(width: 25, height: 25)
+                                            .clipShape(.rect(cornerRadius: 4))
+                                            .overlay(
+                                                RoundedRectangle(cornerRadius: 4)
+                                                    .stroke(Color(hex: "#C8C8CB"), lineWidth: 1)
+                                            )
                                         }
-                                    },
-                                    label: {
-                                        ZStack {
-                                            Image(systemName: "checkmark")
+                                    )
+                                    KFImage(URL(string: product.images.first ?? ""))
+                                        .placeholder {
+                                            Image(.productPlaceholder)
                                                 .resizable()
-                                                .scaledToFit()
-                                                .foregroundColor(.white)
-                                                .padding(5)
                                         }
-                                        .background(
-                                            storage.selectedCardIds.contains(product.id) ? Color(hex: "#67C4A7") : Color.clear
-                                        )
-                                        .frame(width: 25, height: 25)
-                                        .clipShape(.rect(cornerRadius: 4))
-                                        .overlay(
-                                            RoundedRectangle(cornerRadius: 4)
-                                                .stroke(Color(hex: "#C8C8CB"), lineWidth: 1)
-                                        )
-                                    }
-                                )
-                                KFImage(URL(string: product.images.first ?? ""))
-                                    .placeholder {
-                                        Image(.productPlaceholder)
-                                            .resizable()
-                                    }
-                                    .resizable()
-                                    .frame(width: 100, height: 100)
-                                    .clipped()
-                                    .scaledToFill()
-                                    .clipShape(.rect(cornerRadius: 8))
-                                    .contentShape(Rectangle())
-                                VStack {
-                                    Text(product.title)
-                                        .font(.system(size: 18, weight: .semibold))
-                                        .foregroundColor(Color(hex: "#393F42"))
-                                        .lineLimit(2)
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                        .padding(.top, 4)
-                                    Spacer()
-                                    HStack {
-                                        Text(product.price.formatted(.currency(code: "USD")))
-                                            .font(.system(size: 16, weight: .semibold))
+                                        .resizable()
+                                        .frame(width: 100, height: 100)
+                                        .clipped()
+                                        .scaledToFill()
+                                        .clipShape(.rect(cornerRadius: 8))
+                                        .contentShape(Rectangle())
+                                    VStack {
+                                        Text(product.title)
+                                            .font(.system(size: 18, weight: .semibold))
                                             .foregroundColor(Color(hex: "#393F42"))
+                                            .lineLimit(2)
+                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                            .padding(.top, 4)
                                         Spacer()
-                                        CardItemControl(id: product.id, storage: storage)
+                                        HStack {
+                                            Text(product.price.formatted(.currency(code: "USD")))
+                                                .font(.system(size: 16, weight: .semibold))
+                                                .foregroundColor(Color(hex: "#393F42"))
+                                            Spacer()
+                                            CardItemControl(id: product.id, storage: storage)
+                                        }
+                                        .padding(.bottom, 4)
                                     }
-                                    .padding(.bottom, 4)
                                 }
+                                .frame(height: 100)
                             }
-                            .frame(height: 100)
                         }
+                        .padding(.horizontal, 20)
+                    }
+                    
+                    SeparatorView()
+                    
+                    Group {
+                        HStack {
+                            Text("Order Summary")
+                                .font(.system(size: 14, weight: .semibold))
+                                .foregroundColor(Color(hex: "#393F42"))
+                            Spacer()
+                        }
+                        .padding(.vertical, 6)
+                        HStack {
+                            Text("Totals")
+                                .font(.system(size: 14))
+                                .foregroundColor(Color(hex: "#393F42"))
+                            Spacer()
+                            Text(total.formatted(.currency(code: "USD")))
+                                .font(.system(size: 14, weight: .semibold))
+                                .foregroundColor(Color(hex: "#393F42"))
+                        }
+                        .padding(.bottom, 6)
                     }
                     .padding(.horizontal, 20)
-                }
-                
-                SeparatorView()
-                
-                Group {
-                    HStack {
-                        Text("Order Summary")
-                            .font(.system(size: 14, weight: .semibold))
-                            .foregroundColor(Color(hex: "#393F42"))
-                        Spacer()
-                    }
-                    .padding(.vertical, 6)
-                    HStack {
-                        Text("Totals")
-                            .font(.system(size: 14))
-                            .foregroundColor(Color(hex: "#393F42"))
-                        Spacer()
-                        Text(total.formatted(.currency(code: "USD")))
-                            .font(.system(size: 14, weight: .semibold))
-                            .foregroundColor(Color(hex: "#393F42"))
-                    }
-                    .padding(.bottom, 6)
-                }
-                .padding(.horizontal, 20)
-                
-                Button(
-                    action: {
-                        print("show payment screen")
-                    },
-                    label: {
-                        HStack {
-                            Spacer()
-                            Text("Select payment method")
-                                .foregroundColor(.white)
-                                .font(.system(size: 14, weight: .medium))
-                            Spacer()
+                    
+                    Button(
+                        action: {
+                            print("show payment screen")
+                        },
+                        label: {
+                            HStack {
+                                Spacer()
+                                Text("Select payment method")
+                                    .foregroundColor(.white)
+                                    .font(.system(size: 14, weight: .medium))
+                                Spacer()
+                            }
+                            .padding(.horizontal, 8)
+                            .frame(height: 45)
+                            .background(Color(hex: "#67C4A7"))
+                            .clipShape(.rect(cornerRadius: 4))
                         }
-                        .padding(.horizontal, 8)
-                        .frame(height: 45)
-                        .background(Color(hex: "#67C4A7"))
-                        .clipShape(.rect(cornerRadius: 4))
-                    }
-                )
-                .padding(.horizontal, 20)
-                .padding(.bottom, 16)
+                    )
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 16)
+                }
             }
         }
         .onChange(of: storage.cart) {
@@ -182,6 +189,7 @@ struct CartScreen: View {
             }
         }
         .task {
+            loading = true
             let result = await withTaskGroup(of: ProductEntity?.self, returning: [ProductEntity].self) { group in
                 for id in storage.cart.keys {
                     group.addTask {
@@ -206,6 +214,7 @@ struct CartScreen: View {
                     storage.totalRemoveFromCart(id)
                 }
             }
+            loading = false
         }
     }
 }
