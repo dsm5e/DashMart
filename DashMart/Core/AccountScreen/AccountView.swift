@@ -14,6 +14,9 @@ struct AccountView: View {
     @State private var email = ""
     @State private var isAvatarMenuPresented = false
     @State private var isTermsPresented = false
+    @State private var selectedImage: Image?
+
+
     private var attributedEmail: AttributedString {
         var string = AttributedString(email)
         string.font = .systemFont(ofSize: 14)
@@ -27,10 +30,17 @@ struct AccountView: View {
                 VStack {
                     HStack {
                         ZStack(alignment: .bottomTrailing) {
-                            Image(.productPlaceholder)
-                                .resizable()
-                                .frame(width: 100, height: 100)
-                                .clipShape(.rect(cornerRadius: 50))
+                            if let selectedImage = selectedImage {
+                                selectedImage
+                                    .resizable()
+                                    .frame(width: 100, height: 100)
+                                    .clipShape(.rect(cornerRadius: 50))
+                            } else {
+                                Image(.productPlaceholder)
+                                    .resizable()
+                                    .frame(width: 100, height: 100)
+                                    .clipShape(.rect(cornerRadius: 50))
+                            }
                             Button(
                                 action: {
                                     withAnimation(.smooth) {
@@ -95,7 +105,7 @@ struct AccountView: View {
                 .navigationBarTitleDisplayMode(.inline)
                 
                 if isAvatarMenuPresented {
-                    ChangeAvatarMenu()
+                    ChangeAvatarMenu(selectedImage: $selectedImage)
                         .onTapGesture {
                             withAnimation(.smooth) {
                                 isAvatarMenuPresented = false
@@ -116,6 +126,9 @@ struct AccountView: View {
 }
 
 private struct ChangeAvatarMenu: View {
+    @State private var isPhotoPickerPresnted = false
+    @Binding var selectedImage: Image?
+    
     var body: some View {
         ZStack {
             Color.clear
@@ -144,7 +157,7 @@ private struct ChangeAvatarMenu: View {
                             title: "Choose from your file",
                             icon: Image(systemName: "folder"),
                             handler: {
-                                print("choose")
+                                isPhotoPickerPresnted = true
                             },
                             color: .black
                         )
@@ -168,6 +181,9 @@ private struct ChangeAvatarMenu: View {
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .sheet(isPresented: $isPhotoPickerPresnted) {
+                ImagePicker(sourceType: .photoLibrary, selectedImage: self.$selectedImage)
+        }
     }
 }
 
@@ -200,6 +216,49 @@ private struct AvatarMenuButton: View {
                 .clipShape(.rect(cornerRadius: 8))
             }
         )
+    }
+}
+
+struct ImagePicker: UIViewControllerRepresentable {
+    @Environment(\.presentationMode) private var presentationMode
+    var sourceType: UIImagePickerController.SourceType = .photoLibrary
+    @Binding var selectedImage: Image?
+
+    func makeUIViewController(context: UIViewControllerRepresentableContext<ImagePicker>) -> UIImagePickerController {
+
+        let imagePicker = UIImagePickerController()
+        imagePicker.allowsEditing = false
+        imagePicker.sourceType = sourceType
+        imagePicker.delegate = context.coordinator
+
+        return imagePicker
+    }
+
+    func updateUIViewController(_ uiViewController: UIImagePickerController, context: UIViewControllerRepresentableContext<ImagePicker>) {
+
+    }
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self)
+    }
+
+    final class Coordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+
+        var parent: ImagePicker
+
+        init(_ parent: ImagePicker) {
+            self.parent = parent
+        }
+
+        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+
+            if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+                parent.selectedImage = Image(uiImage: image)
+            }
+
+            parent.presentationMode.wrappedValue.dismiss()
+        }
+
     }
 }
 
