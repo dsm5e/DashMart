@@ -28,7 +28,6 @@ struct TitleFilters: View {
                 .font(.system(size: Drawing.titleFontSize))
                 .foregroundStyle(Drawing.titleColor)
             Spacer()
-            Spacer()
             Button(action: {}, label: {
                 HStack {
                     Text("Filters")
@@ -43,7 +42,6 @@ struct TitleFilters: View {
                         .frame(height: Drawing.buttonHeigth)
                 )
             })
-            Spacer()
         }
     }
 }

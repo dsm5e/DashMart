@@ -12,14 +12,14 @@ struct ProductEntity: Codable, Identifiable {
     let title: String
     let price: Double
     let description: String
-    let images: [URL]
-    let creationAt: Date
-    let updatedAt: Date
+    let images: [String]
+    let creationAt: Date?
+    let updatedAt: Date?
     let category: CategoryEntity
 }
 
-struct CategoryEntity: Codable {
+struct CategoryEntity: Codable, Identifiable, Hashable {
     let id: Int
     let name: String
-    let image: URL
+    let image: String
 }

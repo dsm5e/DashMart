@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import Kingfisher
 
 struct WishlistScreen: View {
     
@@ -14,6 +13,8 @@ struct WishlistScreen: View {
     @ObservedObject private var storage = StorageService.shared
     @State private var products = [ProductEntity]()
     @State private var loading = false
+    @State private var isDetailsShowing = false
+    @State private var selectedProduct: ProductEntity? = nil
     
     private var filteredProducts: [ProductEntity] {
         guard !searchInput.isEmpty else {
@@ -25,9 +26,12 @@ struct WishlistScreen: View {
     var body: some View {
         ZStack {
             VStack {
-                _SearchBar(searchInput: $searchInput, storage: storage)
-                    .padding(.horizontal, 20)
-                    .padding(.bottom, 14)
+                HStack {
+                    SearchTextField(searchInput: $searchInput)
+                    CardButton(storage: storage)
+                }
+                .padding(.horizontal, 20)
+                .padding(.bottom, 14)
                 ZStack {
                     ScrollView {
                         LazyVGrid(
@@ -35,7 +39,21 @@ struct WishlistScreen: View {
                             spacing: 35
                         ) {
                             ForEach(filteredProducts) {
-                                WishlistItem(product: $0, storage: storage)
+                                product in
+                                
+                                Button(
+                                    action: {
+                                        selectedProduct = product
+                                        isDetailsShowing = true
+                                    },
+                                    label: {
+                                        ProductItem(
+                                            product: product,
+                                            storage: storage,
+                                            showWishlistButton: true
+                                        )
+                                    }
+                                )
                             }
                         }
                     }
@@ -62,7 +80,6 @@ struct WishlistScreen: View {
         .onAppear(perform: {
             loading = true
             Task {
-                await storage.getWishlist()
                 let result = await withTaskGroup(of: ProductEntity?.self, returning: [ProductEntity].self) { group in
                     for id in storage.wishlistIds {
                         group.addTask {
@@ -87,127 +104,10 @@ struct WishlistScreen: View {
             
             products.removeAll(where: { !storage.wishlistIds.contains($0.id) })
         })
+        .fullScreenCover(isPresented: $isDetailsShowing) {
+            DetailScreen(product: $selectedProduct)
+        }
         .allowsHitTesting(!loading)
-    }
-}
-
-private struct _SearchBar: View {
-    
-    @Binding var searchInput: String
-    @ObservedObject var storage: StorageService
-    
-    var body: some View {
-        HStack {
-            HStack {
-                HStack{
-                    Image(.search)
-                        .renderingMode(.template)
-                        .foregroundColor(Color(hex: "#939393"))
-                    TextField("", text: $searchInput)
-                        .font(.system(size: 13))
-                        .placeholder(when: searchInput.isEmpty) {
-                            Text("Search here...")
-                                .foregroundColor(Color(hex: "#C8C8CB"))
-                                .font(.system(size: 13))
-                        }
-                        .padding(.leading, 14)
-                }
-                .padding(.vertical, 12)
-                .padding(.horizontal, 14)
-                .cornerRadius(8)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 8)
-                        .stroke(Color(hex: "F0F2F1"), lineWidth: 1)
-                )
-                Button(
-                    action: {
-                        
-                    }, label: {
-                        ZStack {
-                            Image(.buy)
-                                .renderingMode(.template)
-                                .foregroundColor(Color(hex: "#393F42"))
-                            if storage.basket.count > 0 {
-                                VStack {
-                                    HStack {
-                                        Spacer()
-                                        Text("\(storage.basket.count)")
-                                            .foregroundColor(.white)
-                                            .font(.system(size: 8, weight: .bold))
-                                            .frame(width: 12, height: 12)
-                                            .background(Color(hex: "#D65B5B"))
-                                            .clipShape(.rect(cornerRadius: 6))
-                                    }
-                                    Spacer()
-                                }
-                            }
-                        }
-                        .frame(width: 28, height: 28)
-                    }
-                )
-            }
-        }
-    }
-}
-
-private struct WishlistItem: View {
-    
-    let product: ProductEntity
-    let storage: StorageService
-    
-    var body: some View {
-        VStack {
-            KFImage(product.images.first)
-                .placeholder {
-                    Image(.productPlaceholder)
-                        .resizable()
-                        .scaledToFill()
-                }
-                .resizable()
-                .scaledToFill()
-                .frame(width: 170, height: 112)
-                .clipped()
-            VStack(alignment: .leading) {
-                Text(product.title)
-                    .font(.system(size: 12))
-                    .lineLimit(1)
-                    .foregroundColor(Color(hex: "#393F42"))
-                Text(product.price.formatted(.currency(code: "USD")))
-                    .font(.system(size: 14, weight: .semibold))
-                    .lineLimit(1)
-                    .foregroundColor(Color(hex: "#393F42"))
-                HStack {
-                    Button(
-                        action: {
-                            Task {
-                                try? await storage.removeFromWishlist(product.id)
-                            }
-                        },
-                        label: {
-                            Image(.Tab.Green.heart)
-                        }
-                    )
-                    Button(
-                        action: {
-                            storage.addToBasket(product.id)
-                        },
-                        label: {
-                            Text("Add to card")
-                                .foregroundColor(.white)
-                                .font(.system(size: 12))
-                                .padding(.vertical, 7)
-                                .padding(.horizontal, 22)
-                                .background(Color(hex: "#67C4A7"))
-                                .clipShape(.rect(cornerRadius: 4))
-                        }
-                    )
-                }
-                .padding(.bottom, 13)
-            }
-        }
-        .background(Color(hex: "#FAFAFC"))
-        .clipShape(.rect(cornerRadius: 6))
-        .shadow(color: .black.opacity(0.05), radius: 1, x: 0, y: 4)
     }
 }
 
