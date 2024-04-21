@@ -15,9 +15,17 @@ struct HomeScreen: View {
     @ObservedObject private var storage = StorageService.shared
     @State private var products = [ProductEntity]()
     @State private var filteredProducts = [ProductEntity]()
-    @State private var categories = [CategoryEntity]()
+    @State private var isShowingAllCategories = false
+    private var categories: [CategoryEntity] {
+        isShowingAllCategories ? topCategories + otherCategories : topCategories
+    }
+    @State private var topCategories = [CategoryEntity]()
+    @State private var otherCategories = [CategoryEntity]()
     @State private var selectedCategory: Int? = nil
     @State private var selectedProduct: ProductEntity? = nil
+    private var categoriesInRow: Int {
+        Int(UIScreen.main.bounds.width) / (67 + 16)
+    }
     
     var body: some View {
         VStack(spacing: 16) {
@@ -35,25 +43,45 @@ struct HomeScreen: View {
             )
             .padding(.horizontal, 20)
             
-            ScrollView(.horizontal, showsIndicators: false) {
-                LazyHGrid(rows: [.init(spacing: 16)]) {
-                    ForEach(categories) {
-                        category in
-                        
-                        Button(
-                            action: {
-                                selectedCategory = category.id == -1 ? nil : category.id
-                            },
-                            label: {
-                                CategoryView(category: category)
-                                    .frame(width: 67)
+            VStack {
+                ForEach(categories.chunked(into: categoriesInRow), id: \.self) {
+                    categoriesArray in
+                    
+                    HStack {
+                        ForEach(categoriesArray, id: \.id) { category in
+                            Button(
+                                action: {
+                                    if category.id == -1 {
+                                        isShowingAllCategories.toggle()
+                                    } else {
+                                        if selectedCategory == category.id {
+                                            selectedCategory = nil
+                                        } else {
+                                            selectedCategory = category.id
+                                        }
+                                    }
+                                },
+                                label: {
+                                    CategoryView(
+                                        category: category,
+                                        isSelected: category.id == selectedCategory
+                                    )
+                                        .frame(width: 67)
+                                }
+                            )
+                            Spacer()
+                            if category != categoriesArray.last {
+                                Spacer()
                             }
-                        )
+                        }
+                        if categoriesArray.count != categoriesInRow {
+                            Spacer()
+                        }
                     }
                 }
-                .padding(.horizontal, 20)
-                .frame(height: 61)
             }
+            .padding(.horizontal, 20)
+            
             
             TitleFilters(text: "Products")
                 .padding(.horizontal, 20)
@@ -97,6 +125,10 @@ struct HomeScreen: View {
             }
             filteredProducts = products.filter { $0.category.id == value }
         }
+        .onChange(of: isShowingAllCategories) {
+            topCategories[topCategories.count - 1] = $0 ? .top : .all
+        }
+        .animation(.linear, value: isShowingAllCategories)
         .fullScreenCover(isPresented: $isShowingSearchResults) {
             SearchResultScreen(
                 searchInput: $searchInput,
@@ -122,8 +154,12 @@ extension HomeScreen {
             products.forEach {
                 categoriesFrequency[$0.category] = categoriesFrequency[$0.category, default: 0] + 1
             }
+            let sortedCategories = categoriesFrequency.sorted { $0.value > $1.value }.map { $0.key }
             if categories.isEmpty {
-                categories = categoriesFrequency.sorted { $0.value > $1.value }.map { $0.key }.suffix(4) + [.all]
+                topCategories = sortedCategories.prefix(categoriesInRow - 1) + [.all]
+                if sortedCategories.count > categoriesInRow {
+                    otherCategories = Array(sortedCategories[categoriesInRow...])
+                }
             }
         case .failure(let error):
             print(error)
@@ -133,6 +169,15 @@ extension HomeScreen {
 
 extension CategoryEntity {
     static let all: CategoryEntity = .init(id: -1, name: "All", image: "")
+    static let top: CategoryEntity = .init(id: -1, name: "Top", image: "")
+}
+
+extension Array {
+    func chunked(into size: Int) -> [[Element]] {
+        return stride(from: 0, to: count, by: size).map {
+            Array(self[$0 ..< Swift.min($0 + size, count)])
+        }
+    }
 }
 
 #Preview {

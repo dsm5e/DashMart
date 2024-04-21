@@ -11,6 +11,7 @@ import Kingfisher
 struct CategoryView: View {
     
     let category: CategoryEntity
+    let isSelected: Bool
     
     var body: some View {
         VStack {
@@ -25,6 +26,10 @@ struct CategoryView: View {
             }
                 .frame(width: 40, height: 40)
                 .clipShape(.rect(cornerRadius: 8))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 8)
+                        .stroke(isSelected ? .blue : .clear, lineWidth: 2)
+                )
             Text(category.name)
                 .lineLimit(1)
                 .font(.system(size: 12))
