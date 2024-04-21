@@ -10,13 +10,17 @@ import SwiftUI
 struct AuthorizeView: View {
     
     @ObservedObject var store: AuthorizeStore
+    @ObservedObject var managerService: ManagerService = .shared
     
     @State private var email = ""
     @State private var password = ""
     @State private var repeatedPassword = ""
     @State private var userName = ""
+    @State private var isTypeSelectionPresented = false
+    @State private var isManagerPasswordPresented = false
     @State private var isAlertPresenting = false
     @State private var alertMessage = ""
+    @State private var managerPassword = ""
     
     init(router: RouterService) {
         store = AuthorizeStore(router: router)
@@ -53,6 +57,25 @@ struct AuthorizeView: View {
                                 LoginTextField(text: $password, title: "Password", placeholder: "Enter your password", secured: true)
                                 if store.state.loginType == .signUp {
                                     LoginTextField(text: $repeatedPassword, title: "Confirm Password", placeholder: "Repeat Password", secured: true)
+                                    Button(
+                                        action: {
+                                            isTypeSelectionPresented = true
+                                        },
+                                        label: {
+                                            HStack {
+                                                Text("Type of account")
+                                                Spacer()
+                                                Image(systemName: "chevron.right")
+                                            }
+                                        }
+                                    )
+                                    .font(.system(size: 16, weight: .medium))
+                                    .foregroundColor(.gray)
+                                    .padding(.init(top: .zero, leading: 16, bottom: .zero, trailing: 16))
+                                    .frame(height: 52)
+                                    .background(Color(hex: "#F6F8FE"))
+                                    .clipShape(.rect(cornerRadius: 24))
+                                    .padding(.top, 12)
                                 }
                             }
                             .padding(.init(top: .zero, leading: .zero, bottom: 64, trailing: .zero))
@@ -126,6 +149,43 @@ struct AuthorizeView: View {
                 Text(store.state.error ?? "")
             }
         )
+        .alert(
+            "Error",
+            isPresented: $isAlertPresenting,
+            actions: {
+                Button("OK") { }
+            },
+            message: {
+                Text(alertMessage)
+            }
+        )
+        .confirmationDialog(
+            "Account Type",
+            isPresented: $isTypeSelectionPresented,
+            actions: {
+                Button("User") {
+                    managerService.logoutAsManager()
+                }
+                Button("Manager") {
+                    if managerService.needPassword {
+                        isManagerPasswordPresented = true
+                    } else {
+                        managerService.enterAsManager(nil)
+                    }
+                }
+            }
+        )
+        .alert(
+            "Enter manager password",
+            isPresented: $isManagerPasswordPresented
+        ) {
+            TextField("Enter password", text: $managerPassword)
+            Button("OK") {
+                alertMessage = "Invalid manager password"
+                isAlertPresenting = !managerService.enterAsManager(managerPassword)
+                managerPassword = ""
+            }
+        }
     }
 }
 
@@ -162,6 +222,7 @@ struct LoginTextField: View {
                     .placeholder(when: text.isEmpty) {
                         Text(placeholder)
                             .foregroundColor(.gray)
+                            .font(.system(size: 16, weight: .medium))
                     }
                     .font(.system(size: 16, weight: .medium))
                     .foregroundColor(.black)
@@ -173,6 +234,7 @@ struct LoginTextField: View {
                     )
                     .placeholder(when: text.isEmpty) {
                         Text(placeholder)
+                            .font(.system(size: 16, weight: .medium))
                             .foregroundColor(.gray)
                     }
                     .font(.system(size: 16, weight: .medium))

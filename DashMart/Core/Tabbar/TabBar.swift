@@ -11,6 +11,7 @@ struct TabBar: View {
     
     private let router: RouterService
     @State private var selection = 0
+    @ObservedObject private var managerService = ManagerService.shared
     
     init(router: RouterService) {
         self.router = router
@@ -30,12 +31,14 @@ struct TabBar: View {
                     Text("WishList")
                 }
                 .tag(1)
-            Manager()
-                .tabItem {
-                    Image(selection == 2 ? .Tab.Green.paper : .Tab.paper)
-                    Text("Manager")
-                }
-                .tag(2)
+            if managerService.isManager {
+                Manager()
+                    .tabItem {
+                        Image(selection == 2 ? .Tab.Green.paper : .Tab.paper)
+                        Text("Manager")
+                    }
+                    .tag(2)
+            }
             AccountView(router: router)
                 .tabItem {
                     Image(selection == 3 ? .Tab.Green.profile : .Tab.profile)
