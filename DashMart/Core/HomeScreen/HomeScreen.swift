@@ -7,12 +7,14 @@
 
 import SwiftUI
 import Kingfisher
+import BottomSheet
 
 struct HomeScreen: View {
     @State private var searchInput: String = ""
     @State private var isShowingSearchResults = false
     @State private var isShowingDetails = false
     @State private var isShowingCard = false
+    @State private var isShowingLocation = false
     @ObservedObject private var storage = StorageService.shared
     @State private var products = [ProductEntity]()
     @State private var filteredProducts = [ProductEntity]()
@@ -33,8 +35,12 @@ struct HomeScreen: View {
         VStack(spacing: 16) {
             NavBarMenu(
                 storage: storage,
+                location: .shared,
                 cartButtonAction: {
                     isShowingCard = true
+                },
+                locationAction: {
+                    isShowingLocation = true
                 }
             )
             .padding(.horizontal, 20)
@@ -143,6 +149,9 @@ struct HomeScreen: View {
         }
         .fullScreenCover(isPresented: $isShowingCard) {
             CartScreen()
+        }
+        .bottomSheet(isPresented: $isShowingLocation, detents: [.medium()]) {
+            CountrySelection()
         }
     }
 }

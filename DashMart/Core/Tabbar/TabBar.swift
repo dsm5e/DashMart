@@ -44,6 +44,9 @@ struct TabBar: View {
                 .tag(3)
         }
         .tint(.black)
+        .onAppear {
+            LocationService.shared.requestAuthorize()
+        }
     }
 }
 

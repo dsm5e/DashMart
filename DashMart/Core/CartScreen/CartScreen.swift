@@ -7,12 +7,15 @@
 
 import SwiftUI
 import Kingfisher
+import BottomSheet
 
 struct CartScreen: View {
     
     @ObservedObject private var storage = StorageService.shared
+    @ObservedObject private var location = LocationService.shared
     @State private var products = [ProductEntity]()
     @State private var loading = false
+    @State private var isShowingLocation = false
     @Environment(\.dismiss) private var dismiss
     var total: Double {
         var total: Double = .zero
@@ -47,7 +50,14 @@ struct CartScreen: View {
             HStack {
                 Text("Delivery to")
                 Spacer()
-                Text("Salatiga City, Central Java")
+                Text(location.country)
+                Button {
+                    isShowingLocation = true
+                } label: {
+                    Image(systemName: "chevron.down")
+                        .font(.system(size: 10))
+                        .foregroundStyle(Color(hex: "#200E32"))
+                }
             }
             .foregroundColor(Color(hex: "393F42"))
             .font(.system(size: 14, weight: .medium))
@@ -120,7 +130,9 @@ struct CartScreen: View {
                                             .padding(.top, 4)
                                         Spacer()
                                         HStack {
-                                            Text(product.price.formatted(.currency(code: "USD")))
+                                            Text(location.exchange(product.price).formatted(
+                                                .currency(code: location.currencyCode)
+                                            ))
                                                 .font(.system(size: 16, weight: .semibold))
                                                 .foregroundColor(Color(hex: "#393F42"))
                                             Spacer()
@@ -150,7 +162,9 @@ struct CartScreen: View {
                                 .font(.system(size: 14))
                                 .foregroundColor(Color(hex: "#393F42"))
                             Spacer()
-                            Text(total.formatted(.currency(code: "USD")))
+                            Text(location.exchange(total)
+                                .formatted(.currency(code: location.currencyCode))
+                            )
                                 .font(.system(size: 14, weight: .semibold))
                                 .foregroundColor(Color(hex: "#393F42"))
                         }
@@ -180,6 +194,9 @@ struct CartScreen: View {
                     .padding(.bottom, 16)
                 }
             }
+        }
+        .bottomSheet(isPresented: $isShowingLocation, detents: [.medium()]) {
+            CountrySelection()
         }
         .onChange(of: storage.cart) {
             cart in
