@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2D818D142BD2B25E00F65F87 /* NetworkManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7757B00F2BCD849E00C6F56A /* NetworkManager.framework */; };
+		2D818D152BD2B25E00F65F87 /* NetworkManager.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7757B00F2BCD849E00C6F56A /* NetworkManager.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3C1281512BCC2FC000DB8F49 /* DashMartApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C1281502BCC2FC000DB8F49 /* DashMartApp.swift */; };
 		3C1281532BCC2FC000DB8F49 /* HomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C1281522BCC2FC000DB8F49 /* HomeScreen.swift */; };
 		3C1281552BCC2FC100DB8F49 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3C1281542BCC2FC100DB8F49 /* Assets.xcassets */; };
@@ -19,7 +21,6 @@
 		7757B0222BCD888700C6F56A /* Entities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7757B0212BCD888700C6F56A /* Entities.swift */; };
 		7757B0252BCD891B00C6F56A /* ProductsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7757B0242BCD891B00C6F56A /* ProductsRequest.swift */; };
 		7757B0272BCD89B900C6F56A /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7757B0262BCD89B900C6F56A /* NetworkService.swift */; };
-		7757B0282BCD932F00C6F56A /* NetworkManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7757B00F2BCD849E00C6F56A /* NetworkManager.framework */; };
 		7757B02C2BCD9E4F00C6F56A /* CategoriesRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7757B02B2BCD9E4F00C6F56A /* CategoriesRequest.swift */; };
 		7758CDE12BCED3A80038E801 /* Color+hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7758CDE02BCED3A80038E801 /* Color+hex.swift */; };
 		7758CDE32BCEDD510038E801 /* RoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7758CDE22BCEDD510038E801 /* RoundedButton.swift */; };
@@ -76,6 +77,20 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		2D818D162BD2B25F00F65F87 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				2D818D152BD2B25E00F65F87 /* NetworkManager.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		3C12814D2BCC2FC000DB8F49 /* DashMart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DashMart.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C1281502BCC2FC000DB8F49 /* DashMartApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashMartApp.swift; sourceTree = "<group>"; };
@@ -127,13 +142,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2D818D142BD2B25E00F65F87 /* NetworkManager.framework in Frameworks */,
 				77F87E392BCECADF00506EB7 /* FirebaseDatabaseSwift in Frameworks */,
 				77F87E3F2BCECADF00506EB7 /* FirebaseFirestoreCombine-Community in Frameworks */,
 				77F87E412BCECADF00506EB7 /* FirebaseFirestoreSwift in Frameworks */,
 				7768267A2BCF27650004F714 /* Kingfisher in Frameworks */,
 				77F87E572BCECADF00506EB7 /* FirebaseStorage in Frameworks */,
 				77F87E372BCECADF00506EB7 /* FirebaseDatabase in Frameworks */,
-				7757B0282BCD932F00C6F56A /* NetworkManager.framework in Frameworks */,
 				77F87E312BCECADF00506EB7 /* FirebaseAuth in Frameworks */,
 				77F87E3D2BCECADF00506EB7 /* FirebaseFirestore in Frameworks */,
 			);
@@ -372,6 +387,7 @@
 				3C1281492BCC2FC000DB8F49 /* Sources */,
 				3C12814A2BCC2FC000DB8F49 /* Frameworks */,
 				3C12814B2BCC2FC000DB8F49 /* Resources */,
+				2D818D162BD2B25F00F65F87 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -641,7 +657,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"DashMart/Preview Content\"";
-				DEVELOPMENT_TEAM = VY6BU9F56X;
+				DEVELOPMENT_TEAM = D6BK75VU2R;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -673,7 +689,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"DashMart/Preview Content\"";
-				DEVELOPMENT_TEAM = VY6BU9F56X;
+				DEVELOPMENT_TEAM = D6BK75VU2R;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
