@@ -18,15 +18,22 @@ struct ProductDetailView: View {
     
     var body: some View {
         VStack {
-            KFImage(URL(string: product.images.first ?? ""))
-                .placeholder {
-                    Image(.productPlaceholder)
-                        .resizable()
+            ScrollView(.horizontal, showsIndicators: false) {
+                LazyVGrid(columns: product.images.map { _ in .init() }) {
+                    ForEach(product.images, id:\.self) {
+                        imageUrl in
+                        
+                        KFImage(URL(string: imageUrl))
+                            .placeholder {
+                                Image(.productPlaceholder)
+                                    .resizable()
+                            }
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: 280)
+                    }
                 }
-                .resizable()
-                .scaledToFit()
-                .frame(height: 286)
-            
+            }
             HStack {
                 VStack(alignment: .leading) {
                     Text(product.title)
