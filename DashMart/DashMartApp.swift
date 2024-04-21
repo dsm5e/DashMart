@@ -13,10 +13,23 @@ import FirebaseAuth
 @main
 struct DashMartApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    @Environment(\.scenePhase) var scenePhase
     
     var body: some Scene {
         WindowGroup {
             ContentView()
+        }
+        .onChange(of: scenePhase) {
+            phase in
+            
+            switch phase {
+            case .background, .inactive:
+                Task {
+                    try? await StorageService.shared.save()
+                }
+            default:
+                break
+            }
         }
     }
 }

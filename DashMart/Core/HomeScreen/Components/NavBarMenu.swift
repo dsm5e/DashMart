@@ -10,14 +10,13 @@ import SwiftUI
 struct NavBarMenu: View {
     @State private var badgeCountBuy = 2
     @State private var badgeCountBell = 0
+    @ObservedObject var storage: StorageService
     
     private enum Drawing {
         static let titleSecondColor = Color(hex: "#C8C8CB")
         static let titleBaseColor = Color(hex: "#393F42")
         static let titleSecondFontSize: CGFloat = 10
         static let titleBaseFontSize: CGFloat = 12
-        static let imageBuy: String = "buy"
-        static let imageBell: String = "bell"
         static let colorButton = Color(hex: "#200E32")
         static let titleButtonFontSize: CGFloat = 7
     }
@@ -45,18 +44,25 @@ struct NavBarMenu: View {
             }
             Spacer()
             
-            CustomIconButton(imageName: Drawing.imageBuy, badgeCount: 2) {
-                // action
-            }
-            
-            CustomIconButton(imageName: Drawing.imageBell, badgeCount: 0) {
-                // action
-            }
+            CardButton(storage: storage)
+                .padding(.trailing, 12)
+            Button(
+                action: {
+                    print("notification")
+                },
+                label: {
+                    Image(.notification)
+                        .resizable()
+                        .renderingMode(.template)
+                        .frame(width: 28, height: 28)
+                        .foregroundColor(Color(hex: "#393F42"))
+                }
+            )
         }
         
     }
 }
 
 #Preview {
-    NavBarMenu()
+    NavBarMenu(storage: .shared)
 }
