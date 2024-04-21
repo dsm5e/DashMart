@@ -13,6 +13,8 @@ struct WishlistScreen: View {
     @ObservedObject private var storage = StorageService.shared
     @State private var products = [ProductEntity]()
     @State private var loading = false
+    @State private var isDetailsShowing = false
+    @State private var selectedProduct: ProductEntity? = nil
     
     private var filteredProducts: [ProductEntity] {
         guard !searchInput.isEmpty else {
@@ -37,7 +39,21 @@ struct WishlistScreen: View {
                             spacing: 35
                         ) {
                             ForEach(filteredProducts) {
-                                ProductItem(product: $0, storage: storage, showWishlistButton: true)
+                                product in
+                                
+                                Button(
+                                    action: {
+                                        selectedProduct = product
+                                        isDetailsShowing = true
+                                    },
+                                    label: {
+                                        ProductItem(
+                                            product: product,
+                                            storage: storage,
+                                            showWishlistButton: true
+                                        )
+                                    }
+                                )
                             }
                         }
                     }
@@ -88,6 +104,9 @@ struct WishlistScreen: View {
             
             products.removeAll(where: { !storage.wishlistIds.contains($0.id) })
         })
+        .fullScreenCover(isPresented: $isDetailsShowing) {
+            DetailScreen(product: $selectedProduct)
+        }
         .allowsHitTesting(!loading)
     }
 }

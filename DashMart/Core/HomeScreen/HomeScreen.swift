@@ -24,7 +24,7 @@ struct HomeScreen: View {
     @State private var selectedCategory: Int? = nil
     @State private var selectedProduct: ProductEntity? = nil
     private var categoriesInRow: Int {
-        Int(UIScreen.main.bounds.width) / (67 + 16)
+        Int(UIScreen.main.bounds.width) / 67
     }
     
     var body: some View {
@@ -43,41 +43,29 @@ struct HomeScreen: View {
             )
             .padding(.horizontal, 20)
             
-            VStack {
-                ForEach(categories.chunked(into: categoriesInRow), id: \.self) {
-                    categoriesArray in
+            LazyVGrid(columns: (0..<categoriesInRow).map { _ in .init(.fixed(67)) }) {
+                ForEach(categories) {
+                    category in
                     
-                    HStack {
-                        ForEach(categoriesArray, id: \.id) { category in
-                            Button(
-                                action: {
-                                    if category.id == -1 {
-                                        isShowingAllCategories.toggle()
-                                    } else {
-                                        if selectedCategory == category.id {
-                                            selectedCategory = nil
-                                        } else {
-                                            selectedCategory = category.id
-                                        }
-                                    }
-                                },
-                                label: {
-                                    CategoryView(
-                                        category: category,
-                                        isSelected: category.id == selectedCategory
-                                    )
-                                        .frame(width: 67)
+                    Button(
+                        action: {
+                            if category.id == -1 {
+                                isShowingAllCategories.toggle()
+                            } else {
+                                if selectedCategory == category.id {
+                                    selectedCategory = nil
+                                } else {
+                                    selectedCategory = category.id
                                 }
-                            )
-                            Spacer()
-                            if category != categoriesArray.last {
-                                Spacer()
                             }
+                        },
+                        label: {
+                            CategoryView(
+                                category: category,
+                                isSelected: category.id == selectedCategory
+                            )
                         }
-                        if categoriesArray.count != categoriesInRow {
-                            Spacer()
-                        }
-                    }
+                    )
                 }
             }
             .padding(.horizontal, 20)
@@ -157,8 +145,8 @@ extension HomeScreen {
             let sortedCategories = categoriesFrequency.sorted { $0.value > $1.value }.map { $0.key }
             if categories.isEmpty {
                 topCategories = sortedCategories.prefix(categoriesInRow - 1) + [.all]
-                if sortedCategories.count > categoriesInRow {
-                    otherCategories = Array(sortedCategories[categoriesInRow...])
+                if sortedCategories.count + 1 > categoriesInRow {
+                    otherCategories = Array(sortedCategories[(categoriesInRow - 1)...])
                 }
             }
         case .failure(let error):
