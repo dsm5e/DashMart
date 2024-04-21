@@ -12,6 +12,7 @@ struct ProductDetailView: View {
     let product: ProductEntity
     let titleDescription: String
     @ObservedObject private var storage = StorageService.shared
+    @ObservedObject private var location = LocationService.shared
     private var isInWishlist: Bool {
         storage.wishlistIds.contains(product.id)
     }
@@ -39,7 +40,9 @@ struct ProductDetailView: View {
                     Text(product.title)
                         .font(.system(size: 16))
                         .foregroundStyle(Color(hex: "#393F42"))
-                    Text(product.price.formatted(.currency(code: "USD")))
+                    Text(location.exchange(product.price).formatted(
+                        .currency(code: location.currencyCode)
+                    ))
                         .font(.system(size: 18))
                         .foregroundStyle(Color(hex: "#393F42"))
                 }

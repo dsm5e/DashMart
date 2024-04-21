@@ -11,7 +11,9 @@ struct NavBarMenu: View {
     @State private var badgeCountBuy = 2
     @State private var badgeCountBell = 0
     @ObservedObject var storage: StorageService
+    @ObservedObject var location: LocationService
     var cartButtonAction: (() -> Void)?
+    var locationAction: (() -> Void)?
     
     private enum Drawing {
         static let titleSecondColor = Color(hex: "#C8C8CB")
@@ -30,12 +32,12 @@ struct NavBarMenu: View {
                     .foregroundStyle(Drawing.titleSecondColor)
                 
                 HStack {
-                    Text("Salatiga City, Central Java")
+                    Text(location.country)
                         .font(.system(size: Drawing.titleBaseFontSize))
                         .foregroundStyle(Drawing.titleBaseColor)
                     
                     Button {
-                        // action
+                        locationAction?()
                     } label: {
                         Image(systemName: "chevron.down")
                             .font(.system(size: Drawing.titleButtonFontSize))
@@ -68,5 +70,5 @@ struct NavBarMenu: View {
 }
 
 #Preview {
-    NavBarMenu(storage: .shared)
+    NavBarMenu(storage: .shared, location: .shared)
 }
