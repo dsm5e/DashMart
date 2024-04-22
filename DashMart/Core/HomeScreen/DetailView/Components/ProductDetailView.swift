@@ -12,23 +12,37 @@ struct ProductDetailView: View {
     let product: ProductEntity
     let titleDescription: String
     @ObservedObject private var storage = StorageService.shared
+    @ObservedObject private var location = LocationService.shared
     private var isInWishlist: Bool {
         storage.wishlistIds.contains(product.id)
     }
     
     var body: some View {
         VStack {
-            KFImage(URL(string: product.images.first ?? ""))
-                .resizable()
-                .scaledToFit()
-                .frame(height: 286)
-            
+            ScrollView(.horizontal, showsIndicators: false) {
+                LazyVGrid(columns: product.images.map { _ in .init() }) {
+                    ForEach(product.images, id:\.self) {
+                        imageUrl in
+                        
+                        KFImage(URL(string: imageUrl))
+                            .placeholder {
+                                Image(.productPlaceholder)
+                                    .resizable()
+                            }
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: 280)
+                    }
+                }
+            }
             HStack {
                 VStack(alignment: .leading) {
                     Text(product.title)
                         .font(.system(size: 16))
                         .foregroundStyle(Color(hex: "#393F42"))
-                    Text(product.price.formatted(.currency(code: "USD")))
+                    Text(location.exchange(product.price).formatted(
+                        .currency(code: location.currencyCode)
+                    ))
                         .font(.system(size: 18))
                         .foregroundStyle(Color(hex: "#393F42"))
                 }
@@ -58,11 +72,13 @@ struct ProductDetailView: View {
                 Text(titleDescription)
                     .font(.system(size: 16))
                 .foregroundStyle(Color(hex: "#393F42"))
+                .frame(maxWidth: .infinity, alignment: .leading)
                 
                 Text(product.description)
                     .font(.system(size: 12))
                     .foregroundStyle(Color(hex: "#393F42"))
                     .lineSpacing(5)
+                    .frame(maxWidth: .infinity, alignment: .leading)
             }
             .padding(.horizontal)
         }

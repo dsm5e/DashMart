@@ -20,9 +20,10 @@ final actor StorageService: ObservableObject {
     private var userEmail: String?
     
     @MainActor @Published private(set) var wishlistIds = [Int]()
-    @MainActor @Published private(set) var basket = [Int: Int]()
-    @MainActor var basketCount: Int {
-        basket.reduce(0) {
+    @MainActor @Published private(set) var cart = [Int: Int]()
+    @MainActor @Published private(set) var selectedCardIds = Set<Int>()
+    @MainActor var cartCount: Int {
+        cart.reduce(0) {
             $0 + $1.value
         }
     }
@@ -40,15 +41,15 @@ final actor StorageService: ObservableObject {
     private init() {
         Task {
             await getWishlist()
-            await getBasket()
+            await getCart()
         }
     }
     
     @MainActor
     func logout() async {
         wishlistIds = []
-        try? await saveBasket()
-        basket = [:]
+        try? await saveCart()
+        cart = [:]
     }
     
     func getUserName() async throws -> String? {
@@ -145,54 +146,65 @@ final actor StorageService: ObservableObject {
     }
     
     @MainActor
-    func addToBasket(_ id: Int) {
-        basket[id] = basket[id, default: 0] + 1
+    func addToCart(_ id: Int) {
+        cart[id] = cart[id, default: 0] + 1
     }
     
     @MainActor
-    func removeFromBasket(_ id: Int) {
-        if let amount = basket[id], amount > 1 {
-            basket[id] = amount - 1
+    func removeFromCart(_ id: Int) {
+        if let amount = cart[id], amount > 1 {
+            cart[id] = amount - 1
         } else {
-            totalRemoveFromBasket(id)
+            totalRemoveFromCart(id)
         }
     }
     
     @MainActor
-    func totalRemoveFromBasket(_ id: Int) {
-        basket[id] = nil
+    func totalRemoveFromCart(_ id: Int) {
+        cart[id] = nil
+        removeSelectedCardId(id)
     }
     
     @MainActor
-    func saveBasket() async throws {
+    func saveCart() async throws {
         guard let userId = await self.userId else {
             return
         }
         
         let ref = Database.database().reference().child("users").child(userId)
-        let mBasket = Dictionary(uniqueKeysWithValues: basket.map { (String($0.key), $0.value) })
-        try await ref.updateChildValues(["basket": mBasket])
+        let mCart = Dictionary(uniqueKeysWithValues: cart.map { (String($0.key), $0.value) })
+        try await ref.updateChildValues(["cart": mCart])
     }
     
     @MainActor
-    func getBasket() async {
+    func getCart() async {
         guard let userId = await self.userId else {
             return
         }
         
-        let ref = Database.database().reference().child("users").child(userId).child("basket")
+        let ref = Database.database().reference().child("users").child(userId).child("cart")
         guard let snapshot = try? await ref.getData() else {
             return
         }
         guard let ids = snapshot.valueInExportFormat() as? [String: Int] else {
             return
         }
-        basket = Dictionary(uniqueKeysWithValues: ids.map { (Int($0.key)!, $0.value) })
+        cart = Dictionary(uniqueKeysWithValues: ids.map { (Int($0.key)!, $0.value) })
     }
     
     @MainActor
     func save() async throws {
-        _ = await (try saveBasket(), try saveWishlist())
+        _ = await (try saveCart(), try saveWishlist())
+    }
+    
+    @MainActor
+    func addSelectedCardId(_ id: Int) {
+        selectedCardIds.insert(id)
+    }
+    
+    @MainActor
+    func removeSelectedCardId(_ id: Int) {
+        selectedCardIds.remove(id)
     }
     
     // MARK: - SearchResult

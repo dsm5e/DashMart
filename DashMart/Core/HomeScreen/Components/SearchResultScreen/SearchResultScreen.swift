@@ -33,7 +33,7 @@ struct SearchResultScreen: View {
                     .focused($focused, equals: true)
                     .padding(.trailing, 20)
                 
-                CardButton(storage: storage)
+//                CardButton(storage: storage)
             }
             .padding(.horizontal, 20)
             .padding(.bottom, 14)

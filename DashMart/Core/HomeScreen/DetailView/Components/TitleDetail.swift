@@ -11,6 +11,7 @@ struct TitleDetail: View {
     @State private var badgeCountBuy = 2
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject private var storage = StorageService.shared
+    var cartButtonAction: (() -> Void)?
     
     var body: some View {
         HStack {
@@ -27,7 +28,10 @@ struct TitleDetail: View {
                 .foregroundStyle(Color(hex: "#393F42"))
             
             Spacer()
-            CardButton(storage: storage)
+            CartButton(
+                storage: storage,
+                action: cartButtonAction
+            )
         }
     }
 }
