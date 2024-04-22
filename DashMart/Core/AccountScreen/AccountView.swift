@@ -19,9 +19,8 @@ struct AccountView: View {
     @State private var isManagerPasswordPresented = false
     @State private var isManagerErrorPresented = false
     @ObservedObject private var managerService = ManagerService.shared
-    @State private var selectedImage: Image?
-
-
+    @State private var avatarImage: UIImage?
+    
     private var attributedEmail: AttributedString {
         var string = AttributedString(email)
         string.font = .systemFont(ofSize: 14)
@@ -35,17 +34,11 @@ struct AccountView: View {
                 VStack {
                     HStack {
                         ZStack(alignment: .bottomTrailing) {
-                            if let selectedImage = selectedImage {
-                                selectedImage
-                                    .resizable()
-                                    .frame(width: 100, height: 100)
-                                    .clipShape(.rect(cornerRadius: 50))
-                            } else {
-                                Image(.productPlaceholder)
-                                    .resizable()
-                                    .frame(width: 100, height: 100)
-                                    .clipShape(.rect(cornerRadius: 50))
-                            }
+                            Image(uiImage: avatarImage ?? .productPlaceholder)
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 100, height: 100)
+                                .clipShape(Circle())
                             Button(
                                 action: {
                                     withAnimation(.smooth) {
@@ -109,16 +102,18 @@ struct AccountView: View {
                 .padding(.bottom, 22)
                 .navigationTitle("Profile")
                 .navigationBarTitleDisplayMode(.inline)
+                .zIndex(0)
                 
                 if isAvatarMenuPresented {
-                    ChangeAvatarMenu(selectedImage: $selectedImage)
+                    ChangeAvatarMenu(isAvatarMenuPresented: $isAvatarMenuPresented, avatarImage: $avatarImage)
                         .onTapGesture {
-                            withAnimation(.smooth) {
-                                isAvatarMenuPresented = false
-                            }
+                            isAvatarMenuPresented = false
                         }
+                        .transition(AnyTransition.opacity.animation(.easeInOut(duration: 0.2))) 
                         .ignoresSafeArea(.all)
+                        .zIndex(1)
                 }
+                    
             }
             .sheet(isPresented: $isTermsPresented) {
                 TermsView()
@@ -161,13 +156,19 @@ struct AccountView: View {
         .task {
             name = (try? await StorageService.shared.getUserName()) ?? "UserName"
             email = (try? await StorageService.shared.getUserEmail()) ?? "user@mail.com"
+            do {
+                avatarImage = try await StorageService.shared.getAvatarImage()
+            } catch {
+                avatarImage = nil
+            }
         }
     }
 }
 
 private struct ChangeAvatarMenu: View {
     @State private var isPhotoPickerPresnted = false
-    @Binding var selectedImage: Image?
+    @Binding var isAvatarMenuPresented: Bool
+    @Binding var avatarImage: UIImage?
     
     var body: some View {
         ZStack {
@@ -206,7 +207,11 @@ private struct ChangeAvatarMenu: View {
                             title: "Delete Photo",
                             icon: Image(systemName: "trash"),
                             handler: {
-                                print("delete")
+                                Task {
+                                    try? await StorageService.shared.deleteAvatarImage() //TODO: handle errors
+                                    avatarImage = nil
+                                    isAvatarMenuPresented = false
+                                }
                             },
                             color: Color(hex: "#E53935")
                         )
@@ -222,8 +227,15 @@ private struct ChangeAvatarMenu: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .sheet(isPresented: $isPhotoPickerPresnted) {
-                ImagePicker(sourceType: .photoLibrary, selectedImage: self.$selectedImage)
+            ImagePicker(sourceType: .photoLibrary, avatarImage: self.$avatarImage)
+//            ImagePicker(sourceType: .photoLibrary)
+                .ignoresSafeArea(.all)
         }
+        .onChange(of: isPhotoPickerPresnted, perform: {newValue in 
+            if !newValue {
+                isAvatarMenuPresented = false
+            }
+        })
     }
 }
 
@@ -262,7 +274,8 @@ private struct AvatarMenuButton: View {
 struct ImagePicker: UIViewControllerRepresentable {
     @Environment(\.presentationMode) private var presentationMode
     var sourceType: UIImagePickerController.SourceType = .photoLibrary
-    @Binding var selectedImage: Image?
+    
+    @Binding var avatarImage: UIImage?
 
     func makeUIViewController(context: UIViewControllerRepresentableContext<ImagePicker>) -> UIImagePickerController {
 
@@ -292,13 +305,18 @@ struct ImagePicker: UIViewControllerRepresentable {
 
         func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
 
-            if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-                parent.selectedImage = Image(uiImage: image)
+            if let selectedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+                guard let resizedImage = selectedImage.resizedToMaxSize(maxSize: 200.0) else {
+                    return
+                }
+                
+                parent.avatarImage = resizedImage
+                Task {
+                    try? await StorageService.shared.setAvatarImage(resizedImage) //TODO: handle errors
+                }
             }
-
             parent.presentationMode.wrappedValue.dismiss()
         }
-
     }
 }
 
