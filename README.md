@@ -10,7 +10,7 @@
 
 
 
-# CHALLENGE №2 “NewsToDay” [(Swift Marathon 11)](https://t.me/devrush_community/13663)
+# CHALLENGE №3 “OnlineStore” [(Swift Marathon 11)](https://t.me/devrush_community/13663)
 * Проект на Swift 5, SwiftUI
 * Минимальная поддерживаемая iOS – 15
 * Только iPhone и портретная ориентация экрана.
