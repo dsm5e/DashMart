@@ -10,6 +10,7 @@ import Kingfisher
 
 struct ProductItem: View {
     
+    @ObservedObject private var location = LocationService.shared
     let product: ProductEntity
     let storage: StorageService
     let showWishlistButton: Bool
@@ -32,7 +33,9 @@ struct ProductItem: View {
                     .lineLimit(1)
                     .foregroundColor(Color(hex: "#393F42"))
                     .padding(.vertical, 2)
-                Text(product.price.formatted(.currency(code: "USD")))
+                Text(location.exchange(product.price).formatted(
+                    .currency(code: location.currencyCode)
+                ))
                     .font(.system(size: 14, weight: .semibold))
                     .lineLimit(1)
                     .foregroundColor(Color(hex: "#393F42"))
@@ -51,7 +54,7 @@ struct ProductItem: View {
                     }
                     Button(
                         action: {
-                            storage.addToBasket(product.id)
+                            storage.addToCart(product.id)
                         },
                         label: {
                             Text("Add to card")
