@@ -27,11 +27,12 @@ struct SearchResultScreen: View {
                 } label: {
                     Image(systemName: "arrow.left")
                         .foregroundStyle(Color(hex: "#393F42"))
-                        
                 }
                 
                 SearchTextField(searchInput: $searchInput)
                     .focused($focused, equals: true)
+                    .padding(.trailing, 20)
+                
                 CardButton(storage: storage)
             }
             .padding(.horizontal, 20)
@@ -40,42 +41,38 @@ struct SearchResultScreen: View {
             SeparatorView()
                 .padding(.bottom, 16)
             
-
-            TitleFilters(text: "Search result for \(searchInput)")
-                .padding(.horizontal, 20)
-                .padding(.bottom, 16)
-            
-            ScrollView {
-                LazyVGrid(
-                    columns: [.init(),.init()],
-                    spacing: 8
-                ) {
-                    ForEach(filteredProducts) {
-                        product in
-                        
-                        Button(
-                            action: {
+            if searchInput.isEmpty {
+                SearchHistoryList()
+            } else {
+                ScrollView {
+                    LazyVGrid(
+                        columns: [.init(),.init()],
+                        spacing: 8
+                    ) {
+                        ForEach(filteredProducts) { product in
+                            Button(action: {
                                 selectedProduct = product
                                 isDetailsPresented = true
-                            },
-                            label: {
+                            }) {
                                 ProductItem(
                                     product: product,
                                     storage: storage,
                                     showWishlistButton: false
                                 )
                             }
-                        )
+                        }
                     }
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 24)
                 }
-                .padding(.horizontal, 20)
-                .padding(.bottom, 24)
+                
+                TitleFilters(text: "Search result for \(searchInput)")
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 16)
             }
         }
         .ignoresSafeArea(edges: .bottom)
-        .onChange(of: searchInput) {
-            value in
-            
+        .onChange(of: searchInput) { value in
             guard !value.isEmpty else {
                 filteredProducts = products
                 return

@@ -57,6 +57,7 @@
 		F9ED78972BCFD595001EC482 /* TitleDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9ED78962BCFD595001EC482 /* TitleDetail.swift */; };
 		F9ED78992BCFD976001EC482 /* ProductDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9ED78982BCFD976001EC482 /* ProductDetailView.swift */; };
 		F9ED789B2BCFE853001EC482 /* ButtonsDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9ED789A2BCFE853001EC482 /* ButtonsDetail.swift */; };
+		F9ED78BB2BD53D4A001EC482 /* SearchHistoryList.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9ED78BA2BD53D49001EC482 /* SearchHistoryList.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -120,6 +121,7 @@
 		F9ED78962BCFD595001EC482 /* TitleDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleDetail.swift; sourceTree = "<group>"; };
 		F9ED78982BCFD976001EC482 /* ProductDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailView.swift; sourceTree = "<group>"; };
 		F9ED789A2BCFE853001EC482 /* ButtonsDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonsDetail.swift; sourceTree = "<group>"; };
+		F9ED78BA2BD53D49001EC482 /* SearchHistoryList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHistoryList.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -329,6 +331,7 @@
 			children = (
 				F94506402BCE87F90017600B /* NavBarMenu.swift */,
 				F94506462BCE88760017600B /* TitleFilters.swift */,
+				F9ED78BA2BD53D49001EC482 /* SearchHistoryList.swift */,
 				F945064C2BCE88DC0017600B /* CustomButton.swift */,
 			);
 			path = Components;
@@ -496,6 +499,7 @@
 				3C1281512BCC2FC000DB8F49 /* DashMartApp.swift in Sources */,
 				77F87E5F2BCECC6400506EB7 /* RouterService.swift in Sources */,
 				CAF7DC162BCD5A7900BCE0DF /* PageIndicator.swift in Sources */,
+				F9ED78BB2BD53D4A001EC482 /* SearchHistoryList.swift in Sources */,
 				7768265E2BCEFFAE0004F714 /* Manager.swift in Sources */,
 				CAF7DC142BCD5A6A00BCE0DF /* OnboardingPage.swift in Sources */,
 				CAF7DC182BCD5A8900BCE0DF /* OnboardingItem.swift in Sources */,

@@ -194,4 +194,22 @@ final actor StorageService: ObservableObject {
     func save() async throws {
         _ = await (try saveBasket(), try saveWishlist())
     }
+    
+    // MARK: - SearchResult
+    // TODO: - implement firebase
+    @MainActor
+    var searchHistory: [String] {
+        get {
+            UserDefaults.standard.stringArray(forKey: "SearchHistory") ?? []
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "SearchHistory")
+        }
+    }
+    
+    func clearSearchHistory() {
+        Task {
+            UserDefaults.standard.set([], forKey: "SearchHistory")
+        }
+    }
 }
