@@ -2,12 +2,10 @@
 ![Preview](https://github.com/MaximGoryachkin/NewsToDay/assets/89079058/a908800a-c864-4ee8-bdb3-b6af426e1d1c)
 
 ### Development Team: 
+[![Ilya Paddubny](https://img.shields.io/badge/Ilya%20Paddubny-TeamLead-065D8E?style=for-the-badge&logo=github)](https://github.com/ilyapaddubny)
 [![Viktor Balkonskiy](https://img.shields.io/badge/Viktor%20Balkonskiy-06969F?style=for-the-badge&logo=github)](https://github.com/viktorporch)
 [![Ivan Naumenko](https://img.shields.io/badge/Ivan%20Naumenko-065D8E?style=for-the-badge&logo=github)](https://github.com/NaumenkoVanya)
-[![Ilya Paddubny](https://img.shields.io/badge/Ilya%20Paddubny-065D8E?style=for-the-badge&logo=github)](https://github.com/ilyapaddubny)
 [![Vladislav Golyakov](https://img.shields.io/badge/dsm5e-red)](https://github.com/dsm5e)
-
-https://github.com/ilyapaddubny
 
 
 # CHALLENGE №2 “NewsToDay” [(Swift Marathon 11)](https://t.me/devrush_community/13663)
