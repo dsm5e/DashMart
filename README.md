@@ -2,12 +2,12 @@
 ![Preview](https://github.com/MaximGoryachkin/NewsToDay/assets/89079058/a908800a-c864-4ee8-bdb3-b6af426e1d1c)
 
 ### Development Team: 
-[![Ilya Paddubny](https://img.shields.io/badge/Ilya%20Paddubny-TeamLead-065D8E?style=for-the-badge&logo=github)](https://github.com/ilyapaddubny)
+[![Ilya Paddubny](https://img.shields.io/badge/Ilya%20Paddubny-TeamLead-065D8N?style=for-the-badge&logo=github)](https://github.com/ilyapaddubny)
 [![Viktor Balkonskiy](https://img.shields.io/badge/Viktor%20Balkonskiy-06969F?style=for-the-badge&logo=github)](https://github.com/viktorporch)
 [![Maksim Samorokovskii](https://img.shields.io/badge/Maksim%20Samorokovskii-06969F?style=for-the-badge&logo=github)](https://github.com/MaksimSamorokovskii)
 [![Ivan Naumenko](https://img.shields.io/badge/Ivan%20Naumenko-065D8E?style=for-the-badge&logo=github)](https://github.com/NaumenkoVanya)
 [![Vladislav Golyakov](https://img.shields.io/badge/Vladislav%20Golyakov-065D8E?style=for-the-badge&logo=github)](https://github.com/dsm5e)
-[![Vladislav Golyakov](https://img.shields.io/badge/Vladislav%20Golyakov-065D8N?style=for-the-badge&logo=github)](https://github.com/dsm5e)
+[![Vladislav Golyakov](https://img.shields.io/badge/Vladislav%20Golyakov-065D8D?style=for-the-badge&logo=github)](https://github.com/dsm5e)
 
 
 
