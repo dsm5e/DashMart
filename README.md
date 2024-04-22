@@ -1,5 +1,5 @@
 # DashMart 
-![Preview](https://github.com/dsm5e/DashMart/blob/ReadMeFile/.gitignore)
+![Preview](https://github.com/MaximGoryachkin/NewsToDay/assets/89079058/a908800a-c864-4ee8-bdb3-b6af426e1d1c)
 
 ### Development Team: 
 [![Ilya Paddubny](https://img.shields.io/badge/Ilya%20Paddubny-TeamLead-065D8N?style=for-the-badge&logo=github)](https://github.com/ilyapaddubny)
