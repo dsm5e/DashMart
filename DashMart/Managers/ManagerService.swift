@@ -8,7 +8,7 @@
 import Foundation
 
 final class ManagerService: ObservableObject {
-    @Published var isManager: Bool = false
+    @Published var isManager: Bool = true
     var needPassword: Bool {
         !wasAuthorizedAsManager
     }

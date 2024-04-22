@@ -40,16 +40,16 @@ struct SearchResultScreen: View {
                     }
                 )
             }
-            .padding(.horizontal, 20)
+            .padding(.horizontal, .s20)
             .padding(.bottom, 14)
             
             SeparatorView()
-                .padding(.bottom, 16)
+                .padding(.bottom, .s16)
             
 
             TitleFilters(text: "Search result for \(searchInput)")
-                .padding(.horizontal, 20)
-                .padding(.bottom, 16)
+                .padding(.horizontal, .s20)
+                .padding(.bottom, .s16)
             
             ScrollView {
                 LazyVGrid(
@@ -74,8 +74,8 @@ struct SearchResultScreen: View {
                         )
                     }
                 }
-                .padding(.horizontal, 20)
-                .padding(.bottom, 24)
+                .padding(.horizontal, .s20)
+                .padding(.bottom, .s24)
             }
         }
         .ignoresSafeArea(edges: .bottom)

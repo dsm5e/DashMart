@@ -45,7 +45,7 @@ struct CartScreen: View {
                 CartButton(storage: storage, action: nil)
                     .disabled(true)
             }
-            .padding(.horizontal, 20)
+            .padding(.horizontal, .s20)
             SeparatorView()
             HStack {
                 Text("Delivery to")
@@ -61,8 +61,8 @@ struct CartScreen: View {
             }
             .foregroundColor(Color(hex: "393F42"))
             .font(.system(size: 14, weight: .medium))
-            .padding(.horizontal, 20)
-            .frame(height: 24)
+            .padding(.horizontal, .s20)
+            .frame(height: .s24)
             SeparatorView()
             
             if loading {
@@ -144,7 +144,7 @@ struct CartScreen: View {
                                 .frame(height: 100)
                             }
                         }
-                        .padding(.horizontal, 20)
+                        .padding(.horizontal, .s20)
                     }
                     
                     SeparatorView()
@@ -170,7 +170,7 @@ struct CartScreen: View {
                         }
                         .padding(.bottom, 6)
                     }
-                    .padding(.horizontal, 20)
+                    .padding(.horizontal, .s20)
                     
                     Button(
                         action: {
@@ -190,8 +190,8 @@ struct CartScreen: View {
                             .clipShape(.rect(cornerRadius: 4))
                         }
                     )
-                    .padding(.horizontal, 20)
-                    .padding(.bottom, 16)
+                    .padding(.horizontal, .s20)
+                    .padding(.bottom, .s16)
                 }
             }
         }

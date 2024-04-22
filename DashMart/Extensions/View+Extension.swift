@@ -26,3 +26,9 @@ extension View {
         }
     }
 }
+
+extension View {
+    func dashNavBar(title: String) -> some View {
+        modifier(NavigationViewModifier(title: title))
+    }
+}

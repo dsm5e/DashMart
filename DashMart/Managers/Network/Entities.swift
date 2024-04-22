@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ProductEntity: Codable, Identifiable {
+struct ProductEntity: Codable, Identifiable, Equatable {
     let id: Int
     let title: String
     let price: Double
@@ -22,4 +22,10 @@ struct CategoryEntity: Codable, Identifiable, Hashable {
     let id: Int
     let name: String
     let image: String
+    
+    static let mock: Self = .init(
+        id: 0,
+        name: "Electronics",
+        image: "https://category.image"
+    )
 }

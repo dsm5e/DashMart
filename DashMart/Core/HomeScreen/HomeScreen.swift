@@ -32,7 +32,7 @@ struct HomeScreen: View {
     }
     
     var body: some View {
-        VStack(spacing: 16) {
+        VStack(spacing: .s16) {
             NavBarMenu(
                 storage: storage,
                 location: .shared,
@@ -43,7 +43,7 @@ struct HomeScreen: View {
                     isShowingLocation = true
                 }
             )
-            .padding(.horizontal, 20)
+            .padding(.horizontal, .s20)
             
             Button(
                 action: {
@@ -54,7 +54,7 @@ struct HomeScreen: View {
                         .disabled(true)
                 }
             )
-            .padding(.horizontal, 20)
+            .padding(.horizontal, .s20)
             
             if loading {
                 Spacer()
@@ -86,11 +86,11 @@ struct HomeScreen: View {
                         )
                     }
                 }
-                .padding(.horizontal, 20)
+                .padding(.horizontal, .s20)
                 
                 
                 TitleFilters(text: "Products")
-                    .padding(.horizontal, 20)
+                    .padding(.horizontal, .s20)
                 
                 ScrollView {
                     LazyVGrid(
@@ -115,7 +115,7 @@ struct HomeScreen: View {
                             )
                         }
                     }
-                    .padding(.horizontal, 20)
+                    .padding(.horizontal, .s20)
                 }
             }
         }

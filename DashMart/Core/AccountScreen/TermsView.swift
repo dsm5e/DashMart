@@ -61,7 +61,7 @@ struct TermsView: View {
                      9. Disputes: You acknowledge and agree that the Promoter or any of its affiliates shall not be responsible, and shall have no liability to the Eligible Member or anyone else for any dispute or claim that arises out of your participation in this Buyer Protection.
                      """)
                 .font(.system(size: 14))
-                .padding(.horizontal, 16)
+                .padding(.horizontal, .s16)
             }
             .navigationTitle("Terms and Conditions")
             .navigationBarTitleDisplayMode(.inline)

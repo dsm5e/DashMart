@@ -54,7 +54,7 @@ public actor DefaultNetworkClient: NetworkClient {
             switch request.method {
             case .POST, .PUT:
                 urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
-                urlRequest.httpBody = try? JSONSerialization.data(withJSONObject: request.parameters, options: [.withoutEscapingSlashes, .prettyPrinted])
+                urlRequest.httpBody = try? JSONSerialization.data(withJSONObject: request.body, options: [.withoutEscapingSlashes, .prettyPrinted])
             default:
                 break
             }

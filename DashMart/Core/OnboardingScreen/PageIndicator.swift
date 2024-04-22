@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct PageIndicator: View {
-    var numberOfPages: Int
+    let numberOfPages: Int
     var currentIndex: Int
 
     var body: some View {
         HStack(spacing: 10) {
-            ForEach(0 ..< numberOfPages) { index in
+            ForEach(0..<numberOfPages) { index in
                 Rectangle()
                     .fill(index == currentIndex ? Color.black : Color.gray)
                     .frame(width: index == currentIndex ? 30 : 10, height: 8)
