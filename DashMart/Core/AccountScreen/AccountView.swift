@@ -12,8 +12,13 @@ struct AccountView: View {
     @State var router: RouterService
     @State private var name = ""
     @State private var email = ""
+    @State private var managerPassword = ""
     @State private var isAvatarMenuPresented = false
     @State private var isTermsPresented = false
+    @State private var isTypeSelectionPresented = false
+    @State private var isManagerPasswordPresented = false
+    @State private var isManagerErrorPresented = false
+    @ObservedObject private var managerService = ManagerService.shared
     @State private var selectedImage: Image?
 
 
@@ -70,7 +75,7 @@ struct AccountView: View {
                             title: "Type of account",
                             rightIcon: Image(.angleRight),
                             handler: {
-                                
+                                isTypeSelectionPresented = true
                             },
                             titleColor: Color(hex: "#666C8E")
                         )
@@ -90,6 +95,7 @@ struct AccountView: View {
                                     @MainActor in
                                     
                                     if await AuthorizeService.shared.logout() {
+                                        managerService.logout()
                                         router.openAuth()
                                     }
                                 }
@@ -117,6 +123,40 @@ struct AccountView: View {
             .sheet(isPresented: $isTermsPresented) {
                 TermsView()
             }
+            .confirmationDialog(
+                "Account Type",
+                isPresented: $isTypeSelectionPresented,
+                actions: {
+                    Button("User") {
+                        managerService.logoutAsManager()
+                    }
+                    Button("Manager") {
+                        if managerService.needPassword {
+                            isManagerPasswordPresented = true
+                        } else {
+                            managerService.enterAsManager(nil)
+                        }
+                    }
+                }
+            )
+            .alert(
+                "Enter manager password",
+                isPresented: $isManagerPasswordPresented
+            ) {
+                TextField("Enter password", text: $managerPassword)
+                Button("OK") {
+                    isManagerErrorPresented = !managerService.enterAsManager(managerPassword)
+                    managerPassword = ""
+                }
+            }
+            .alert(
+                "Error",
+                isPresented: $isManagerErrorPresented,
+                actions: { Button("OK") { } },
+                message: {
+                    Text("Invalid manager password")
+                }
+            )
         }
         .task {
             name = (try? await StorageService.shared.getUserName()) ?? "UserName"

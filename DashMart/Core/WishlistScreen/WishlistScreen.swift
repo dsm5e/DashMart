@@ -14,6 +14,7 @@ struct WishlistScreen: View {
     @State private var products = [ProductEntity]()
     @State private var loading = false
     @State private var isDetailsShowing = false
+    @State private var isCartShowing = false
     @State private var selectedProduct: ProductEntity? = nil
     
     private var filteredProducts: [ProductEntity] {
@@ -28,7 +29,12 @@ struct WishlistScreen: View {
             VStack {
                 HStack {
                     SearchTextField(searchInput: $searchInput)
-                    CardButton(storage: storage)
+                    CartButton(
+                        storage: storage,
+                        action: {
+                            isCartShowing = true
+                        }
+                    )
                 }
                 .padding(.horizontal, 20)
                 .padding(.bottom, 14)
@@ -106,6 +112,9 @@ struct WishlistScreen: View {
         })
         .fullScreenCover(isPresented: $isDetailsShowing) {
             DetailScreen(product: $selectedProduct)
+        }
+        .fullScreenCover(isPresented: $isCartShowing) {
+            CartScreen()
         }
         .allowsHitTesting(!loading)
     }

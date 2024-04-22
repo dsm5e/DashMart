@@ -7,11 +7,14 @@
 
 import SwiftUI
 import Kingfisher
+import BottomSheet
 
 struct HomeScreen: View {
     @State private var searchInput: String = ""
     @State private var isShowingSearchResults = false
     @State private var isShowingDetails = false
+    @State private var isShowingCard = false
+    @State private var isShowingLocation = false
     @ObservedObject private var storage = StorageService.shared
     @State private var products = [ProductEntity]()
     @State private var filteredProducts = [ProductEntity]()
@@ -23,14 +26,24 @@ struct HomeScreen: View {
     @State private var otherCategories = [CategoryEntity]()
     @State private var selectedCategory: Int? = nil
     @State private var selectedProduct: ProductEntity? = nil
+    @State private var loading = false
     private var categoriesInRow: Int {
         Int(UIScreen.main.bounds.width) / 67
     }
     
     var body: some View {
         VStack(spacing: 16) {
-            NavBarMenu(storage: storage)
-                .padding(.horizontal, 20)
+            NavBarMenu(
+                storage: storage,
+                location: .shared,
+                cartButtonAction: {
+                    isShowingCard = true
+                },
+                locationAction: {
+                    isShowingLocation = true
+                }
+            )
+            .padding(.horizontal, 20)
             
             Button(
                 action: {
@@ -43,66 +56,74 @@ struct HomeScreen: View {
             )
             .padding(.horizontal, 20)
             
-            LazyVGrid(columns: (0..<categoriesInRow).map { _ in .init(.fixed(67)) }) {
-                ForEach(categories) {
-                    category in
-                    
-                    Button(
-                        action: {
-                            if category.id == -1 {
-                                isShowingAllCategories.toggle()
-                            } else {
-                                if selectedCategory == category.id {
-                                    selectedCategory = nil
-                                } else {
-                                    selectedCategory = category.id
-                                }
-                            }
-                        },
-                        label: {
-                            CategoryView(
-                                category: category,
-                                isSelected: category.id == selectedCategory
-                            )
-                        }
-                    )
-                }
-            }
-            .padding(.horizontal, 20)
-            
-            
-            TitleFilters(text: "Products")
-                .padding(.horizontal, 20)
-            
-            ScrollView {
-                LazyVGrid(
-                    columns: [.init(),.init()],
-                    spacing: 8
-                ) {
-                    ForEach(filteredProducts) {
-                        product in
+            if loading {
+                Spacer()
+                ProgressView()
+                Spacer()
+            } else {
+                LazyVGrid(columns: (0..<categoriesInRow).map { _ in .init(.fixed(67)) }) {
+                    ForEach(categories) {
+                        category in
                         
                         Button(
                             action: {
-                                selectedProduct = product
-                                isShowingDetails = true
+                                if category.id == -1 {
+                                    isShowingAllCategories.toggle()
+                                } else {
+                                    if selectedCategory == category.id {
+                                        selectedCategory = nil
+                                    } else {
+                                        selectedCategory = category.id
+                                    }
+                                }
                             },
                             label: {
-                                ProductItem(
-                                    product: product,
-                                    storage: storage,
-                                    showWishlistButton: false
+                                CategoryView(
+                                    category: category,
+                                    isSelected: category.id == selectedCategory
                                 )
                             }
                         )
                     }
                 }
                 .padding(.horizontal, 20)
+                
+                
+                TitleFilters(text: "Products")
+                    .padding(.horizontal, 20)
+                
+                ScrollView {
+                    LazyVGrid(
+                        columns: [.init(),.init()],
+                        spacing: 8
+                    ) {
+                        ForEach(filteredProducts) {
+                            product in
+                            
+                            Button(
+                                action: {
+                                    selectedProduct = product
+                                    isShowingDetails = true
+                                },
+                                label: {
+                                    ProductItem(
+                                        product: product,
+                                        storage: storage,
+                                        showWishlistButton: false
+                                    )
+                                }
+                            )
+                        }
+                    }
+                    .padding(.horizontal, 20)
+                }
             }
         }
         .padding(.top)
         .task {
+            loading = true
             await getProducts()
+            loading = false
         }
         .onChange(of: selectedCategory) {
             value in
@@ -125,6 +146,12 @@ struct HomeScreen: View {
         }
         .fullScreenCover(isPresented: $isShowingDetails) {
             DetailScreen(product: $selectedProduct)
+        }
+        .fullScreenCover(isPresented: $isShowingCard) {
+            CartScreen()
+        }
+        .bottomSheet(isPresented: $isShowingLocation, detents: [.medium()]) {
+            CountrySelection()
         }
     }
 }
@@ -151,6 +178,7 @@ extension HomeScreen {
             }
         case .failure(let error):
             print(error)
+            loading = false
         }
     }
 }
