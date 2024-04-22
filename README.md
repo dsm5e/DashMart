@@ -7,7 +7,7 @@
 [![Maksim Samorokovskii](https://img.shields.io/badge/Maksim%20Samorokovskii-06969F?style=for-the-badge&logo=github)](https://github.com/MaksimSamorokovskii)
 [![Ivan Naumenko](https://img.shields.io/badge/Ivan%20Naumenko-065D8E?style=for-the-badge&logo=github)](https://github.com/NaumenkoVanya)
 [![Vladislav Golyakov](https://img.shields.io/badge/Vladislav%20Golyakov-065D8E?style=for-the-badge&logo=github)](https://github.com/dsm5e)
-[![Vladislav Golyakov](https://img.shields.io/badge/Vladislav%20Golyakov-065D8D?style=for-the-badge&logo=github)](https://github.com/dsm5e)
+[![Vladislav Golyakov](https://img.shields.io/badge/Vladislav%20Golyakov-065D8Y?style=for-the-badge&logo=github)](https://github.com/dsm5e)
 
 
 
