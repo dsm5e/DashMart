@@ -17,7 +17,9 @@ struct SearchResultScreen: View {
     @FocusState private var focused: Bool?
     @State private var selectedProduct: ProductEntity? = nil
     @State private var isDetailsPresented = false
+    @State private var isCartPresented = false
     @State private var keyboardHeight: CGFloat = .zero
+    @State private var isShowingSearchHistory = true
     
     var body: some View {
         VStack {
@@ -31,9 +33,13 @@ struct SearchResultScreen: View {
                 
                 SearchTextField(searchInput: $searchInput)
                     .focused($focused, equals: true)
-                    .padding(.trailing, 20)
                 
-//                CardButton(storage: storage)
+                CartButton(
+                    storage: storage,
+                    action: {
+                        isCartPresented = true
+                    }
+                )
             }
             .padding(.horizontal, 20)
             .padding(.bottom, 14)
@@ -41,9 +47,15 @@ struct SearchResultScreen: View {
             SeparatorView()
                 .padding(.bottom, 16)
             
-            if searchInput.isEmpty {
+            if isShowingSearchHistory {
                 SearchHistoryList()
             } else {
+                TitleFilters(text: "Search result for \(searchInput)")
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 16)
+            }
+            
+            if !searchInput.isEmpty {
                 ScrollView {
                     LazyVGrid(
                         columns: [.init(),.init()],
@@ -65,20 +77,18 @@ struct SearchResultScreen: View {
                     .padding(.horizontal, 20)
                     .padding(.bottom, 24)
                 }
-                
-                TitleFilters(text: "Search result for \(searchInput)")
-                    .padding(.horizontal, 20)
-                    .padding(.bottom, 16)
             }
         }
         .ignoresSafeArea(edges: .bottom)
         .onChange(of: searchInput) { value in
             guard !value.isEmpty else {
                 filteredProducts = products
+                isShowingSearchHistory = true
                 return
             }
             
             filteredProducts = products.filter { $0.title.contains(value) }
+            isShowingSearchHistory = false
         }
         .onAppear {
             filteredProducts = products
