@@ -206,4 +206,22 @@ final actor StorageService: ObservableObject {
     func removeSelectedCardId(_ id: Int) {
         selectedCardIds.remove(id)
     }
+    
+    // MARK: - SearchResult
+    // TODO: - implement firebase
+    @MainActor
+    var searchHistory: [String] {
+        get {
+            UserDefaults.standard.stringArray(forKey: "SearchHistory") ?? []
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "SearchHistory")
+        }
+    }
+    
+    func clearSearchHistory() {
+        Task {
+            UserDefaults.standard.set([], forKey: "SearchHistory")
+        }
+    }
 }
