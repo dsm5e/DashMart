@@ -4,8 +4,9 @@
 ### Development Team: 
 [![Ilya Paddubny](https://img.shields.io/badge/Ilya%20Paddubny-TeamLead-065D8E?style=for-the-badge&logo=github)](https://github.com/ilyapaddubny)
 [![Viktor Balkonskiy](https://img.shields.io/badge/Viktor%20Balkonskiy-06969F?style=for-the-badge&logo=github)](https://github.com/viktorporch)
+[![Maksim Samorokovskii](https://img.shields.io/badge/Maksim%20Samorokovskii-06969F?style=for-the-badge&logo=github)](https://github.com/MaksimSamorokovskii)
 [![Ivan Naumenko](https://img.shields.io/badge/Ivan%20Naumenko-065D8E?style=for-the-badge&logo=github)](https://github.com/NaumenkoVanya)
-[![Vladislav Golyakov](https://img.shields.io/badge/dsm5e-red)](https://github.com/dsm5e)
+[![Vladislav Golyakov](https://img.shields.io/badge/Vladislav%20Golyakov-065D8E?style=for-the-badge&logo=github)](https://github.com/dsm5e)
 
 
 # CHALLENGE №2 “NewsToDay” [(Swift Marathon 11)](https://t.me/devrush_community/13663)
