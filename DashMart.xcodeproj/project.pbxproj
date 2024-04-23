@@ -10,6 +10,7 @@
 		2D818D142BD2B25E00F65F87 /* NetworkManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7757B00F2BCD849E00C6F56A /* NetworkManager.framework */; };
 		2D818D152BD2B25E00F65F87 /* NetworkManager.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7757B00F2BCD849E00C6F56A /* NetworkManager.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		2D818D3F2BD6E83700F65F87 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D818D3E2BD6E83700F65F87 /* UIImage+Extension.swift */; };
+		2DBAAA8F2BD7AA6D00248525 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBAAA8E2BD7AA6D00248525 /* ImagePicker.swift */; };
 		3C1281512BCC2FC000DB8F49 /* DashMartApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C1281502BCC2FC000DB8F49 /* DashMartApp.swift */; };
 		3C1281532BCC2FC000DB8F49 /* HomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C1281522BCC2FC000DB8F49 /* HomeScreen.swift */; };
 		3C1281552BCC2FC100DB8F49 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3C1281542BCC2FC100DB8F49 /* Assets.xcassets */; };
@@ -102,6 +103,7 @@
 /* Begin PBXFileReference section */
 		2D818D3E2BD6E83700F65F87 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		2DBAAA8D2BD7030000248525 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		2DBAAA8E2BD7AA6D00248525 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		3C12814D2BCC2FC000DB8F49 /* DashMart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DashMart.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C1281502BCC2FC000DB8F49 /* DashMartApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashMartApp.swift; sourceTree = "<group>"; };
 		3C1281522BCC2FC000DB8F49 /* HomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreen.swift; sourceTree = "<group>"; };
@@ -345,6 +347,7 @@
 			children = (
 				77B87D8E2BD073D50003A468 /* AccountView.swift */,
 				77B87D912BD0856E0003A468 /* TermsView.swift */,
+				2DBAAA8E2BD7AA6D00248525 /* ImagePicker.swift */,
 			);
 			path = AccountScreen;
 			sourceTree = "<group>";
@@ -534,6 +537,7 @@
 				7757B0252BCD891B00C6F56A /* ProductsRequest.swift in Sources */,
 				7758CDE62BCEDF970038E801 /* ContentView.swift in Sources */,
 				2D818D3F2BD6E83700F65F87 /* UIImage+Extension.swift in Sources */,
+				2DBAAA8F2BD7AA6D00248525 /* ImagePicker.swift in Sources */,
 				7768267C2BCF37BF0004F714 /* WishlistScreen.swift in Sources */,
 				F94506412BCE87F90017600B /* NavBarMenu.swift in Sources */,
 				7757B0272BCD89B900C6F56A /* NetworkService.swift in Sources */,
