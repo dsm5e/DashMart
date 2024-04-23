@@ -36,7 +36,7 @@ struct WishlistScreen: View {
                         }
                     )
                 }
-                .padding(.horizontal, 20)
+                .padding(.horizontal, .s20)
                 .padding(.bottom, 14)
                 ZStack {
                     ScrollView {
@@ -75,7 +75,7 @@ struct WishlistScreen: View {
                         .foregroundColor(Color(hex: "#393F42"))
                     }
                 }
-                .padding(.horizontal, 20)
+                .padding(.horizontal, .s20)
             }
             if loading {
                 VStack {

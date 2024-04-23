@@ -19,6 +19,10 @@ struct DashMartApp: App {
         WindowGroup {
             ContentView()
                 .preferredColorScheme(.light) // Set to use light mode only
+                .onAppear {
+                    UINavigationBar.appearance().backIndicatorImage = UIImage(systemName: "arrow.left")
+                    UINavigationBar.appearance().backIndicatorTransitionMaskImage = UIImage(systemName: "arrow.left")
+                }
         }
         .onChange(of: scenePhase) {
             phase in

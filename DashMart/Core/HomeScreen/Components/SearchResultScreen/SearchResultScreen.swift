@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SearchResultScreen: View {
-    @Binding var searchInput: String
+    @State var searchInput: String = ""
     @Binding var products: [ProductEntity]
     
     @Environment(\.presentationMode) var presentationMode
@@ -41,18 +41,18 @@ struct SearchResultScreen: View {
                     }
                 )
             }
-            .padding(.horizontal, 20)
+            .padding(.horizontal, .s20)
             .padding(.bottom, 14)
             
             SeparatorView()
-                .padding(.bottom, 16)
+                .padding(.bottom, .s16)
             
             if isShowingSearchHistory {
                 SearchHistoryList()
             } else {
                 TitleFilters(text: "Search result for \(searchInput)")
-                    .padding(.horizontal, 20)
-                    .padding(.bottom, 16)
+                    .padding(.horizontal, .s20)
+                    .padding(.bottom, .s16)
             }
             
             if !searchInput.isEmpty {
@@ -74,8 +74,8 @@ struct SearchResultScreen: View {
                             }
                         }
                     }
-                    .padding(.horizontal, 20)
-                    .padding(.bottom, 24)
+                    .padding(.horizontal, .s20)
+                    .padding(.bottom, .s24)
                 }
             }
         }
@@ -87,7 +87,7 @@ struct SearchResultScreen: View {
                 return
             }
             
-            filteredProducts = products.filter { $0.title.contains(value) }
+            filteredProducts = products.filter { $0.title.lowercased().contains(value.lowercased()) }
             isShowingSearchHistory = false
         }
         .onAppear {

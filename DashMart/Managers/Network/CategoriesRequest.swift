@@ -37,7 +37,7 @@ struct CagetegoryRequestGet: NetworkRequest {
 }
 
 struct CategoryRequestPost: NetworkRequest {
-    typealias Response = ProductEntity
+    typealias Response = CategoryEntity
     
     var url: String {
         "categories"
@@ -51,11 +51,11 @@ struct CategoryRequestPost: NetworkRequest {
     
     init(
         name: String,
-        image: URL
+        image: String
     ) {
         body = [
             "name": name,
-            "image": image.absoluteString
+            "image": image
         ]
     }
 }
@@ -66,23 +66,23 @@ struct CategoryRequestUpdate: NetworkRequest {
     let id: Int
     
     var url: String {
-        "products/\(id)"
+        "categories/\(id)"
     }
     var method: HTTPMethod {
-        .GET
+        .PUT
     }
     var parameters = [String : Any]()
     var body = [String : Any]()
     
     init(
         id: Int,
-        name: String?,
-        image: URL?
+        name: String,
+        image: String
     ) {
         self.id = id
         
         body["name"] = name
-        body["image"] = image?.absoluteString
+        body["image"] = image
     }
 }
 
