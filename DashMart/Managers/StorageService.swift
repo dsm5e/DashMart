@@ -210,6 +210,11 @@ final actor StorageService: ObservableObject {
     }
     
     @MainActor
+    func setBuyNowId(_ id: Int) {
+        selectedCardIds = [id]
+    }
+    
+    @MainActor
     func addSelectedCardId(_ id: Int) {
         selectedCardIds.insert(id)
     }

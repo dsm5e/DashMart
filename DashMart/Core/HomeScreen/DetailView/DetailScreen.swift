@@ -36,7 +36,9 @@ struct DetailScreen: View {
                     }
                     
                     ButtonsDetail(title: "Buy Now", type: .buy) {
-                        // action
+                        storage.addToCart(product.id)
+                        storage.setBuyNowId(product.id)
+                        isCartPresented = true
                     }
                 }
             }
