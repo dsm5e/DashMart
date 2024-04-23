@@ -372,9 +372,7 @@
 				F94506462BCE88760017600B /* TitleFilters.swift */,
 				F9ED78BA2BD53D49001EC482 /* SearchHistoryList.swift */,
 				F945064C2BCE88DC0017600B /* CustomButton.swift */,
-				F945064E2BCE88FE0017600B /* CustomIconButton.swift */,
 				CAE395492BD5A34D00AEA15A /* PlaymentMethod.swift */,
-				F94506502BCE89350017600B /* SearchResultScreen */,
 			);
 			path = Components;
 			sourceTree = "<group>";

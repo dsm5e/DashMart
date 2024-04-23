@@ -21,6 +21,7 @@ struct TitleFilters: View {
     }
     
     let text: String
+    let action: () -> Void
     
     var body: some View {
         HStack {
@@ -28,7 +29,7 @@ struct TitleFilters: View {
                 .font(.system(size: Drawing.titleFontSize))
                 .foregroundStyle(Drawing.titleColor)
             Spacer()
-            Button(action: {}, label: {
+            Button(action: action, label: { 
                 HStack {
                     Text("Filters")
                         .font(.system(size: Drawing.buttonTitle))
@@ -47,5 +48,5 @@ struct TitleFilters: View {
 }
 
 #Preview {
-    TitleFilters(text: "Products")
+    TitleFilters(text: "Products", action: {})
 }

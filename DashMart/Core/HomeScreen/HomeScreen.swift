@@ -31,6 +31,12 @@ struct HomeScreen: View {
         Int(UIScreen.main.bounds.width) / 67
     }
     
+    // Filter States
+    @State private var isShowingFilters = false
+    @State private var filterText = ""
+    @State private var minPrice: Double = 0
+    @State private var maxPrice: Double = 100000 
+    
     var body: some View {
         VStack(spacing: 16) {
             NavBarMenu(
@@ -62,9 +68,7 @@ struct HomeScreen: View {
                 Spacer()
             } else {
                 LazyVGrid(columns: (0..<categoriesInRow).map { _ in .init(.fixed(67)) }) {
-                    ForEach(categories) {
-                        category in
-                        
+                    ForEach(categories) { category in
                         Button(
                             action: {
                                 if category.id == -1 {
@@ -88,18 +92,17 @@ struct HomeScreen: View {
                 }
                 .padding(.horizontal, 20)
                 
-                
-                TitleFilters(text: "Products")
-                    .padding(.horizontal, 20)
+                TitleFilters(text: "Products") {
+                    isShowingFilters.toggle()
+                }
+                .padding(.horizontal, 20)
                 
                 ScrollView {
                     LazyVGrid(
                         columns: [.init(),.init()],
                         spacing: 8
                     ) {
-                        ForEach(filteredProducts) {
-                            product in
-                            
+                        ForEach(filteredProducts) { product in
                             Button(
                                 action: {
                                     selectedProduct = product
@@ -125,17 +128,15 @@ struct HomeScreen: View {
             await getProducts()
             loading = false
         }
-        .onChange(of: selectedCategory) {
-            value in
-            
+        .onChange(of: selectedCategory) { value in
             guard let value else {
                 filteredProducts = products
                 return
             }
             filteredProducts = products.filter { $0.category.id == value }
         }
-        .onChange(of: isShowingAllCategories) {
-            topCategories[topCategories.count - 1] = $0 ? .top : .all
+        .onChange(of: isShowingAllCategories) { _ in
+            topCategories[topCategories.count - 1] = isShowingAllCategories ? .top : .all
         }
         .animation(.linear, value: isShowingAllCategories)
         .fullScreenCover(isPresented: $isShowingSearchResults) {
@@ -153,10 +154,55 @@ struct HomeScreen: View {
         .bottomSheet(isPresented: $isShowingLocation, detents: [.medium()]) {
             CountrySelection()
         }
+        .bottomSheet(isPresented: $isShowingFilters, detents: [.medium()]) {
+            VStack(spacing: 16) {
+                Text("Filter Products")
+                    .font(.title)
+                    .padding()
+                TextField("Filter by name", text: $filterText)
+                    .padding()
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                HStack {
+                    Text("Min Price:")
+                    Slider(value: $minPrice, in: 0...100000, step: 1)
+                    Text("\(Int(minPrice))")
+                        .padding(.horizontal)
+                        .onChange(of: minPrice) { _ in
+                            applyFilters()
+                        }
+                }
+                HStack {
+                    Text("Max Price:")
+                    Slider(value: $maxPrice, in: 0...100000, step: 1)
+                    Text("\(Int(maxPrice))")
+                        .padding(.horizontal)
+                        .onChange(of: maxPrice) { _ in
+                            applyFilters()
+                        }
+                }
+                Button("Apply", action: applyFilters)
+                    .padding()
+            }
+            .padding(.horizontal)
+            .background(Color.white)
+        }
+    }
+    
+    func applyFilters() {
+        if filterText.isEmpty && minPrice == 0 && maxPrice == 100000 {
+            isShowingFilters = false
+            filteredProducts = products
+            return
+        }
+        
+        isShowingFilters = true
+        filteredProducts = products.filter { product in
+            let nameMatch = filterText.isEmpty || product.title.localizedCaseInsensitiveContains(filterText)
+            let priceInRange = product.price >= minPrice && product.price <= maxPrice
+            return nameMatch && priceInRange
+        }
     }
 }
-
-
 
 extension HomeScreen {
     func getProducts() async {

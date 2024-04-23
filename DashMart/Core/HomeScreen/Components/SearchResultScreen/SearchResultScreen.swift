@@ -50,7 +50,7 @@ struct SearchResultScreen: View {
             if isShowingSearchHistory {
                 SearchHistoryList()
             } else {
-                TitleFilters(text: "Search result for \(searchInput)")
+                TitleFilters(text: "Search result for \(searchInput)", action: {})
                     .padding(.horizontal, 20)
                     .padding(.bottom, 16)
             }
