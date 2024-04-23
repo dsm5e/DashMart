@@ -101,6 +101,7 @@
 
 /* Begin PBXFileReference section */
 		2D818D3E2BD6E83700F65F87 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
+		2DBAAA8D2BD7030000248525 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		3C12814D2BCC2FC000DB8F49 /* DashMart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DashMart.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C1281502BCC2FC000DB8F49 /* DashMartApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashMartApp.swift; sourceTree = "<group>"; };
 		3C1281522BCC2FC000DB8F49 /* HomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreen.swift; sourceTree = "<group>"; };
@@ -194,6 +195,7 @@
 		3C12814F2BCC2FC000DB8F49 /* DashMart */ = {
 			isa = PBXGroup;
 			children = (
+				2DBAAA8D2BD7030000248525 /* Info.plist */,
 				3C1281502BCC2FC000DB8F49 /* DashMartApp.swift */,
 				7758CDE52BCEDF970038E801 /* ContentView.swift */,
 				7757B02D2BCDA07500C6F56A /* Managers */,
@@ -700,6 +702,8 @@
 				DEVELOPMENT_TEAM = D6BK75VU2R;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DashMart/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "DashMart requires access to your phone’s camera.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Identify your location automatically";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -733,6 +737,8 @@
 				DEVELOPMENT_TEAM = D6BK75VU2R;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DashMart/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "DashMart requires access to your phone’s camera.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Identify your location automatically";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

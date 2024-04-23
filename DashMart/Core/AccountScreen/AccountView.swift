@@ -39,6 +39,7 @@ struct AccountView: View {
                                 .aspectRatio(contentMode: .fill)
                                 .frame(width: 100, height: 100)
                                 .clipShape(Circle())
+                                
                             Button(
                                 action: {
                                     withAnimation(.smooth) {
@@ -109,7 +110,7 @@ struct AccountView: View {
                         .onTapGesture {
                             isAvatarMenuPresented = false
                         }
-                        .transition(AnyTransition.opacity.animation(.easeInOut(duration: 0.2))) 
+                        .transition(AnyTransition.opacity.animation(.easeInOut(duration: 0.2)))
                         .ignoresSafeArea(.all)
                         .zIndex(1)
                 }
@@ -167,6 +168,9 @@ struct AccountView: View {
 
 private struct ChangeAvatarMenu: View {
     @State private var isPhotoPickerPresnted = false
+    @State private var isCameraActive = false
+    @State private var capturedImage: UIImage?
+
     @Binding var isAvatarMenuPresented: Bool
     @Binding var avatarImage: UIImage?
     
@@ -186,10 +190,10 @@ private struct ChangeAvatarMenu: View {
                     SeparatorView()
                     VStack(spacing: 20) {
                         AvatarMenuButton(
-                            title: "Take a photo",
+                            title: "Take a Selfie",
                             icon: Image(systemName: "camera"),
                             handler: {
-                                print("camera")
+                                self.isCameraActive = true
                             },
                             color: .black
                         )
@@ -227,15 +231,17 @@ private struct ChangeAvatarMenu: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .sheet(isPresented: $isPhotoPickerPresnted) {
-            ImagePicker(sourceType: .photoLibrary, avatarImage: self.$avatarImage)
-//            ImagePicker(sourceType: .photoLibrary)
-                .ignoresSafeArea(.all)
+            ImagePicker(sourceType: .photoLibrary,
+                        avatarImage: self.$avatarImage,
+                        isAvatarMenuPresented: $isAvatarMenuPresented)
+            .ignoresSafeArea(.all)
         }
-        .onChange(of: isPhotoPickerPresnted, perform: {newValue in 
-            if !newValue {
-                isAvatarMenuPresented = false
-            }
-        })
+        .sheet(isPresented: $isCameraActive) {
+            SelfieCameraView(image: self.$avatarImage,
+                             isCameraActive: $isCameraActive,
+                             isAvatarMenuPresented: $isAvatarMenuPresented)
+            .ignoresSafeArea(.all)
+                }
     }
 }
 
@@ -270,12 +276,12 @@ private struct AvatarMenuButton: View {
         )
     }
 }
-
+//MARK: Image Picker
 struct ImagePicker: UIViewControllerRepresentable {
     @Environment(\.presentationMode) private var presentationMode
     var sourceType: UIImagePickerController.SourceType = .photoLibrary
-    
     @Binding var avatarImage: UIImage?
+    @Binding var isAvatarMenuPresented: Bool
 
     func makeUIViewController(context: UIViewControllerRepresentableContext<ImagePicker>) -> UIImagePickerController {
 
@@ -311,6 +317,7 @@ struct ImagePicker: UIViewControllerRepresentable {
                 }
                 
                 parent.avatarImage = resizedImage
+                parent.isAvatarMenuPresented = false
                 Task {
                     try? await StorageService.shared.setAvatarImage(resizedImage) //TODO: handle errors
                 }
@@ -320,6 +327,51 @@ struct ImagePicker: UIViewControllerRepresentable {
     }
 }
 
+//MARK: SelfieCameraView
+struct SelfieCameraView: UIViewControllerRepresentable {
+    @Binding var image: UIImage?
+    @Binding var isCameraActive: Bool
+    @Binding var isAvatarMenuPresented: Bool
+
+    func makeUIViewController(context: Context) -> UIImagePickerController {
+        let picker = UIImagePickerController()
+        picker.sourceType = .camera
+        picker.cameraDevice = .front  // Use front camera for selfies
+        picker.delegate = context.coordinator
+        return picker
+    }
+
+    func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) {
+
+    }
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self)
+    }
+
+    class Coordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+        let parent: SelfieCameraView
+
+        init(_ parent: SelfieCameraView) {
+            self.parent = parent
+        }
+
+        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+            guard let image = info[.originalImage] as? UIImage else { return }
+            guard let resizedImage = image.resizedToMaxSize(maxSize: 200.0) else {
+                return
+            }
+            parent.image = resizedImage
+            parent.isAvatarMenuPresented = false
+            Task {
+                try? await StorageService.shared.setAvatarImage(resizedImage) //TODO: handle errors
+            }
+            
+            parent.isCameraActive = false
+            picker.dismiss(animated: true)
+        }
+    }
+}
 #Preview {
     AccountView(router: RouterService())
 }
