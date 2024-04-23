@@ -95,11 +95,13 @@ struct ManagerEditProduct: View {
                                     .frame(maxWidth: .infinity, maxHeight: 15, alignment: .leading)
                                 }
                             )
+                            .disabled(state.status == .delete)
                             ManagerEditField(title: "Description", padding: .s4) {
                                 ZStack {
                                     TextEditor(text: $description)
-                                    Text(description.isEmpty ? "S" : description).opacity(.zero)
+                                    Text(description).opacity(.zero)
                                 }
+                                .frame(minHeight: .s32)
                             }
                             .disabled(state.status == .delete)
                             ForEach($images) {
@@ -109,7 +111,8 @@ struct ManagerEditProduct: View {
                                     ManagerEditField(title: "Image", padding: .s12) {
                                         TextField("", text: item.text)
                                     }
-                                    if images.count > 1 {
+                                    .disabled(state.status == .delete)
+                                    if images.count > 1, state.status != .delete {
                                         Button(
                                             action: {
                                                 images.remove(at: images.firstIndex(where: { $0.id == item.id })!)
@@ -121,17 +124,19 @@ struct ManagerEditProduct: View {
                                     }
                                 }
                             }
-                            HStack {
-                                Spacer()
-                                Button(
-                                    action: {
-                                        images.append(.init(text: ""))
-                                    },
-                                    label: {
-                                        Image(systemName: "plus.rectangle")
-                                    }
-                                )
-                                Spacer()
+                            if state.status != .delete {
+                                HStack {
+                                    Spacer()
+                                    Button(
+                                        action: {
+                                            images.append(.init(text: ""))
+                                        },
+                                        label: {
+                                            Image(systemName: "plus.rectangle")
+                                        }
+                                    )
+                                    Spacer()
+                                }
                             }
                         }
                         .padding(.horizontal, .s20)
@@ -337,42 +342,7 @@ extension ManagerEditProduct {
     }
 }
 
-private struct ManagerEditField<Content: View>: View {
-    
-    let title: String
-    let padding: CGFloat
-    @ViewBuilder var content: () -> Content
-    
-    var body: some View {
-        HStack {
-            Text(title)
-                .frame(width: 75, alignment: .leading)
-                .padding(.trailing, .s16)
-            
-            content()
-                .padding(padding)
-                .modifier(StrokeModifier())
-        }
-        .font(.system(size: 13, weight: .semibold))
-    }
-}
-
-private struct StrokeModifier: ViewModifier {
-    func body(content: Content) -> some View {
-        content
-            .overlay(
-                RoundedRectangle(cornerRadius: .s4)
-                    .stroke(lineWidth: 1)
-                    .foregroundColor(Color(hex: "#F0F2F1"))
-            )
-    }
-}
-
 private struct ImageEntry: Identifiable {
     let id = UUID()
     var text: String
-}
-
-#Preview {
-    ManagerEditProduct(state: .init())
 }

@@ -171,11 +171,9 @@ extension HomeScreen {
                 categoriesFrequency[$0.category] = categoriesFrequency[$0.category, default: 0] + 1
             }
             let sortedCategories = categoriesFrequency.sorted { $0.value > $1.value }.map { $0.key }
-            if categories.isEmpty {
-                topCategories = sortedCategories.prefix(categoriesInRow - 1) + [.all]
-                if sortedCategories.count + 1 > categoriesInRow {
-                    otherCategories = Array(sortedCategories[(categoriesInRow - 1)...])
-                }
+            topCategories = sortedCategories.prefix(categoriesInRow - 1) + [.all]
+            if sortedCategories.count + 1 > categoriesInRow {
+                otherCategories = Array(sortedCategories[(categoriesInRow - 1)...])
             }
         case .failure(let error):
             print(error)

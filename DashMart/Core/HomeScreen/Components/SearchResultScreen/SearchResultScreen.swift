@@ -87,7 +87,7 @@ struct SearchResultScreen: View {
                 return
             }
             
-            filteredProducts = products.filter { $0.title.contains(value) }
+            filteredProducts = products.filter { $0.title.lowercased().contains(value.lowercased()) }
             isShowingSearchHistory = false
         }
         .onAppear {

@@ -34,7 +34,7 @@ struct ManagerScreen: View {
                     NavigationLink(
                         destination: {
                             DashScreen(title: "Category panel") {
-                                ManagerEditScreen<ManagerEditProduct>(state: state) {
+                                ManagerEditScreen<ManagerEditCategory>(state: state) {
                                     .init(state: state)
                                 }
                             }
