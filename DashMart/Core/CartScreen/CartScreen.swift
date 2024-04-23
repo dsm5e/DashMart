@@ -78,11 +78,11 @@ struct CartScreen: View {
                     Spacer()
                 } else {
                     ScrollView {
-                        LazyVGrid(columns: [.init()], spacing: 30) {
+                        LazyVGrid(columns: [.init()], spacing: .s32) {
                             ForEach(products) {
                                 product in
                                 
-                                HStack(spacing: 8) {
+                                HStack(spacing: .s8) {
                                     Button(
                                         action: {
                                             if storage.selectedCardIds.contains(product.id) {
@@ -103,9 +103,9 @@ struct CartScreen: View {
                                                 storage.selectedCardIds.contains(product.id) ? Color(hex: "#67C4A7") : Color.clear
                                             )
                                             .frame(width: 25, height: 25)
-                                            .clipShape(.rect(cornerRadius: 4))
+                                            .clipShape(.rect(cornerRadius: .s4))
                                             .overlay(
-                                                RoundedRectangle(cornerRadius: 4)
+                                                RoundedRectangle(cornerRadius: .s4)
                                                     .stroke(Color(hex: "#C8C8CB"), lineWidth: 1)
                                             )
                                         }
@@ -119,7 +119,7 @@ struct CartScreen: View {
                                         .frame(width: 100, height: 100)
                                         .clipped()
                                         .scaledToFill()
-                                        .clipShape(.rect(cornerRadius: 8))
+                                        .clipShape(.rect(cornerRadius: .s8))
                                         .contentShape(Rectangle())
                                     VStack {
                                         Text(product.title)
@@ -138,7 +138,7 @@ struct CartScreen: View {
                                             Spacer()
                                             CardItemControl(id: product.id, storage: storage)
                                         }
-                                        .padding(.bottom, 4)
+                                        .padding(.bottom, .s4)
                                     }
                                 }
                                 .frame(height: 100)
@@ -287,7 +287,7 @@ private struct CardItemControlButton: View {
                     .foregroundColor(.gray)
             }
         )
-        .frame(width: 20, height: 20)
+        .frame(width: .s20, height: .s20)
         .overlay(Circle().stroke(style: .init(lineWidth: 1)).foregroundColor(.gray))
     }
 }

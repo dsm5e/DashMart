@@ -71,7 +71,6 @@
 		F9ED78942BCFD382001EC482 /* DetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9ED78932BCFD382001EC482 /* DetailScreen.swift */; };
 		F9ED78972BCFD595001EC482 /* TitleDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9ED78962BCFD595001EC482 /* TitleDetail.swift */; };
 		F9ED78992BCFD976001EC482 /* ProductDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9ED78982BCFD976001EC482 /* ProductDetailView.swift */; };
-		F9ED789B2BCFE853001EC482 /* ButtonsDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9ED789A2BCFE853001EC482 /* ButtonsDetail.swift */; };
 		F9ED78BB2BD53D4A001EC482 /* SearchHistoryList.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9ED78BA2BD53D49001EC482 /* SearchHistoryList.swift */; };
 /* End PBXBuildFile section */
 
@@ -163,7 +162,6 @@
 		F9ED78932BCFD382001EC482 /* DetailScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailScreen.swift; sourceTree = "<group>"; };
 		F9ED78962BCFD595001EC482 /* TitleDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleDetail.swift; sourceTree = "<group>"; };
 		F9ED78982BCFD976001EC482 /* ProductDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailView.swift; sourceTree = "<group>"; };
-		F9ED789A2BCFE853001EC482 /* ButtonsDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonsDetail.swift; sourceTree = "<group>"; };
 		F9ED78BA2BD53D49001EC482 /* SearchHistoryList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHistoryList.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -587,7 +585,6 @@
 				77F87E5F2BCECC6400506EB7 /* RouterService.swift in Sources */,
 				CAF7DC162BCD5A7900BCE0DF /* PageIndicator.swift in Sources */,
 				F9ED78BB2BD53D4A001EC482 /* SearchHistoryList.swift in Sources */,
-				7768265E2BCEFFAE0004F714 /* Manager.swift in Sources */,
 				CAF7DC142BCD5A6A00BCE0DF /* OnboardingPage.swift in Sources */,
 				CAF7DC182BCD5A8900BCE0DF /* OnboardingItem.swift in Sources */,
 				F9ED78992BCFD976001EC482 /* ProductDetailView.swift in Sources */,

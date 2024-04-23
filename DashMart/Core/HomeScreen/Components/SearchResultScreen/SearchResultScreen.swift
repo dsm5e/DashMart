@@ -51,8 +51,8 @@ struct SearchResultScreen: View {
                 SearchHistoryList()
             } else {
                 TitleFilters(text: "Search result for \(searchInput)")
-                    .padding(.horizontal, 20)
-                    .padding(.bottom, 16)
+                    .padding(.horizontal, .s20)
+                    .padding(.bottom, .s16)
             }
             
             if !searchInput.isEmpty {
@@ -74,8 +74,8 @@ struct SearchResultScreen: View {
                             }
                         }
                     }
-                    .padding(.horizontal, 20)
-                    .padding(.bottom, 24)
+                    .padding(.horizontal, .s20)
+                    .padding(.bottom, .s24)
                 }
             }
         }

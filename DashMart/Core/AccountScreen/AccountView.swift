@@ -209,7 +209,7 @@ private struct ChangeAvatarMenu: View {
                         .padding(.top, .s24)
                         .padding(.bottom, .s16)
                     SeparatorView()
-                    VStack(spacing: 20) {
+                    VStack(spacing: .s20) {
                         AvatarMenuButton(
                             title: "Take a Selfie",
                             icon: Image(systemName: "camera"),
@@ -246,7 +246,7 @@ private struct ChangeAvatarMenu: View {
                 }
                 .frame(width: 300)
                 .background(Color(hex: "#FEFEFE"))
-                .clipShape(.rect(cornerRadius: 12))
+                .clipShape(.rect(cornerRadius: .s12))
                 Spacer()
             }
         }
@@ -292,7 +292,7 @@ private struct AvatarMenuButton: View {
                 }
                 .frame(height: 60)
                 .background(Color(hex: "#F5F5F5"))
-                .clipShape(.rect(cornerRadius: 8))
+                .clipShape(.rect(cornerRadius: .s8))
             }
         )
     }
