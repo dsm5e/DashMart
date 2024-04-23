@@ -21,8 +21,8 @@ struct ProductDetailView: View {
         VStack {
             ScrollView(.horizontal, showsIndicators: false) {
                 LazyVGrid(columns: product.fixedImages.map { _ in .init() }) {
-                    ForEach(product.fixedImages, id:\.self) {
-                        imageUrl in
+                    ForEach(Array(zip(product.fixedImages.indices, product.fixedImages)), id: \.0) {
+                        _, imageUrl in
                         
                         KFImage(URL(string: imageUrl))
                             .placeholder {

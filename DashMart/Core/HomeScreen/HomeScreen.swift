@@ -161,7 +161,7 @@ struct HomeScreen: View {
 
 extension HomeScreen {
     func getProducts() async {
-        switch await NetworkService.client.sendRequest(request: ProductsRequest(categoryId: selectedCategory)) {
+        switch await NetworkService.client.sendRequest(request: ProductsRequest()) {
         case .success(let result):
             products = result
             filteredProducts = products

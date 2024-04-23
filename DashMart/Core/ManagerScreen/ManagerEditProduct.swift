@@ -16,6 +16,7 @@ struct ManagerEditProduct: View {
     @State private var price: Double = .zero
     @State private var description: String = ""
     @State private var category: CategoryEntity = .mock
+    @State private var images: [ImageEntry] = [.init(text: "")]
     @State private var categories = [CategoryEntity]()
     @State private var products = [ProductEntity]()
     @State private var searchInput = ""
@@ -66,11 +67,11 @@ struct ManagerEditProduct: View {
                     
                     ScrollView(showsIndicators: false) {
                         VStack(spacing: .s16) {
-                            ManagerEditField(title: "Title") {
+                            ManagerEditField(title: "Title", padding: .s12) {
                                 TextField("", text: $title)
                             }
                             .disabled(state.status == .delete)
-                            ManagerEditField(title: "Price") {
+                            ManagerEditField(title: "Price", padding: .s12) {
                                 TextField(
                                     "",
                                     value: $price,
@@ -82,6 +83,7 @@ struct ManagerEditProduct: View {
                             .disabled(state.status == .delete)
                             ManagerEditField(
                                 title: "Category",
+                                padding: .s12,
                                 content: {
                                     Picker("", selection: $category) {
                                         ForEach(categories) {
@@ -93,10 +95,44 @@ struct ManagerEditProduct: View {
                                     .frame(maxWidth: .infinity, maxHeight: 15, alignment: .leading)
                                 }
                             )
-                            ManagerEditField(title: "Description") {
-                                TextField("", text: $description)
+                            ManagerEditField(title: "Description", padding: .s4) {
+                                ZStack {
+                                    TextEditor(text: $description)
+                                    Text(description.isEmpty ? "S" : description).opacity(.zero)
+                                }
                             }
                             .disabled(state.status == .delete)
+                            ForEach($images) {
+                                item in
+                              
+                                HStack {
+                                    ManagerEditField(title: "Image", padding: .s12) {
+                                        TextField("", text: item.text)
+                                    }
+                                    if images.count > 1 {
+                                        Button(
+                                            action: {
+                                                images.remove(at: images.firstIndex(where: { $0.id == item.id })!)
+                                            },
+                                            label: {
+                                                Image(systemName: "x.square")
+                                            }
+                                        )
+                                    }
+                                }
+                            }
+                            HStack {
+                                Spacer()
+                                Button(
+                                    action: {
+                                        images.append(.init(text: ""))
+                                    },
+                                    label: {
+                                        Image(systemName: "plus.rectangle")
+                                    }
+                                )
+                                Spacer()
+                            }
                         }
                         .padding(.horizontal, .s20)
                     }
@@ -108,7 +144,12 @@ struct ManagerEditProduct: View {
             Button(
                 action: {
                     if state.status == .delete {
-                        isDeleteAlertPresented = true
+                        if product == nil {
+                            alertMessage = "Select product to delete"
+                            isAlertPresented = true
+                        } else {
+                            isDeleteAlertPresented = true
+                        }
                     } else {
                         Task {
                             await proceed()
@@ -137,6 +178,7 @@ struct ManagerEditProduct: View {
             price = location.exchange(product?.price ?? .zero)
             description = product?.description ?? ""
             category = product?.category ?? categories.first ?? .mock
+            images = product?.fixedImages.map { ImageEntry(text: $0) } ?? [ImageEntry(text: "")]
         }
         .onChange(of: categories) {
             _ in
@@ -194,17 +236,20 @@ extension ManagerEditProduct {
     private func proceed() async {
         switch state.status {
         case .add:
+            guard checkImages() else {
+                return
+            }
             switch await NetworkService.client.sendRequest(
                 request: ProductRequestPost(
                     title: title,
-                    price: location.exchange(price),
+                    price: location.revertExchange(price),
                     description: description,
-                    categoryId: 1,
-                    images: ["https://i.imgur.com/bBEWTKx.jpeg", "https://i.imgur.com/bBEWTKx.jpeg"]
+                    categoryId: category.id,
+                    images: images.compactMap { $0.text }
                 )
             ) {
             case .success(let response):
-                alertMessage = "Product \"\(response.title)\" (id: \(response.id) was created."
+                alertMessage = "Product \"\(response.title)\" (id: \(response.id)) was created."
                 isAlertPresented = true
             case .failure(let error):
                 handleError(error)
@@ -215,14 +260,17 @@ extension ManagerEditProduct {
                 isAlertPresented = true
                 return
             }
+            guard checkImages() else {
+                return
+            }
             switch await NetworkService.client.sendRequest(
                 request: ProductRequestUpdate(
                     id: product.id,
                     title: title,
-                    price: location.exchange(price),
+                    price: location.revertExchange(price),
                     description: description,
                     categoryId: category.id,
-                    images: ["https://i.imgur.com/bBEWTKx.jpeg"]
+                    images: images.map { $0.text }
                 )
             ) {
             case .success(let response):
@@ -266,11 +314,33 @@ extension ManagerEditProduct {
         alertMessage = errorMessage
         isAlertPresented = true
     }
+    
+    private func checkImages() -> Bool {
+        if images.count > 1 {
+            images.removeAll(where: { $0.text.isEmpty })
+        }
+        if images.isEmpty {
+            images.append(.init(text: ""))
+        }
+        if images.count == 1, images[0].text.isEmpty {
+            alertMessage = "Image url is empty"
+            isAlertPresented = true
+            return false
+        }
+        guard images.compactMap({ URL(string: $0.text) }).count == images.count else {
+            alertMessage = "Some image urls are invalid"
+            isAlertPresented = true
+            return false
+        }
+        
+        return true
+    }
 }
 
 private struct ManagerEditField<Content: View>: View {
     
     let title: String
+    let padding: CGFloat
     @ViewBuilder var content: () -> Content
     
     var body: some View {
@@ -280,7 +350,7 @@ private struct ManagerEditField<Content: View>: View {
                 .padding(.trailing, .s16)
             
             content()
-                .padding(.s12)
+                .padding(padding)
                 .modifier(StrokeModifier())
         }
         .font(.system(size: 13, weight: .semibold))
@@ -296,6 +366,11 @@ private struct StrokeModifier: ViewModifier {
                     .foregroundColor(Color(hex: "#F0F2F1"))
             )
     }
+}
+
+private struct ImageEntry: Identifiable {
+    let id = UUID()
+    var text: String
 }
 
 #Preview {
