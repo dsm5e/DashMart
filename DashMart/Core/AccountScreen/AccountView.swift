@@ -20,6 +20,7 @@ struct AccountView: View {
     @State private var isManagerErrorPresented = false
     @ObservedObject private var managerService = ManagerService.shared
     @State private var avatarImage: UIImage?
+    @State private var loading = false
     
     private var attributedEmail: AttributedString {
         var string = AttributedString(email)
@@ -31,66 +32,75 @@ struct AccountView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                VStack {
-                    avatarSection
-                    Spacer()
-                    buttonSection
+                if loading {
+                    VStack {
+                        Spacer()
+                        ProgressView()
+                        Spacer()
+                    }
                 }
-                .padding(.horizontal, 24)
-                .padding(.top, 14)
-                .padding(.bottom, 22)
-                .navigationTitle("Profile")
-                .navigationBarTitleDisplayMode(.inline)
-                .zIndex(0)
-                
-                if isAvatarMenuPresented {
-                    ChangeAvatarMenu(isAvatarMenuPresented: $isAvatarMenuPresented, avatarImage: $avatarImage)
-                        .onTapGesture {
-                            isAvatarMenuPresented = false
-                        }
-                        .transition(AnyTransition.opacity.animation(.easeInOut(duration: 0.2)))
-                        .ignoresSafeArea(.all)
-                        .zIndex(1)
-                }
+                ZStack {
+                    VStack {
+                        avatarSection
+                        Spacer()
+                        buttonSection
+                    }
+                    .padding(.horizontal, 24)
+                    .padding(.top, 14)
+                    .padding(.bottom, 22)
+                    .navigationTitle("Profile")
+                    .navigationBarTitleDisplayMode(.inline)
+                    .zIndex(0)
                     
-            }
-            .sheet(isPresented: $isTermsPresented) {
-                TermsView()
-            }
-            .confirmationDialog(
-                "Account Type",
-                isPresented: $isTypeSelectionPresented,
-                actions: {
-                    Button("User") {
-                        managerService.logoutAsManager()
+                    if isAvatarMenuPresented {
+                        ChangeAvatarMenu(isAvatarMenuPresented: $isAvatarMenuPresented, avatarImage: $avatarImage)
+                            .onTapGesture {
+                                isAvatarMenuPresented = false
+                            }
+                            .transition(AnyTransition.opacity.animation(.easeInOut(duration: 0.2)))
+                            .ignoresSafeArea(.all)
+                            .zIndex(1)
                     }
-                    Button("Manager") {
-                        if managerService.needPassword {
-                            isManagerPasswordPresented = true
-                        } else {
-                            managerService.enterAsManager(nil)
+                    
+                }
+                .sheet(isPresented: $isTermsPresented) {
+                    TermsView()
+                }
+                .confirmationDialog(
+                    "Account Type",
+                    isPresented: $isTypeSelectionPresented,
+                    actions: {
+                        Button("User") {
+                            managerService.logoutAsManager()
+                        }
+                        Button("Manager") {
+                            if managerService.needPassword {
+                                isManagerPasswordPresented = true
+                            } else {
+                                managerService.enterAsManager(nil)
+                            }
                         }
                     }
+                )
+                .alert(
+                    "Enter manager password",
+                    isPresented: $isManagerPasswordPresented
+                ) {
+                    TextField("Enter password", text: $managerPassword)
+                    Button("OK") {
+                        isManagerErrorPresented = !managerService.enterAsManager(managerPassword)
+                        managerPassword = ""
+                    }
                 }
-            )
-            .alert(
-                "Enter manager password",
-                isPresented: $isManagerPasswordPresented
-            ) {
-                TextField("Enter password", text: $managerPassword)
-                Button("OK") {
-                    isManagerErrorPresented = !managerService.enterAsManager(managerPassword)
-                    managerPassword = ""
-                }
+                .alert(
+                    "Error",
+                    isPresented: $isManagerErrorPresented,
+                    actions: { Button("OK") { } },
+                    message: {
+                        Text("Invalid manager password")
+                    }
+                )
             }
-            .alert(
-                "Error",
-                isPresented: $isManagerErrorPresented,
-                actions: { Button("OK") { } },
-                message: {
-                    Text("Invalid manager password")
-                }
-            )
         }
         .task {
             name = (try? await StorageService.shared.getUserName()) ?? "UserName"
@@ -160,6 +170,7 @@ struct AccountView: View {
                 title: "Sign Out",
                 rightIcon: Image(.signout),
                 handler: {
+                    loading = true
                     Task {
                         @MainActor in
                         
@@ -167,6 +178,7 @@ struct AccountView: View {
                             managerService.logout()
                             router.openAuth()
                         }
+                        loading = false
                     }
                 },
                 titleColor: Color(hex: "#666C8E")
