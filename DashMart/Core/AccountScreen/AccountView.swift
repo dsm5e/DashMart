@@ -19,6 +19,8 @@ struct AccountView: View {
     @State private var isManagerPasswordPresented = false
     @State private var isManagerErrorPresented = false
     @ObservedObject private var managerService = ManagerService.shared
+    @State private var avatarImage: UIImage?
+    
     private var attributedEmail: AttributedString {
         var string = AttributedString(email)
         string.font = .systemFont(ofSize: 14)
@@ -30,85 +32,27 @@ struct AccountView: View {
         NavigationView {
             ZStack {
                 VStack {
-                    HStack {
-                        ZStack(alignment: .bottomTrailing) {
-                            Image(.productPlaceholder)
-                                .resizable()
-                                .frame(width: 100, height: 100)
-                                .clipShape(.rect(cornerRadius: 50))
-                            Button(
-                                action: {
-                                    withAnimation(.smooth) {
-                                        isAvatarMenuPresented = true
-                                    }
-                                },
-                                label: {
-                                    Image(.edit)
-                                        .offset(x: 5)
-                                }
-                            )
-                        }
-                        
-                        VStack(alignment: .leading) {
-                            Text(name)
-                                .foregroundColor(Color(hex: "#333647"))
-                                .font(.system(size: 16, weight: .semibold))
-                            Text(attributedEmail)
-                                .foregroundStyle(Color(hex: "#7C82A1"))
-                        }
-                        .padding(.leading, 40)
-                        Spacer()
-                    }
+                    avatarSection
                     Spacer()
-                    VStack(spacing: 22) {
-                        RoundedButton(
-                            title: "Type of account",
-                            rightIcon: Image(.angleRight),
-                            handler: {
-                                isTypeSelectionPresented = true
-                            },
-                            titleColor: Color(hex: "#666C8E")
-                        )
-                        RoundedButton(
-                            title: "Terms & Conditions",
-                            rightIcon: Image(.angleRight),
-                            handler: {
-                                isTermsPresented = true
-                            },
-                            titleColor: Color(hex: "#666C8E")
-                        )
-                        RoundedButton(
-                            title: "Sign Out",
-                            rightIcon: Image(.signout),
-                            handler: {
-                                Task {
-                                    @MainActor in
-                                    
-                                    if await AuthorizeService.shared.logout() {
-                                        managerService.logout()
-                                        router.openAuth()
-                                    }
-                                }
-                            },
-                            titleColor: Color(hex: "#666C8E")
-                        )
-                    }
+                    buttonSection
                 }
                 .padding(.horizontal, 24)
                 .padding(.top, 14)
                 .padding(.bottom, 22)
                 .navigationTitle("Profile")
                 .navigationBarTitleDisplayMode(.inline)
+                .zIndex(0)
                 
                 if isAvatarMenuPresented {
-                    ChangeAvatarMenu()
+                    ChangeAvatarMenu(isAvatarMenuPresented: $isAvatarMenuPresented, avatarImage: $avatarImage)
                         .onTapGesture {
-                            withAnimation(.smooth) {
-                                isAvatarMenuPresented = false
-                            }
+                            isAvatarMenuPresented = false
                         }
+                        .transition(AnyTransition.opacity.animation(.easeInOut(duration: 0.2)))
                         .ignoresSafeArea(.all)
+                        .zIndex(1)
                 }
+                    
             }
             .sheet(isPresented: $isTermsPresented) {
                 TermsView()
@@ -151,11 +95,94 @@ struct AccountView: View {
         .task {
             name = (try? await StorageService.shared.getUserName()) ?? "UserName"
             email = (try? await StorageService.shared.getUserEmail()) ?? "user@mail.com"
+            do {
+                avatarImage = try await StorageService.shared.getAvatarImage()
+            } catch {
+                avatarImage = nil
+                
+            }
+        }
+    }
+    
+    var avatarSection: some View {
+        HStack {
+            ZStack(alignment: .bottomTrailing) {
+                Image(uiImage: avatarImage ?? .productPlaceholder)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 100, height: 100)
+                    .clipShape(Circle())
+                    
+                Button(
+                    action: {
+                        withAnimation(.smooth) {
+                            isAvatarMenuPresented = true
+                        }
+                    },
+                    label: {
+                        Image(.edit)
+                            .offset(x: 5)
+                    }
+                )
+            }
+            
+            VStack(alignment: .leading) {
+                Text(name)
+                    .foregroundColor(Color(hex: "#333647"))
+                    .font(.system(size: 16, weight: .semibold))
+                Text(attributedEmail)
+                    .foregroundStyle(Color(hex: "#7C82A1"))
+            }
+            .padding(.leading, 40)
+            Spacer()
+        }
+    }
+    
+    var buttonSection: some View {
+        VStack(spacing: 22) {
+            RoundedButton(
+                title: "Type of account",
+                rightIcon: Image(.angleRight),
+                handler: {
+                    isTypeSelectionPresented = true
+                },
+                titleColor: Color(hex: "#666C8E")
+            )
+            RoundedButton(
+                title: "Terms & Conditions",
+                rightIcon: Image(.angleRight),
+                handler: {
+                    isTermsPresented = true
+                },
+                titleColor: Color(hex: "#666C8E")
+            )
+            RoundedButton(
+                title: "Sign Out",
+                rightIcon: Image(.signout),
+                handler: {
+                    Task {
+                        @MainActor in
+                        
+                        if await AuthorizeService.shared.logout() {
+                            managerService.logout()
+                            router.openAuth()
+                        }
+                    }
+                },
+                titleColor: Color(hex: "#666C8E")
+            )
         }
     }
 }
 
 private struct ChangeAvatarMenu: View {
+    @State private var isPhotoPickerPresnted = false
+    @State private var isCameraActive = false
+    @State private var capturedImage: UIImage?
+
+    @Binding var isAvatarMenuPresented: Bool
+    @Binding var avatarImage: UIImage?
+    
     var body: some View {
         ZStack {
             Color.clear
@@ -172,10 +199,10 @@ private struct ChangeAvatarMenu: View {
                     SeparatorView()
                     VStack(spacing: 20) {
                         AvatarMenuButton(
-                            title: "Take a photo",
+                            title: "Take a Selfie",
                             icon: Image(systemName: "camera"),
                             handler: {
-                                print("camera")
+                                self.isCameraActive = true
                             },
                             color: .black
                         )
@@ -184,7 +211,7 @@ private struct ChangeAvatarMenu: View {
                             title: "Choose from your file",
                             icon: Image(systemName: "folder"),
                             handler: {
-                                print("choose")
+                                isPhotoPickerPresnted = true
                             },
                             color: .black
                         )
@@ -193,7 +220,11 @@ private struct ChangeAvatarMenu: View {
                             title: "Delete Photo",
                             icon: Image(systemName: "trash"),
                             handler: {
-                                print("delete")
+                                Task {
+                                    isAvatarMenuPresented = false
+                                    avatarImage = nil
+                                    try? await StorageService.shared.deleteAvatarImage()
+                                }
                             },
                             color: Color(hex: "#E53935")
                         )
@@ -208,6 +239,18 @@ private struct ChangeAvatarMenu: View {
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .sheet(isPresented: $isPhotoPickerPresnted) {
+            ImagePicker(sourceType: .photoLibrary,
+                        avatarImage: self.$avatarImage,
+                        isAvatarMenuPresented: $isAvatarMenuPresented)
+            .ignoresSafeArea(.all)
+        }
+        .sheet(isPresented: $isCameraActive) {
+            ImagePicker(sourceType: .camera,
+                        avatarImage: self.$avatarImage,
+                        isAvatarMenuPresented: $isAvatarMenuPresented)
+            .ignoresSafeArea(.all)
+                }
     }
 }
 
