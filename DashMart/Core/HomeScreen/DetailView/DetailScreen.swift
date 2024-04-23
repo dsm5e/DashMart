@@ -41,7 +41,9 @@ struct DetailScreen: View {
                     )
                     Button(
                         action: {
-                            
+                            storage.addToCart(product.id)
+                        	storage.setBuyNowId(product.id)
+                        	isCartPresented = true
                         }, label: {
                             Text("Buy now")
                                 .modifier(DashRoundedTitle(style: .gray))

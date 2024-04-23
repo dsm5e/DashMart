@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		2D818D142BD2B25E00F65F87 /* NetworkManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7757B00F2BCD849E00C6F56A /* NetworkManager.framework */; };
 		2D818D152BD2B25E00F65F87 /* NetworkManager.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7757B00F2BCD849E00C6F56A /* NetworkManager.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		2D818D3F2BD6E83700F65F87 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D818D3E2BD6E83700F65F87 /* UIImage+Extension.swift */; };
+		2DBAAA8F2BD7AA6D00248525 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBAAA8E2BD7AA6D00248525 /* ImagePicker.swift */; };
 		3C1281512BCC2FC000DB8F49 /* DashMartApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C1281502BCC2FC000DB8F49 /* DashMartApp.swift */; };
 		3C1281532BCC2FC000DB8F49 /* HomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C1281522BCC2FC000DB8F49 /* HomeScreen.swift */; };
 		3C1281552BCC2FC100DB8F49 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3C1281542BCC2FC100DB8F49 /* Assets.xcassets */; };
@@ -56,6 +58,8 @@
 		77F87E5F2BCECC6400506EB7 /* RouterService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F87E5E2BCECC6400506EB7 /* RouterService.swift */; };
 		77F87E612BCECC8100506EB7 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F87E602BCECC8100506EB7 /* StorageService.swift */; };
 		77F87E632BCECF0200506EB7 /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F87E622BCECF0200506EB7 /* View+Extension.swift */; };
+		CA15549B2BD695C0002AE8AE /* 2024-04-2215.48.29-ezgif.com-video-to-gif-converter.gif in Resources */ = {isa = PBXBuildFile; fileRef = CA15549A2BD695C0002AE8AE /* 2024-04-2215.48.29-ezgif.com-video-to-gif-converter.gif */; };
+		CAE3954A2BD5A34D00AEA15A /* PlaymentMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAE395492BD5A34D00AEA15A /* PlaymentMethod.swift */; };
 		CAF7DC122BCD5A5800BCE0DF /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF7DC112BCD5A5800BCE0DF /* OnboardingView.swift */; };
 		CAF7DC142BCD5A6A00BCE0DF /* OnboardingPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF7DC132BCD5A6A00BCE0DF /* OnboardingPage.swift */; };
 		CAF7DC162BCD5A7900BCE0DF /* PageIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF7DC152BCD5A7800BCE0DF /* PageIndicator.swift */; };
@@ -67,6 +71,8 @@
 		F9ED78942BCFD382001EC482 /* DetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9ED78932BCFD382001EC482 /* DetailScreen.swift */; };
 		F9ED78972BCFD595001EC482 /* TitleDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9ED78962BCFD595001EC482 /* TitleDetail.swift */; };
 		F9ED78992BCFD976001EC482 /* ProductDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9ED78982BCFD976001EC482 /* ProductDetailView.swift */; };
+		F9ED789B2BCFE853001EC482 /* ButtonsDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9ED789A2BCFE853001EC482 /* ButtonsDetail.swift */; };
+		F9ED78BB2BD53D4A001EC482 /* SearchHistoryList.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9ED78BA2BD53D49001EC482 /* SearchHistoryList.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -101,6 +107,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2D818D3E2BD6E83700F65F87 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
+		2DBAAA8D2BD7030000248525 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		2DBAAA8E2BD7AA6D00248525 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		3C12814D2BCC2FC000DB8F49 /* DashMart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DashMart.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C1281502BCC2FC000DB8F49 /* DashMartApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashMartApp.swift; sourceTree = "<group>"; };
 		3C1281522BCC2FC000DB8F49 /* HomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreen.swift; sourceTree = "<group>"; };
@@ -141,6 +150,8 @@
 		77F87E5E2BCECC6400506EB7 /* RouterService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouterService.swift; sourceTree = "<group>"; };
 		77F87E602BCECC8100506EB7 /* StorageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
 		77F87E622BCECF0200506EB7 /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
+		CA15549A2BD695C0002AE8AE /* 2024-04-2215.48.29-ezgif.com-video-to-gif-converter.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "2024-04-2215.48.29-ezgif.com-video-to-gif-converter.gif"; sourceTree = "<group>"; };
+		CAE395492BD5A34D00AEA15A /* PlaymentMethod.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaymentMethod.swift; sourceTree = "<group>"; };
 		CAF7DC112BCD5A5800BCE0DF /* OnboardingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		CAF7DC132BCD5A6A00BCE0DF /* OnboardingPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingPage.swift; sourceTree = "<group>"; };
 		CAF7DC152BCD5A7800BCE0DF /* PageIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageIndicator.swift; sourceTree = "<group>"; };
@@ -152,6 +163,8 @@
 		F9ED78932BCFD382001EC482 /* DetailScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailScreen.swift; sourceTree = "<group>"; };
 		F9ED78962BCFD595001EC482 /* TitleDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleDetail.swift; sourceTree = "<group>"; };
 		F9ED78982BCFD976001EC482 /* ProductDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailView.swift; sourceTree = "<group>"; };
+		F9ED789A2BCFE853001EC482 /* ButtonsDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonsDetail.swift; sourceTree = "<group>"; };
+		F9ED78BA2BD53D49001EC482 /* SearchHistoryList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHistoryList.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -196,6 +209,7 @@
 		3C12814F2BCC2FC000DB8F49 /* DashMart */ = {
 			isa = PBXGroup;
 			children = (
+				2DBAAA8D2BD7030000248525 /* Info.plist */,
 				3C1281502BCC2FC000DB8F49 /* DashMartApp.swift */,
 				7758CDE52BCEDF970038E801 /* ContentView.swift */,
 				7757B02D2BCDA07500C6F56A /* Managers */,
@@ -203,6 +217,7 @@
 				77B5A1B62BD71BB800E86836 /* Utils */,
 				77F87E642BCECF0A00506EB7 /* Extensions */,
 				3C1281542BCC2FC100DB8F49 /* Assets.xcassets */,
+				CA15549A2BD695C0002AE8AE /* 2024-04-2215.48.29-ezgif.com-video-to-gif-converter.gif */,
 				776826632BCF03B40004F714 /* GoogleService-Info.plist */,
 				3C1281562BCC2FC100DB8F49 /* Preview Content */,
 			);
@@ -357,6 +372,7 @@
 			children = (
 				77B87D8E2BD073D50003A468 /* AccountView.swift */,
 				77B87D912BD0856E0003A468 /* TermsView.swift */,
+				2DBAAA8E2BD7AA6D00248525 /* ImagePicker.swift */,
 			);
 			path = AccountScreen;
 			sourceTree = "<group>";
@@ -377,6 +393,7 @@
 			children = (
 				7758CDE02BCED3A80038E801 /* Color+hex.swift */,
 				77F87E622BCECF0200506EB7 /* View+Extension.swift */,
+				2D818D3E2BD6E83700F65F87 /* UIImage+Extension.swift */,
 				77B5A1AC2BD7010500E86836 /* CGFloat+Extension.swift */,
 			);
 			path = Extensions;
@@ -387,7 +404,9 @@
 			children = (
 				F94506402BCE87F90017600B /* NavBarMenu.swift */,
 				F94506462BCE88760017600B /* TitleFilters.swift */,
+				F9ED78BA2BD53D49001EC482 /* SearchHistoryList.swift */,
 				F945064C2BCE88DC0017600B /* CustomButton.swift */,
+				CAE395492BD5A34D00AEA15A /* PlaymentMethod.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -518,6 +537,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3C1281582BCC2FC100DB8F49 /* Preview Assets.xcassets in Resources */,
+				CA15549B2BD695C0002AE8AE /* 2024-04-2215.48.29-ezgif.com-video-to-gif-converter.gif in Resources */,
 				3C1281552BCC2FC100DB8F49 /* Assets.xcassets in Resources */,
 				776826642BCF03B40004F714 /* GoogleService-Info.plist in Resources */,
 			);
@@ -532,6 +552,7 @@
 			files = (
 				7757B0222BCD888700C6F56A /* Entities.swift in Sources */,
 				7758CDE32BCEDD510038E801 /* RoundedButton.swift in Sources */,
+				CAE3954A2BD5A34D00AEA15A /* PlaymentMethod.swift in Sources */,
 				775E857C2BD5B2BC005E2E32 /* LocationService.swift in Sources */,
 				77F87E5D2BCECC0000506EB7 /* AuthorizeService.swift in Sources */,
 				7729E5F92BD48F820036C1ED /* CardButton.swift in Sources */,
@@ -541,6 +562,8 @@
 				77F87E632BCECF0200506EB7 /* View+Extension.swift in Sources */,
 				7757B0252BCD891B00C6F56A /* ProductsRequest.swift in Sources */,
 				7758CDE62BCEDF970038E801 /* ContentView.swift in Sources */,
+				2D818D3F2BD6E83700F65F87 /* UIImage+Extension.swift in Sources */,
+				2DBAAA8F2BD7AA6D00248525 /* ImagePicker.swift in Sources */,
 				77B5A1A92BD6FD3500E86836 /* ManagerScreen.swift in Sources */,
 				7768267C2BCF37BF0004F714 /* WishlistScreen.swift in Sources */,
 				F94506412BCE87F90017600B /* NavBarMenu.swift in Sources */,
@@ -563,6 +586,8 @@
 				77B5A1AF2BD7030E00E86836 /* ManagerEditScreen.swift in Sources */,
 				77F87E5F2BCECC6400506EB7 /* RouterService.swift in Sources */,
 				CAF7DC162BCD5A7900BCE0DF /* PageIndicator.swift in Sources */,
+				F9ED78BB2BD53D4A001EC482 /* SearchHistoryList.swift in Sources */,
+				7768265E2BCEFFAE0004F714 /* Manager.swift in Sources */,
 				CAF7DC142BCD5A6A00BCE0DF /* OnboardingPage.swift in Sources */,
 				CAF7DC182BCD5A8900BCE0DF /* OnboardingItem.swift in Sources */,
 				F9ED78992BCFD976001EC482 /* ProductDetailView.swift in Sources */,
@@ -712,6 +737,8 @@
 				DEVELOPMENT_TEAM = D6BK75VU2R;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DashMart/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "DashMart requires access to your phone’s camera.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Identify your location automatically";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -745,6 +772,8 @@
 				DEVELOPMENT_TEAM = D6BK75VU2R;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DashMart/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "DashMart requires access to your phone’s camera.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Identify your location automatically";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
