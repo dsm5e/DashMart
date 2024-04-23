@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SearchResultScreen: View {
-    @Binding var searchInput: String
+    @State var searchInput: String = ""
     @Binding var products: [ProductEntity]
     
     @Environment(\.presentationMode) var presentationMode

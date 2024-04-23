@@ -17,7 +17,7 @@ public enum NetworkError: Error {
 }
 
 public struct NetworkErrorEntity: Codable {
-    let message: [String]
-    let error: String
-    let statusCode: Int
+    public let message: [String]
+    public let error: String
+    public let statusCode: Int
 }

@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import BottomSheet
+import NetworkManager
 
 struct ManagerEditProduct: View {
     
@@ -18,9 +18,11 @@ struct ManagerEditProduct: View {
     @State private var category: CategoryEntity = .mock
     @State private var categories = [CategoryEntity]()
     @State private var products = [ProductEntity]()
-    @State private var isCategoriesPickerPresented = false
     @State private var searchInput = ""
     @State private var product: ProductEntity?
+    @State private var isAlertPresented = false
+    @State private var isDeleteAlertPresented = false
+    @State private var alertMessage = ""
     
     init(state: ManagerEditState) {
         self.state = state
@@ -29,79 +31,88 @@ struct ManagerEditProduct: View {
     
     var body: some View {
         VStack {
-            if state.status == .update || state.status == .delete {
+            VStack(spacing: .zero) {
+                if state.status == .update || state.status == .delete {
+                    SearchTextField(searchInput: $searchInput)
+                        .padding(.horizontal, .s20)
+                }
                 ZStack {
-                    VStack(spacing: .zero) {
-                        SearchTextField(searchInput: $searchInput)
-                        ForEach(products.filter { $0.title.contains(searchInput) }.prefix(6)) {
-                            product in
-                            
-                            Button(
-                                action: {
-                                    self.product = product
-                                    searchInput = ""
-                                },
-                                label: {
-                                    Text(product.title)
-                                        .font(.system(size: 12))
-                                        .padding(.vertical, .s4)
+                    if (state.status == .update || state.status == .delete), !searchInput.isEmpty {
+                        VStack {
+                            VStack {
+                                ForEach(products.filter { $0.title.lowercased().contains(searchInput.lowercased()) }.prefix(6)) {
+                                    product in
+                                    
+                                    Button(
+                                        action: {
+                                            self.product = product
+                                            searchInput = ""
+                                        },
+                                        label: {
+                                            Text(product.title)
+                                                .font(.system(size: 12))
+                                                .frame(maxWidth: .infinity)
+                                                .padding(.vertical, .s4)
+                                        }
+                                    )
                                 }
-                            )
-                        }
-                    }
-                }
-                .padding(.horizontal, .s20)
-            }
-            ScrollView(showsIndicators: false) {
-                VStack(spacing: .s16) {
-                    ManagerEditField(title: "Title") {
-                        TextField("", text: $title)
-                    }
-                    ManagerEditField(title: "Price") {
-                        TextField(
-                            "",
-                            value: $price,
-                            format: .currency(
-                                code: location.currencyCode
-                            )
-                        )
-                    }
-                    ManagerEditField(
-                        title: "Category",
-                        content: {
-//                            Button(
-//                                action: {
-//                                    isCategoriesPickerPresented = true
-//                                },
-//                                label: {
-//                                    HStack {
-//                                        Text(category.name)
-//                                        Spacer()
-//                                        Image(systemName: "chevron.down")
-//                                    }
-//                                    .foregroundColor(.black)
-//                                }
-//                            )
-                            Picker("", selection: $category) {
-                                ForEach(categories) {
-                                    Text($0.name)
-                                        .tag($0)
-                                }
+                                SeparatorView()
                             }
-                            .tint(Color.black)
-                            .frame(maxWidth: .infinity, maxHeight: 15, alignment: .leading)
+                            .background(Color.white)
+                            Spacer()
                         }
-                    )
-                    ManagerEditField(title: "Description") {
-                        TextField("", text: $description)
+                        .zIndex(1)
                     }
+                    
+                    ScrollView(showsIndicators: false) {
+                        VStack(spacing: .s16) {
+                            ManagerEditField(title: "Title") {
+                                TextField("", text: $title)
+                            }
+                            .disabled(state.status == .delete)
+                            ManagerEditField(title: "Price") {
+                                TextField(
+                                    "",
+                                    value: $price,
+                                    format: .currency(
+                                        code: location.currencyCode
+                                    )
+                                )
+                            }
+                            .disabled(state.status == .delete)
+                            ManagerEditField(
+                                title: "Category",
+                                content: {
+                                    Picker("", selection: $category) {
+                                        ForEach(categories) {
+                                            Text($0.name)
+                                                .tag($0)
+                                        }
+                                    }
+                                    .tint(Color.black)
+                                    .frame(maxWidth: .infinity, maxHeight: 15, alignment: .leading)
+                                }
+                            )
+                            ManagerEditField(title: "Description") {
+                                TextField("", text: $description)
+                            }
+                            .disabled(state.status == .delete)
+                        }
+                        .padding(.horizontal, .s20)
+                    }
+                    .padding(.top, .s16)
+                    .zIndex(0)
                 }
-                .padding(.horizontal, .s20)
             }
+            
             Button(
                 action: {
-                    Task {
-                        await proceed()
+                    if state.status == .delete {
+                        isDeleteAlertPresented = true
+                    } else {
+                        Task {
+                            await proceed()
+                        }
                     }
                 },
                 label: {
@@ -115,28 +126,47 @@ struct ManagerEditProduct: View {
             )
             .padding(.horizontal, .s20)
         }
+        
         .task {
             await getProductsAndCategories()
         }
         .onChange(of: product) {
             product in
             
-            if let product {
-                title = product.title
-                price = location.exchange(product.price)
-                description = product.description
-                category = product.category
-            }
+            title = product?.title ?? ""
+            price = location.exchange(product?.price ?? .zero)
+            description = product?.description ?? ""
+            category = product?.category ?? categories.first ?? .mock
         }
         .onChange(of: categories) {
             _ in
             
             category = categories.first!
         }
-        .bottomSheet(
-            isPresented: $isCategoriesPickerPresented) {
-                CategoriesPicker(selection: $category, categories: categories)
+        .confirmationDialog(
+            "Are you sure want to delete item?",
+            isPresented: $isDeleteAlertPresented,
+            actions: {
+                Button(
+                    "Delete this product",
+                    role: .destructive) {
+                        Task {
+                            await proceed()
+                        }
+                    }
             }
+        )
+        .alert(
+            "",
+            isPresented: $isAlertPresented,
+            actions: {
+                Button("OK") { }
+            },
+            message: {
+                Text(alertMessage)
+                    .font(.system(size: 12))
+            }
+        )
     }
 }
 
@@ -164,7 +194,7 @@ extension ManagerEditProduct {
     private func proceed() async {
         switch state.status {
         case .add:
-            await NetworkService.client.sendRequest(
+            switch await NetworkService.client.sendRequest(
                 request: ProductRequestPost(
                     title: title,
                     price: location.exchange(price),
@@ -172,12 +202,20 @@ extension ManagerEditProduct {
                     categoryId: 1,
                     images: ["https://i.imgur.com/bBEWTKx.jpeg", "https://i.imgur.com/bBEWTKx.jpeg"]
                 )
-            )
+            ) {
+            case .success(let response):
+                alertMessage = "Product \"\(response.title)\" (id: \(response.id) was created."
+                isAlertPresented = true
+            case .failure(let error):
+                handleError(error)
+            }
         case .update:
             guard let product else {
+                alertMessage = "Select product to update"
+                isAlertPresented = true
                 return
             }
-            let result = await NetworkService.client.sendRequest(
+            switch await NetworkService.client.sendRequest(
                 request: ProductRequestUpdate(
                     id: product.id,
                     title: title,
@@ -186,31 +224,47 @@ extension ManagerEditProduct {
                     categoryId: category.id,
                     images: ["https://i.imgur.com/bBEWTKx.jpeg"]
                 )
-            )
-            print(result)
-        default:
-            break
-        }
-    }
-}
-
-private struct CategoriesPicker: View {
-    @Binding var selection: CategoryEntity
-    let categories: [CategoryEntity]
-    
-    var body: some View {
-        VStack {
-            Picker("", selection: $selection) {
-                ForEach(categories) {
-                    Text($0.name)
-                        .tag($0)
+            ) {
+            case .success(let response):
+                alertMessage = "Product \"(\(response.title)\" (id: \(response.id)) was updated"
+                isAlertPresented = true
+                self.product = response
+            case .failure(let error):
+                handleError(error)
+            }
+        case .delete:
+            if let product {
+                switch await NetworkService.client.sendRequest(request: ProductRequestDelete(id: product.id)) {
+                case .success(let success):
+                    alertMessage = success ? "Product \(product.id) was deleted" : "Something went wrong"
+                    isAlertPresented = true
+                    if success {
+                        self.product = nil
+                    }
+                case .failure(let error):
+                    handleError(error)
                 }
             }
-            .pickerStyle(.wheel)
         }
-        .onChange(of: selection) {
-            print($0.name)
+        await getProductsAndCategories()
+    }
+    
+    private func handleError(_ error: Error) {
+        let errorMessage: String
+        if let nError = error as? NetworkError {
+            errorMessage = switch nError {
+            case .apiError(let networkErrorEntity):
+                networkErrorEntity?.message.joined(separator: ", ") ?? "Something went wrong"
+            case .internal(let error):
+                error.localizedDescription
+            default:
+                "Something went wrong"
+            }
+        } else {
+            errorMessage = error.localizedDescription
         }
+        alertMessage = errorMessage
+        isAlertPresented = true
     }
 }
 

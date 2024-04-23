@@ -120,10 +120,12 @@ struct HomeScreen: View {
             }
         }
         .padding(.top)
-        .task {
-            loading = true
-            await getProducts()
-            loading = false
+        .onAppear {
+            Task {
+                loading = true
+                await getProducts()
+                loading = false
+            }
         }
         .onChange(of: selectedCategory) {
             value in
@@ -140,7 +142,6 @@ struct HomeScreen: View {
         .animation(.linear, value: isShowingAllCategories)
         .fullScreenCover(isPresented: $isShowingSearchResults) {
             SearchResultScreen(
-                searchInput: $searchInput,
                 products: $products
             )
         }
