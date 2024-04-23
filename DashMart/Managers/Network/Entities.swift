@@ -16,6 +16,14 @@ struct ProductEntity: Codable, Identifiable, Equatable {
     let creationAt: Date?
     let updatedAt: Date?
     let category: CategoryEntity
+    
+    var fixedImages: [String] {
+        images.map {
+            $0.replacingOccurrences(of: "\"", with: "")
+                .replacingOccurrences(of: "[", with: "")
+                .replacingOccurrences(of: "]", with: "")
+        }
+    }
 }
 
 struct CategoryEntity: Codable, Identifiable, Hashable {

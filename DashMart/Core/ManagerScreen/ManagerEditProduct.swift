@@ -170,7 +170,7 @@ extension ManagerEditProduct {
                     price: location.exchange(price),
                     description: description,
                     categoryId: 1,
-                    images: ["https://image.jpeg"]
+                    images: ["https://i.imgur.com/bBEWTKx.jpeg", "https://i.imgur.com/bBEWTKx.jpeg"]
                 )
             )
         case .update:
@@ -184,7 +184,7 @@ extension ManagerEditProduct {
                     price: location.exchange(price),
                     description: description,
                     categoryId: category.id,
-                    images: ["https://i.imgur.com/GJi73H0.jpeg"]
+                    images: ["https://i.imgur.com/bBEWTKx.jpeg"]
                 )
             )
             print(result)

@@ -110,7 +110,7 @@ struct CartScreen: View {
                                             )
                                         }
                                     )
-                                    KFImage(URL(string: product.images.first ?? ""))
+                                    KFImage(URL(string: product.fixedImages.first ?? ""))
                                         .placeholder {
                                             Image(.productPlaceholder)
                                                 .resizable()
