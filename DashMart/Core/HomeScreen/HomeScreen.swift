@@ -33,6 +33,7 @@ struct HomeScreen: View {
     
     // Filter States
     @State private var isShowingFilters = false
+    @State private var shouldCloseBottomSheet = false
     @State private var filterText = ""
     @State private var minPrice: Double = 0
     @State private var maxPrice: Double = 0
@@ -185,6 +186,7 @@ struct HomeScreen: View {
                 }
 
                 Spacer()
+                
                 Button("Apply", action: applyFilters)
                     .font(.system(size: 12))
                     .foregroundColor(Color(hex: "#FFFFFF"))
@@ -193,6 +195,7 @@ struct HomeScreen: View {
                     .clipShape(RoundedRectangle(cornerRadius: 4))
                     .padding(.bottom, 50)
             }
+               
             .padding(.horizontal)
             .background(Color.white)
         }
