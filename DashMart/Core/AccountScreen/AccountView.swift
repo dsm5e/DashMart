@@ -20,6 +20,7 @@ struct AccountView: View {
     @State private var isManagerErrorPresented = false
     @ObservedObject private var managerService = ManagerService.shared
     @State private var avatarImage: UIImage?
+    @State private var loading = false
     
     private var attributedEmail: AttributedString {
         var string = AttributedString(email)
@@ -31,66 +32,75 @@ struct AccountView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                VStack {
-                    avatarSection
-                    Spacer()
-                    buttonSection
+                if loading {
+                    VStack {
+                        Spacer()
+                        ProgressView()
+                        Spacer()
+                    }
                 }
-                .padding(.horizontal, 24)
-                .padding(.top, 14)
-                .padding(.bottom, 22)
-                .navigationTitle("Profile")
-                .navigationBarTitleDisplayMode(.inline)
-                .zIndex(0)
-                
-                if isAvatarMenuPresented {
-                    ChangeAvatarMenu(isAvatarMenuPresented: $isAvatarMenuPresented, avatarImage: $avatarImage)
-                        .onTapGesture {
-                            isAvatarMenuPresented = false
-                        }
-                        .transition(AnyTransition.opacity.animation(.easeInOut(duration: 0.2)))
-                        .ignoresSafeArea(.all)
-                        .zIndex(1)
-                }
+                ZStack {
+                    VStack {
+                        avatarSection
+                        Spacer()
+                        buttonSection
+                    }
+                    .padding(.horizontal, 24)
+                    .padding(.top, 14)
+                    .padding(.bottom, 22)
+                    .navigationTitle("Profile")
+                    .navigationBarTitleDisplayMode(.inline)
+                    .zIndex(0)
                     
-            }
-            .sheet(isPresented: $isTermsPresented) {
-                TermsView()
-            }
-            .confirmationDialog(
-                "Account Type",
-                isPresented: $isTypeSelectionPresented,
-                actions: {
-                    Button("User") {
-                        managerService.logoutAsManager()
+                    if isAvatarMenuPresented {
+                        ChangeAvatarMenu(isAvatarMenuPresented: $isAvatarMenuPresented, avatarImage: $avatarImage)
+                            .onTapGesture {
+                                isAvatarMenuPresented = false
+                            }
+                            .transition(AnyTransition.opacity.animation(.easeInOut(duration: 0.2)))
+                            .ignoresSafeArea(.all)
+                            .zIndex(1)
                     }
-                    Button("Manager") {
-                        if managerService.needPassword {
-                            isManagerPasswordPresented = true
-                        } else {
-                            managerService.enterAsManager(nil)
+                    
+                }
+                .sheet(isPresented: $isTermsPresented) {
+                    TermsView()
+                }
+                .confirmationDialog(
+                    "Account Type",
+                    isPresented: $isTypeSelectionPresented,
+                    actions: {
+                        Button("User") {
+                            managerService.logoutAsManager()
+                        }
+                        Button("Manager") {
+                            if managerService.needPassword {
+                                isManagerPasswordPresented = true
+                            } else {
+                                managerService.enterAsManager(nil)
+                            }
                         }
                     }
+                )
+                .alert(
+                    "Enter manager password",
+                    isPresented: $isManagerPasswordPresented
+                ) {
+                    TextField("Enter password", text: $managerPassword)
+                    Button("OK") {
+                        isManagerErrorPresented = !managerService.enterAsManager(managerPassword)
+                        managerPassword = ""
+                    }
                 }
-            )
-            .alert(
-                "Enter manager password",
-                isPresented: $isManagerPasswordPresented
-            ) {
-                TextField("Enter password", text: $managerPassword)
-                Button("OK") {
-                    isManagerErrorPresented = !managerService.enterAsManager(managerPassword)
-                    managerPassword = ""
-                }
+                .alert(
+                    "Error",
+                    isPresented: $isManagerErrorPresented,
+                    actions: { Button("OK") { } },
+                    message: {
+                        Text("Invalid manager password")
+                    }
+                )
             }
-            .alert(
-                "Error",
-                isPresented: $isManagerErrorPresented,
-                actions: { Button("OK") { } },
-                message: {
-                    Text("Invalid manager password")
-                }
-            )
         }
         .task {
             name = (try? await StorageService.shared.getUserName()) ?? "UserName"
@@ -160,6 +170,7 @@ struct AccountView: View {
                 title: "Sign Out",
                 rightIcon: Image(.signout),
                 handler: {
+                    loading = true
                     Task {
                         @MainActor in
                         
@@ -167,6 +178,7 @@ struct AccountView: View {
                             managerService.logout()
                             router.openAuth()
                         }
+                        loading = false
                     }
                 },
                 titleColor: Color(hex: "#666C8E")
@@ -194,10 +206,10 @@ private struct ChangeAvatarMenu: View {
                     Text("Change your picture")
                         .font(.system(size: 20, weight: .semibold))
                         .foregroundColor(.black)
-                        .padding(.top, 24)
-                        .padding(.bottom, 16)
+                        .padding(.top, .s24)
+                        .padding(.bottom, .s16)
                     SeparatorView()
-                    VStack(spacing: 20) {
+                    VStack(spacing: .s20) {
                         AvatarMenuButton(
                             title: "Take a Selfie",
                             icon: Image(systemName: "camera"),
@@ -229,12 +241,12 @@ private struct ChangeAvatarMenu: View {
                             color: Color(hex: "#E53935")
                         )
                     }
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 20)
+                    .padding(.horizontal, .s16)
+                    .padding(.vertical, .s20)
                 }
                 .frame(width: 300)
                 .background(Color(hex: "#FEFEFE"))
-                .clipShape(.rect(cornerRadius: 12))
+                .clipShape(.rect(cornerRadius: .s12))
                 Spacer()
             }
         }
@@ -268,7 +280,7 @@ private struct AvatarMenuButton: View {
             },
             label: {
                 VStack(alignment: .leading) {
-                    HStack(spacing: 16) {
+                    HStack(spacing: .s16) {
                         icon
                             .frame(width: 18, height: 18)
                         Text(title)
@@ -276,11 +288,11 @@ private struct AvatarMenuButton: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                     }
                     .foregroundColor(color)
-                    .padding(.horizontal, 16)
+                    .padding(.horizontal, .s16)
                 }
                 .frame(height: 60)
                 .background(Color(hex: "#F5F5F5"))
-                .clipShape(.rect(cornerRadius: 8))
+                .clipShape(.rect(cornerRadius: .s8))
             }
         )
     }

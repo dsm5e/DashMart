@@ -86,6 +86,10 @@ final class LocationService: NSObject, ObservableObject {
         value * region.exchangeRate
     }
     
+    func revertExchange(_ value: Double) -> Double {
+        (value / region.exchangeRate).rounded()
+    }
+    
     func setCountryManual(_ value: String) {
         locationManager.stopUpdatingLocation()
         setCountry(value)

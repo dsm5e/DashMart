@@ -11,7 +11,7 @@ struct OnboardingPage: View {
     var onboardingItem: OnboardingItem
 
     var body: some View {
-        VStack(spacing: 20) {
+        VStack(spacing: .s20) {
             Image(onboardingItem.imageName)
                 .resizable()
                 .aspectRatio(contentMode: .fit)

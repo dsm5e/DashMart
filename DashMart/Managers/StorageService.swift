@@ -44,16 +44,24 @@ final actor StorageService: ObservableObject {
     
     private init() {
         Task {
-            await getWishlist()
-            await getCart()
+            await reload()
         }
     }
     
-    @MainActor
+    func reload() async {
+        await getWishlist()
+        await getCart()
+    }
+    
     func logout() async {
-        wishlistIds = []
-        try? await saveCart()
-        cart = [:]
+        try? await save()
+        userName = nil
+        userEmail = nil
+        await MainActor.run {
+            wishlistIds = []
+            cart = [:]
+        }
+        
     }
     
     func getUserName() async throws -> String? {
@@ -199,6 +207,11 @@ final actor StorageService: ObservableObject {
     @MainActor
     func save() async throws {
         _ = await (try saveCart(), try saveWishlist())
+    }
+    
+    @MainActor
+    func setBuyNowId(_ id: Int) {
+        selectedCardIds = [id]
     }
     
     @MainActor

@@ -21,6 +21,7 @@ final actor AuthorizeService {
     
     func authorize(email: String, password: String) async throws {
         try await Auth.auth().signIn(withEmail: email, password: password)
+        await StorageService.shared.reload()
     }
     
     func register(username: String, email: String, password: String) async throws {
@@ -36,8 +37,8 @@ final actor AuthorizeService {
     
     func logout() async -> Bool {
         do {
-            try Auth.auth().signOut()
             await StorageService.shared.logout()
+            try Auth.auth().signOut()
             return true
         } catch {
             return false
