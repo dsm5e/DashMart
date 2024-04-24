@@ -5,6 +5,7 @@
 //  Created by Максим Самороковский on 16.04.2024.
 //
 
+
 import SwiftUI
 
 struct SearchResultScreen: View {
@@ -89,6 +90,8 @@ struct SearchResultScreen: View {
             
             filteredProducts = products.filter { $0.title.contains(value) }
             isShowingSearchHistory = false
+            
+            storage.saveSearchHistory(value)
         }
         .onAppear {
             filteredProducts = products

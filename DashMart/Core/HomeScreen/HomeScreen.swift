@@ -35,7 +35,7 @@ struct HomeScreen: View {
     @State private var isShowingFilters = false
     @State private var filterText = ""
     @State private var minPrice: Double = 0
-    @State private var maxPrice: Double = 100000 
+    @State private var maxPrice: Double = 1000
     
     var body: some View {
         VStack(spacing: 16) {
@@ -157,31 +157,39 @@ struct HomeScreen: View {
         .bottomSheet(isPresented: $isShowingFilters, detents: [.medium()]) {
             VStack(spacing: 16) {
                 Text("Filter Products")
-                    .font(.title)
+                    .font(.system(size: 16))
                     .padding()
                 TextField("Filter by name", text: $filterText)
-                    .padding()
+                    .padding(.bottom)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                 HStack {
                     Text("Min Price:")
-                    Slider(value: $minPrice, in: 0...100000, step: 1)
+                    Slider(value: $minPrice, in: 0...1000, step: 1)
                     Text("\(Int(minPrice))")
                         .padding(.horizontal)
-                        .onChange(of: minPrice) { _ in
-                            applyFilters()
-                        }
                 }
+                .onChange(of: minPrice) { _ in
+                    applyFilters()
+                }
+
                 HStack {
                     Text("Max Price:")
-                    Slider(value: $maxPrice, in: 0...100000, step: 1)
+                    Slider(value: $maxPrice, in: 0...1000, step: 1)
                     Text("\(Int(maxPrice))")
                         .padding(.horizontal)
-                        .onChange(of: maxPrice) { _ in
-                            applyFilters()
-                        }
                 }
+                .onChange(of: maxPrice) { _ in
+                    applyFilters()
+                }
+
+                Spacer()
                 Button("Apply", action: applyFilters)
-                    .padding()
+                    .font(.system(size: 12))
+                    .foregroundColor(Color(hex: "#FFFFFF"))
+                    .frame(width: 167, height: 45)
+                    .background(Color(hex: "#67C4A7"))
+                    .clipShape(RoundedRectangle(cornerRadius: 4))
+                    .padding(.bottom, 50)
             }
             .padding(.horizontal)
             .background(Color.white)
@@ -189,7 +197,7 @@ struct HomeScreen: View {
     }
     
     func applyFilters() {
-        if filterText.isEmpty && minPrice == 0 && maxPrice == 100000 {
+        if filterText.isEmpty && minPrice == 0 && maxPrice == 1000 {
             isShowingFilters = false
             filteredProducts = products
             return

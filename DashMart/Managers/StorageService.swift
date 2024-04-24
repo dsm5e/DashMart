@@ -24,7 +24,7 @@ final actor StorageService: ObservableObject {
     @MainActor @Published private(set) var wishlistIds = [Int]()
     @MainActor @Published private(set) var cart = [Int: Int]()
     @MainActor @Published private(set) var selectedCardIds = Set<Int>()
-    @MainActor @Published private(set) var avatarImage: UIImage? 
+    @MainActor @Published private(set) var avatarImage: UIImage?
     
     @MainActor var cartCount: Int {
         cart.reduce(0) {
@@ -284,7 +284,6 @@ final actor StorageService: ObservableObject {
     
     
     // MARK: - SearchResult
-    // TODO: - implement firebase
     @MainActor
     var searchHistory: [String] {
         get {
@@ -295,9 +294,33 @@ final actor StorageService: ObservableObject {
         }
     }
     
+    @MainActor
+    func saveSearchHistory(_ searchText: String) {
+        guard !searchText.isEmpty else { return }
+        var history = searchHistory
+        if !history.contains(searchText) {
+            history.insert(searchText, at: 0)
+            let limitedHistory = Array(history.prefix(10))
+            searchHistory = limitedHistory
+        }
+    }
+    
+    @MainActor
     func clearSearchHistory() {
         Task {
             UserDefaults.standard.set([], forKey: "SearchHistory")
+            objectWillChange.send()
         }
+    }
+    
+    @MainActor
+    func removeSearchHistory(at index: Int) {
+        var history = searchHistory
+        guard index >= 0 && index < history.count else {
+            return
+        }
+        history.remove(at: index)
+        searchHistory = history
+        objectWillChange.send()
     }
 }
