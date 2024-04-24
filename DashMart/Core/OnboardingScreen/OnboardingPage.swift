@@ -14,8 +14,10 @@ struct OnboardingPage: View {
         VStack(spacing: .s20) {
             Image(onboardingItem.imageName)
                 .resizable()
-                .aspectRatio(contentMode: .fit)
+                .aspectRatio(contentMode: .fill)
+                .clipShape(OnboardingShape())
                 .padding(.horizontal, 10)
+
 
             Text(onboardingItem.title)
                 .font(.title)
