@@ -11,6 +11,7 @@
 		2D818D152BD2B25E00F65F87 /* NetworkManager.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7757B00F2BCD849E00C6F56A /* NetworkManager.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		2D818D3F2BD6E83700F65F87 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D818D3E2BD6E83700F65F87 /* UIImage+Extension.swift */; };
 		2DBAAA8F2BD7AA6D00248525 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBAAA8E2BD7AA6D00248525 /* ImagePicker.swift */; };
+		2DD0148F2BD92FCE00EB737D /* OnboardingShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD0148E2BD92FCE00EB737D /* OnboardingShape.swift */; };
 		3C1281512BCC2FC000DB8F49 /* DashMartApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C1281502BCC2FC000DB8F49 /* DashMartApp.swift */; };
 		3C1281532BCC2FC000DB8F49 /* HomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C1281522BCC2FC000DB8F49 /* HomeScreen.swift */; };
 		3C1281552BCC2FC100DB8F49 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3C1281542BCC2FC100DB8F49 /* Assets.xcassets */; };
@@ -111,6 +112,7 @@
 		2D818D3E2BD6E83700F65F87 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		2DBAAA8D2BD7030000248525 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		2DBAAA8E2BD7AA6D00248525 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		2DD0148E2BD92FCE00EB737D /* OnboardingShape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingShape.swift; sourceTree = "<group>"; };
 		3C12814D2BCC2FC000DB8F49 /* DashMart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DashMart.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C1281502BCC2FC000DB8F49 /* DashMartApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashMartApp.swift; sourceTree = "<group>"; };
 		3C1281522BCC2FC000DB8F49 /* HomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreen.swift; sourceTree = "<group>"; };
@@ -266,6 +268,7 @@
 			children = (
 				CAF7DC112BCD5A5800BCE0DF /* OnboardingView.swift */,
 				CAF7DC132BCD5A6A00BCE0DF /* OnboardingPage.swift */,
+				2DD0148E2BD92FCE00EB737D /* OnboardingShape.swift */,
 				CAF7DC152BCD5A7800BCE0DF /* PageIndicator.swift */,
 				CAF7DC172BCD5A8900BCE0DF /* OnboardingItem.swift */,
 			);
@@ -556,6 +559,7 @@
 			files = (
 				7757B0222BCD888700C6F56A /* Entities.swift in Sources */,
 				7758CDE32BCEDD510038E801 /* RoundedButton.swift in Sources */,
+				2DD0148F2BD92FCE00EB737D /* OnboardingShape.swift in Sources */,
 				7784352D2BD8382000776D08 /* ManagerEditField.swift in Sources */,
 				CAE3954A2BD5A34D00AEA15A /* PlaymentMethod.swift in Sources */,
 				778435292BD833CF00776D08 /* ManagerEditCategory.swift in Sources */,
