@@ -35,7 +35,7 @@ struct HomeScreen: View {
     @State private var isShowingFilters = false
     @State private var filterText = ""
     @State private var minPrice: Double = 0
-    @State private var maxPrice: Double = 1000
+    @State private var maxPrice: Double = 0
     
     var body: some View {
         VStack(spacing: 16) {
@@ -165,6 +165,7 @@ struct HomeScreen: View {
                 HStack {
                     Text("Min Price:")
                     Slider(value: $minPrice, in: 0...1000, step: 1)
+                        .tint(Color(hex: "#67C4A7"))
                     Text("\(Int(minPrice))")
                         .padding(.horizontal)
                 }
@@ -175,6 +176,7 @@ struct HomeScreen: View {
                 HStack {
                     Text("Max Price:")
                     Slider(value: $maxPrice, in: 0...1000, step: 1)
+                        .tint(Color(hex: "#67C4A7"))
                     Text("\(Int(maxPrice))")
                         .padding(.horizontal)
                 }
