@@ -91,6 +91,7 @@ struct SearchResultScreen: View {
             filteredProducts = products.filter { $0.title.contains(value) }
             isShowingSearchHistory = false
             
+            // перенести в метод отвечающий за ввод 
             storage.saveSearchHistory(value)
         }
         .onAppear {
