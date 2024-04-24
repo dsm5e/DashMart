@@ -32,7 +32,7 @@ struct HomeScreen: View {
     }
     
     var body: some View {
-        VStack(spacing: 16) {
+        VStack(spacing: .s16) {
             NavBarMenu(
                 storage: storage,
                 location: .shared,
@@ -43,7 +43,7 @@ struct HomeScreen: View {
                     isShowingLocation = true
                 }
             )
-            .padding(.horizontal, 20)
+            .padding(.horizontal, .s20)
             
             Button(
                 action: {
@@ -54,7 +54,7 @@ struct HomeScreen: View {
                         .disabled(true)
                 }
             )
-            .padding(.horizontal, 20)
+            .padding(.horizontal, .s20)
             
             if loading {
                 Spacer()
@@ -86,11 +86,11 @@ struct HomeScreen: View {
                         )
                     }
                 }
-                .padding(.horizontal, 20)
+                .padding(.horizontal, .s20)
                 
                 
                 TitleFilters(text: "Products")
-                    .padding(.horizontal, 20)
+                    .padding(.horizontal, .s20)
                 
                 ScrollView {
                     LazyVGrid(
@@ -115,15 +115,17 @@ struct HomeScreen: View {
                             )
                         }
                     }
-                    .padding(.horizontal, 20)
+                    .padding(.horizontal, .s20)
                 }
             }
         }
         .padding(.top)
-        .task {
-            loading = true
-            await getProducts()
-            loading = false
+        .onAppear {
+            Task {
+                loading = true
+                await getProducts()
+                loading = false
+            }
         }
         .onChange(of: selectedCategory) {
             value in
@@ -140,7 +142,6 @@ struct HomeScreen: View {
         .animation(.linear, value: isShowingAllCategories)
         .fullScreenCover(isPresented: $isShowingSearchResults) {
             SearchResultScreen(
-                searchInput: $searchInput,
                 products: $products
             )
         }
@@ -160,7 +161,7 @@ struct HomeScreen: View {
 
 extension HomeScreen {
     func getProducts() async {
-        switch await NetworkService.client.sendRequest(request: ProductsRequest(categoryId: selectedCategory)) {
+        switch await NetworkService.client.sendRequest(request: ProductsRequest()) {
         case .success(let result):
             products = result
             filteredProducts = products
@@ -170,11 +171,9 @@ extension HomeScreen {
                 categoriesFrequency[$0.category] = categoriesFrequency[$0.category, default: 0] + 1
             }
             let sortedCategories = categoriesFrequency.sorted { $0.value > $1.value }.map { $0.key }
-            if categories.isEmpty {
-                topCategories = sortedCategories.prefix(categoriesInRow - 1) + [.all]
-                if sortedCategories.count + 1 > categoriesInRow {
-                    otherCategories = Array(sortedCategories[(categoriesInRow - 1)...])
-                }
+            topCategories = sortedCategories.prefix(categoriesInRow - 1) + [.all]
+            if sortedCategories.count + 1 > categoriesInRow {
+                otherCategories = Array(sortedCategories[(categoriesInRow - 1)...])
             }
         case .failure(let error):
             print(error)

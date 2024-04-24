@@ -45,9 +45,9 @@ struct AuthorizeView: View {
                         VStack {
                             if store.state.loginType == .signUp {
                                 Text("Complete your account")
-                                    .font(.system(size: 24, weight: .bold))
+                                    .font(.system(size: 16, weight: .bold))
                                     .foregroundColor(.black)
-                                    .padding(.vertical, 32)
+                                    .padding(.vertical, .s32)
                             }
                             VStack {
                                 if store.state.loginType == .signUp {
@@ -69,12 +69,12 @@ struct AuthorizeView: View {
                                             }
                                         }
                                     )
-                                    .font(.system(size: 16, weight: .medium))
+                                    .font(.system(size: .s16, weight: .medium))
                                     .foregroundColor(.gray)
-                                    .padding(.init(top: .zero, leading: 16, bottom: .zero, trailing: 16))
+                                    .padding(.init(top: .zero, leading: .s16, bottom: .zero, trailing: .s16))
                                     .frame(height: 52)
                                     .background(Color(hex: "#F6F8FE"))
-                                    .clipShape(.rect(cornerRadius: 24))
+                                    .clipShape(.rect(cornerRadius: .s24))
                                     .padding(.top, 12)
                                 }
                             }
@@ -102,7 +102,7 @@ struct AuthorizeView: View {
                                         .frame(maxWidth: .infinity, minHeight: 56)
                                         .foregroundColor(.white)
                                         .background(Color(hex: "#67C4A7"))
-                                        .clipShape(.rect(cornerRadius: 24))
+                                        .clipShape(.rect(cornerRadius: .s24))
                                 }
                             )
                             
@@ -120,11 +120,11 @@ struct AuthorizeView: View {
                                 Text(store.state.loginType == .signIn ? "Sign Up" : "Sign In")
                                     .foregroundStyle(Color(hex: "#67C4A7"))
                             }
-                            .font(.system(size: 16, weight: .semibold))
+                            .font(.system(size: .s16, weight: .semibold))
                         }
                     )
                 }
-                .padding(20)
+                .padding(.s20)
                 .allowsHitTesting(!store.state.loader)
                 
                 if store.state.loader {
@@ -213,7 +213,7 @@ struct LoginTextField: View {
                     .foregroundColor(Color(hex: "#78828A"))
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
-            HStack(spacing: 24) {
+            HStack(spacing: .s24) {
                 if secured, isSecured {
                     SecureField(
                         "",
@@ -222,7 +222,7 @@ struct LoginTextField: View {
                     .placeholder(when: text.isEmpty) {
                         Text(placeholder)
                             .foregroundColor(.gray)
-                            .font(.system(size: 16, weight: .medium))
+                            .font(.system(size: .s16, weight: .medium))
                     }
                     .font(.system(size: 16, weight: .medium))
                     .foregroundColor(.black)
@@ -251,10 +251,10 @@ struct LoginTextField: View {
                     }
                 }
             }
-            .padding(.init(top: .zero, leading: 16, bottom: .zero, trailing: 16))
+            .padding(.init(top: .zero, leading: 16, bottom: .zero, trailing: .s16))
             .frame(height: 52)
             .background(Color(hex: "#F6F8FE"))
-            .clipShape(.rect(cornerRadius: 24))
+            .clipShape(.rect(cornerRadius: .s24))
         }
     }
 }

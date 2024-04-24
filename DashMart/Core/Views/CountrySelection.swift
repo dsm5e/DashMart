@@ -51,7 +51,7 @@ struct CountrySelection: View {
                     .clipShape(.rect(cornerRadius: 4))
                 }
             )
-            .padding(.horizontal, 20)
+            .padding(.horizontal, .s20)
             .padding(.bottom, 8)
             
             Button(
@@ -73,8 +73,8 @@ struct CountrySelection: View {
                     .clipShape(.rect(cornerRadius: 4))
                 }
             )
-            .padding(.horizontal, 20)
-            .padding(.bottom, 24)
+            .padding(.horizontal, .s20)
+            .padding(.bottom, .s24)
 
         }
     }

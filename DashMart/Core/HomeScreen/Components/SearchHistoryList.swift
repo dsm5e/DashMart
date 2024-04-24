@@ -11,10 +11,10 @@ struct SearchHistoryList: View {
     @ObservedObject private var storage = StorageService.shared
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: .s8) {
             HStack {
                 Text("Last search")
-                    .font(.system(size: 16))
+                    .font(.system(size: 14))
                     .foregroundStyle(Color(hex: "#393F42"))
                 
                 Spacer()

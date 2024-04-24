@@ -18,7 +18,17 @@ struct DashMartApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .preferredColorScheme(.light) // Set to use light mode only
+                .preferredColorScheme(.light)
+                .onAppear {
+                    UINavigationBar.appearance().backIndicatorImage = UIImage(systemName: "arrow.left")
+                    UINavigationBar.appearance().backIndicatorTransitionMaskImage = UIImage(systemName: "arrow.left")
+                    // to make system alerts and pickers use light mode only
+                    guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                          let window = windowScene.windows.first else {
+                        return
+                    }
+                    window.overrideUserInterfaceStyle =  .light
+                }
         }
         .onChange(of: scenePhase) {
             phase in

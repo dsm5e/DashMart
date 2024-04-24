@@ -24,7 +24,7 @@ struct TitleDetail: View {
             }
             Spacer()
             Text("Details product")
-                .font(.system(size: 16))
+                .font(.system(size: .s16))
                 .foregroundStyle(Color(hex: "#393F42"))
             
             Spacer()

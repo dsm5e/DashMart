@@ -20,9 +20,9 @@ struct ProductDetailView: View {
     var body: some View {
         VStack {
             ScrollView(.horizontal, showsIndicators: false) {
-                LazyVGrid(columns: product.images.map { _ in .init() }) {
-                    ForEach(product.images, id:\.self) {
-                        imageUrl in
+                LazyVGrid(columns: product.fixedImages.map { _ in .init() }) {
+                    ForEach(Array(zip(product.fixedImages.indices, product.fixedImages)), id: \.0) {
+                        _, imageUrl in
                         
                         KFImage(URL(string: imageUrl))
                             .placeholder {
@@ -38,7 +38,7 @@ struct ProductDetailView: View {
             HStack {
                 VStack(alignment: .leading) {
                     Text(product.title)
-                        .font(.system(size: 16))
+                        .font(.system(size: .s16))
                         .foregroundStyle(Color(hex: "#393F42"))
                     Text(location.exchange(product.price).formatted(
                         .currency(code: location.currencyCode)
@@ -70,7 +70,7 @@ struct ProductDetailView: View {
             
             VStack(alignment: .leading, spacing: 10) {
                 Text(titleDescription)
-                    .font(.system(size: 16))
+                    .font(.system(size: .s16))
                 .foregroundStyle(Color(hex: "#393F42"))
                 .frame(maxWidth: .infinity, alignment: .leading)
                 
