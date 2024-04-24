@@ -142,7 +142,6 @@ struct HomeScreen: View {
         .animation(.linear, value: isShowingAllCategories)
         .fullScreenCover(isPresented: $isShowingSearchResults) {
             SearchResultScreen(
-                searchInput: $searchInput,
                 products: $products
             )
         }
