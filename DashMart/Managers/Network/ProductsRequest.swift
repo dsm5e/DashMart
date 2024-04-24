@@ -101,18 +101,18 @@ struct ProductRequestUpdate: NetworkRequest {
         "products/\(id)"
     }
     var method: HTTPMethod {
-        .GET
+        .PUT
     }
     var parameters = [String : Any]()
     var body = [String : Any]()
     
     init(
         id: Int,
-        title: String?,
-        price: Double?,
-        description: String?,
-        categoryId: Int?,
-        images: [URL]?
+        title: String,
+        price: Double,
+        description: String,
+        categoryId: Int,
+        images: [String]
     ) {
         self.id = id
         
@@ -120,7 +120,7 @@ struct ProductRequestUpdate: NetworkRequest {
         body["price"] = price
         body["description"] = description
         body["categoryId"] = categoryId
-        body["images"] = images?.compactMap { $0.absoluteString }
+        body["images"] = images
     }
 }
 

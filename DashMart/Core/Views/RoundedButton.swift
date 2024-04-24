@@ -39,11 +39,11 @@ struct RoundedButton: View {
                     Spacer()
                     rightIcon
                         .renderingMode(.template)
-                        .frame(width: 24, height: 24)
+                        .frame(width: .s24, height: .s24)
                         .foregroundColor(Color(hex: "#666C8E"))
                 }
-                .padding(.horizontal, 24)
-                .padding(.vertical, 16)
+                .padding(.horizontal, .s24)
+                .padding(.vertical, .s16)
                 .background(Color(hex: "#F3F4F6"))
                 .clipShape(.rect(cornerRadius: 12))
             }

@@ -8,6 +8,7 @@
 import Foundation
 import FirebaseDatabase
 import SwiftUI
+import FirebaseStorage
 
 final actor StorageService: ObservableObject {
     static let shared = StorageService()
@@ -16,12 +17,15 @@ final actor StorageService: ObservableObject {
         AuthorizeService.shared.userId
     }
     
+    private let storage = Storage.storage().reference()
     private var userName: String?
     private var userEmail: String?
     
     @MainActor @Published private(set) var wishlistIds = [Int]()
     @MainActor @Published private(set) var cart = [Int: Int]()
     @MainActor @Published private(set) var selectedCardIds = Set<Int>()
+    @MainActor @Published private(set) var avatarImage: UIImage? 
+    
     @MainActor var cartCount: Int {
         cart.reduce(0) {
             $0 + $1.value
@@ -40,16 +44,24 @@ final actor StorageService: ObservableObject {
     
     private init() {
         Task {
-            await getWishlist()
-            await getCart()
+            await reload()
         }
     }
     
-    @MainActor
+    func reload() async {
+        await getWishlist()
+        await getCart()
+    }
+    
     func logout() async {
-        wishlistIds = []
-        try? await saveCart()
-        cart = [:]
+        try? await save()
+        userName = nil
+        userEmail = nil
+        await MainActor.run {
+            wishlistIds = []
+            cart = [:]
+        }
+        
     }
     
     func getUserName() async throws -> String? {
@@ -198,6 +210,11 @@ final actor StorageService: ObservableObject {
     }
     
     @MainActor
+    func setBuyNowId(_ id: Int) {
+        selectedCardIds = [id]
+    }
+    
+    @MainActor
     func addSelectedCardId(_ id: Int) {
         selectedCardIds.insert(id)
     }
@@ -206,6 +223,65 @@ final actor StorageService: ObservableObject {
     func removeSelectedCardId(_ id: Int) {
         selectedCardIds.remove(id)
     }
+    
+    // MARK: - Storing the avatar image
+    enum StorageError: Error {
+        case imageDataConversionFailed, invalidUserId, resizingError
+    }
+    
+    @MainActor
+    func setAvatarImage(_ image: UIImage) async throws {
+        avatarImage = image
+        let imageData = try await convertImageToData(image: image)
+        try await saveAvatarImageToTheStorage(imageData)
+    }
+    
+    @MainActor
+    private func convertImageToData(image: UIImage) async throws -> Data {
+        guard let imageData = image.jpegData(compressionQuality: 0.8) else {
+            throw StorageError.imageDataConversionFailed
+        }
+        return imageData
+    }
+    
+    @MainActor
+    func saveAvatarImageToTheStorage(_ data: Data) async throws {
+        guard let userId = await self.userId else {
+            throw URLError(.userAuthenticationRequired)
+        }
+        let meta = StorageMetadata()
+        meta.contentType = "image/jpeg"
+        let path = "images/\(userId).jpeg"
+        let returnedMetaData = try await storage.child(path).putDataAsync(data)
+        guard let returnedPath = returnedMetaData.path, let returnedName  = returnedMetaData.name else {
+            throw URLError(.badServerResponse)
+        }
+    }
+    
+    @MainActor
+    func getAvatarImage() async throws -> UIImage? {
+        guard let userId = await self.userId else {
+            throw StorageError.invalidUserId
+        }
+        
+        let path = "images/\(userId).jpeg"
+        var avaterImage: UIImage? = nil
+        let data = try await storage.child(path).data(maxSize: 1 * 1024 * 1024)
+        let image = UIImage(data: data)
+        avaterImage = image
+        return avaterImage
+    }
+    
+    @MainActor
+    func deleteAvatarImage() async throws {
+        guard let userId = await self.userId else {
+            throw StorageError.invalidUserId
+        }
+        
+        let path = "images/\(userId).jpeg"
+        try await storage.child(path).delete()
+    }
+    
     
     // MARK: - SearchResult
     // TODO: - implement firebase

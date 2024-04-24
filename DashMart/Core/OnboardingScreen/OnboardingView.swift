@@ -29,7 +29,7 @@ struct OnboardingView: View {
 
             HStack {
                 PageIndicator(numberOfPages: onboardingData.count, currentIndex: currentPageIndex)
-//                    .padding(.bottom, 20)
+//                    .padding(.bottom, .s20)
                 Spacer()
 
                 Button(action: {

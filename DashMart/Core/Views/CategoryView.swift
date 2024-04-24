@@ -25,9 +25,9 @@ struct CategoryView: View {
                 }
             }
                 .frame(width: 40, height: 40)
-                .clipShape(.rect(cornerRadius: 8))
+                .clipShape(.rect(cornerRadius: .s8))
                 .overlay(
-                    RoundedRectangle(cornerRadius: 8)
+                    RoundedRectangle(cornerRadius: .s8)
                         .stroke(isSelected ? .blue : .clear, lineWidth: 2)
                 )
             Text(category.name)

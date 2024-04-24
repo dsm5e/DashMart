@@ -32,7 +32,7 @@ struct TabBar: View {
                 }
                 .tag(1)
             if managerService.isManager {
-                Manager()
+                ManagerScreen()
                     .tabItem {
                         Image(selection == 2 ? .Tab.Green.paper : .Tab.paper)
                         Text("Manager")

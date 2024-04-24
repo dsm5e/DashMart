@@ -30,15 +30,27 @@ struct DetailScreen: View {
                 
                 SeparatorView()
                     .padding(.bottom)
-                HStack {
-                    ButtonsDetail(title: "Add to Cart", type: .add) {
-                        storage.addToCart(product.id)
-                    }
-                    
-                    ButtonsDetail(title: "Buy Now", type: .buy) {
-                        // action
-                    }
+                HStack(spacing: .s16) {
+                    Button(
+                        action: {
+                            storage.addToCart(product.id)
+                        }, label: {
+                            Text("Add to Card")
+                                .modifier(DashRoundedTitle())
+                        }
+                    )
+                    Button(
+                        action: {
+                            storage.addToCart(product.id)
+                        	storage.setBuyNowId(product.id)
+                        	isCartPresented = true
+                        }, label: {
+                            Text("Buy now")
+                                .modifier(DashRoundedTitle(style: .gray))
+                        }
+                    )
                 }
+                .padding(.horizontal, .s20)
             }
             .fullScreenCover(isPresented: $isCartPresented) {
                 CartScreen()
