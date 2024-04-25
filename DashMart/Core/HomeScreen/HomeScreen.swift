@@ -31,12 +31,12 @@ struct HomeScreen: View {
         Int(UIScreen.main.bounds.width) / 67
     }
     
-    // Filter States
     @State private var isShowingFilters = false
     @State private var shouldCloseBottomSheet = false
     @State private var filterText = ""
-    @State private var minPrice: Double = 0
-    @State private var maxPrice: Double = 0
+    @State private var minPrice: Double?
+    @State private var maxPrice: Double?
+    @State private var sortType: SortType = .none
     
     var body: some View {
         VStack(spacing: 16) {
@@ -158,34 +158,41 @@ struct HomeScreen: View {
             VStack(spacing: 16) {
                 Text("Filter Products")
                     .font(.system(size: 16))
+                    .foregroundStyle(Color(hex: "#393F42"))
                     .padding()
-                TextField("Filter by name", text: $filterText)
-                    .padding(.bottom)
+                Picker(selection: $sortType, label: Text("Sort by")) {
+                    Text("None").tag(SortType.none)
+                    Text("A-Z").tag(SortType.alphabeticalAscending)
+                    Text("Z-A").tag(SortType.alphabeticalDescending)
+                }
+                .pickerStyle(SegmentedPickerStyle())
+                .padding()
+                HStack {
+                    Text("Price")
+                            .font(.system(size: 16))
+                        .foregroundStyle(Color(hex: "#393F42"))
+                    Spacer()
+                }
+                    .padding(.horizontal)
+                HStack {
+                    TextField("Min", text: Binding<String>(
+                        get: { minPrice.map { String($0) } ?? "" },
+                        set: { minPrice = Double($0) }
+                    ))
                     .textFieldStyle(RoundedBorderTextFieldStyle())
-                HStack {
-                    Text("Min Price:")
-                    Slider(value: $minPrice, in: 0...1000, step: 1)
-                        .tint(Color(hex: "#67C4A7"))
-                    Text("\(Int(minPrice))")
-                        .padding(.horizontal)
+                    
+                    Image(systemName: "ellipsis")
+                    
+                    Spacer()
+                    TextField("Max", text: Binding<String>(
+                        get: { maxPrice.map { String($0) } ?? "" },
+                        set: { maxPrice = Double($0) }
+                    ))
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
                 }
-                .onChange(of: minPrice) { _ in
-                    applyFilters()
-                }
-
-                HStack {
-                    Text("Max Price:")
-                    Slider(value: $maxPrice, in: 0...1000, step: 1)
-                        .tint(Color(hex: "#67C4A7"))
-                    Text("\(Int(maxPrice))")
-                        .padding(.horizontal)
-                }
-                .onChange(of: maxPrice) { _ in
-                    applyFilters()
-                }
-
-                Spacer()
-                
+                .padding(.horizontal)
+                .padding(.bottom, 40)
+            
                 Button("Apply", action: applyFilters)
                     .font(.system(size: 12))
                     .foregroundColor(Color(hex: "#FFFFFF"))
@@ -194,25 +201,37 @@ struct HomeScreen: View {
                     .clipShape(RoundedRectangle(cornerRadius: 4))
                     .padding(.bottom, 50)
             }
-               
+
             .padding(.horizontal)
             .background(Color.white)
         }
     }
     
     func applyFilters() {
-        if filterText.isEmpty && minPrice == 0 && maxPrice == 1000 {
-            isShowingFilters = false
-            filteredProducts = products
-            return
+        filteredProducts = products
+        
+        if !filterText.isEmpty {
+            filteredProducts = filteredProducts.filter { $0.title.localizedCaseInsensitiveContains(filterText) }
         }
         
-        isShowingFilters = true
-        filteredProducts = products.filter { product in
-            let nameMatch = filterText.isEmpty || product.title.localizedCaseInsensitiveContains(filterText)
-            let priceInRange = product.price >= minPrice && product.price <= maxPrice
-            return nameMatch && priceInRange
+        if let minPrice = minPrice {
+            filteredProducts = filteredProducts.filter { $0.price >= minPrice }
         }
+        
+        if let maxPrice = maxPrice {
+            filteredProducts = filteredProducts.filter { $0.price <= maxPrice }
+        }
+        
+        switch sortType {
+            case .alphabeticalAscending:
+                filteredProducts.sort { $0.title < $1.title }
+            case .alphabeticalDescending:
+                filteredProducts.sort { $0.title > $1.title }
+            default:
+                break
+        }
+        
+        isShowingFilters = false
     }
 }
 
@@ -239,6 +258,12 @@ extension HomeScreen {
             loading = false
         }
     }
+}
+
+enum SortType {
+    case none
+    case alphabeticalAscending
+    case alphabeticalDescending
 }
 
 extension CategoryEntity {

@@ -90,9 +90,6 @@ struct SearchResultScreen: View {
             
             filteredProducts = products.filter { $0.title.contains(value) }
             isShowingSearchHistory = false
-            
-            // перенести в метод отвечающий за ввод 
-            storage.saveSearchHistory(value)
         }
         .onAppear {
             filteredProducts = products
@@ -105,6 +102,11 @@ struct SearchResultScreen: View {
         }
         .fullScreenCover(isPresented: $isDetailsPresented) {
             DetailScreen(product: $selectedProduct)
+        }
+        .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification)) { _ in
+            if !searchInput.isEmpty {
+                storage.saveSearchHistory(searchInput)
+            }
         }
     }
 }
