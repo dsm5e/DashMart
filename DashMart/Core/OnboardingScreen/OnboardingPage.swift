@@ -11,7 +11,7 @@ struct OnboardingPage: View {
     var onboardingItem: OnboardingItem
 
     var body: some View {
-        VStack(spacing: .s20) {
+        VStack {
             Image(onboardingItem.imageName)
                 .resizable()
                 .aspectRatio(contentMode: .fill)
@@ -27,7 +27,7 @@ struct OnboardingPage: View {
             Text(onboardingItem.description)
                 .font(.body)
                 .multilineTextAlignment(.leading)
-                .padding(.horizontal, 40)
+                .padding(.horizontal, 20)
                 .foregroundColor(.gray)
         }
         .padding(.vertical, 50)
@@ -35,5 +35,5 @@ struct OnboardingPage: View {
 }
 
 #Preview {
-    OnboardingPage(onboardingItem: OnboardingItem(imageName: "onboarding_1", title: "example", description: "example"))
+    OnboardingPage(onboardingItem: OnboardingItem(imageName: "onboarding_3_3", title: "example", description: "exampl"))
 }
