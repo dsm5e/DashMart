@@ -35,5 +35,5 @@ struct OnboardingPage: View {
 }
 
 #Preview {
-    OnboardingPage(onboardingItem: OnboardingItem(imageName: "onboarding_3_3", title: "example", description: "exampl"))
+    OnboardingPage(onboardingItem: OnboardingItem(imageName: "onboardingFinel_1", title: "example", description: "exampl"))
 }
