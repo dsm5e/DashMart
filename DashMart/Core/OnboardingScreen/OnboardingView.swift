@@ -18,7 +18,7 @@ struct OnboardingView: View {
     }
 
     var body: some View {
-        VStack {
+        VStack(alignment: .leading) {
             TabView(selection: $currentPageIndex) {
                 ForEach(onboardingData.indices, id: \.self) { index in
                     OnboardingPage(onboardingItem: onboardingData[index])
@@ -26,10 +26,11 @@ struct OnboardingView: View {
                 }
             }
             .tabViewStyle(PageTabViewStyle())
+            
+            Spacer()
 
             HStack {
                 PageIndicator(numberOfPages: onboardingData.count, currentIndex: currentPageIndex)
-//                    .padding(.bottom, .s20)
                 Spacer()
 
                 Button(action: {
