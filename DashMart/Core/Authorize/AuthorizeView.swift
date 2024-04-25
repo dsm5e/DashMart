@@ -45,7 +45,7 @@ struct AuthorizeView: View {
                         VStack {
                             if store.state.loginType == .signUp {
                                 Text("Complete your account")
-                                    .font(.system(size: 16, weight: .bold))
+                                    .font(.system(size: 24, weight: .bold))
                                     .foregroundColor(.black)
                                     .padding(.vertical, .s32)
                             }
@@ -78,7 +78,7 @@ struct AuthorizeView: View {
                                     .padding(.top, 12)
                                 }
                             }
-                            .padding(.init(top: .zero, leading: .zero, bottom: 64, trailing: .zero))
+                            .padding(.init(top: .zero, leading: .zero, bottom: 46, trailing: .zero))
                             Button(
                                 action: {
                                     switch store.state.loginType {
