@@ -11,26 +11,26 @@ struct OnboardingPage: View {
     var onboardingItem: OnboardingItem
 
     var body: some View {
-        VStack {
+        VStack(alignment: .leading) {
             Image(onboardingItem.imageName)
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .clipShape(OnboardingShape())
-                .padding(.horizontal, 10)
-
+                .padding(.s20)
 
             Text(onboardingItem.title)
                 .font(.title)
                 .fontWeight(.bold)
-                .multilineTextAlignment(.leading)
+                .padding(.bottom, .s12)
+                .padding(.horizontal, .s24)
 
             Text(onboardingItem.description)
                 .font(.body)
                 .multilineTextAlignment(.leading)
-                .padding(.horizontal, 20)
                 .foregroundColor(.gray)
+                .padding(.horizontal, .s24)
         }
-        .padding(.vertical, 50)
+        
     }
 }
 

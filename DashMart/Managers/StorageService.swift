@@ -14,7 +14,7 @@ final actor StorageService: ObservableObject {
     static let shared = StorageService()
     
     private var userId: String? {
-        AuthorizeService.shared.userId
+        AuthorizeService.shared.currentUser?.uid
     }
     
     private let storage = Storage.storage().reference()
@@ -64,12 +64,12 @@ final actor StorageService: ObservableObject {
         
     }
     
-    func getUserName() async throws -> String? {
+    func getUserName(force: Bool = false) async throws -> String? {
         guard let userId else {
             return nil
         }
         
-        if let userName {
+        if !force, let userName {
             return userName
         }
         
@@ -81,21 +81,27 @@ final actor StorageService: ObservableObject {
         return userName
     }
     
-    func setUserName(_ name: String) async throws {
+    func setUserName(_ name: String) async -> Bool {
         guard let userId else {
-            return
+            return false
         }
         
-        let ref = Database.database().reference().child("users").child(userId)
-        _ = try? await ref.updateChildValues(["username": name])
+        do {
+            let ref = Database.database().reference().child("users").child(userId)
+            _ = try await ref.updateChildValues(["username": name])
+            userName = name
+            return true
+        } catch {
+            return false
+        }
     }
     
-    func getUserEmail() async throws -> String? {
+    func getUserEmail(force: Bool = false) async throws -> String? {
         guard let userId else {
             return nil
         }
         
-        if let userEmail {
+        if !force, let userEmail {
             return userEmail
         }
         
