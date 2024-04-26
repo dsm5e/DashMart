@@ -5,7 +5,6 @@
 //  Created by Максим Самороковский on 16.04.2024.
 //
 
-
 import SwiftUI
 
 struct SearchResultScreen: View {
@@ -51,9 +50,7 @@ struct SearchResultScreen: View {
             if isShowingSearchHistory {
                 SearchHistoryList()
             } else {
-                TitleFilters(text: "Search result for \(searchInput)", action: {})
-                    .padding(.horizontal, 20)
-                    .padding(.bottom, 16)
+                FilterProductsVM(showAlphabeticalSort: false)
             }
             
             if !searchInput.isEmpty {
@@ -110,3 +107,4 @@ struct SearchResultScreen: View {
         }
     }
 }
+

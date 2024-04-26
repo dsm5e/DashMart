@@ -39,6 +39,7 @@ final actor AuthorizeService {
         do {
             await StorageService.shared.logout()
             try Auth.auth().signOut()
+            await StorageService.shared.clearSearchHistory()
             return true
         } catch {
             return false
