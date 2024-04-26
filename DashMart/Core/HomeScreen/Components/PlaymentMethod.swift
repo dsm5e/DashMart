@@ -8,10 +8,35 @@
 import SwiftUI
 
 struct PlaymentMethod: View {
+    @ObservedObject private var storage = StorageService.shared
     @State private var showSheet = false
     @State private var showAlertPDF = false
+    @Environment(\.dismiss) private var dismiss
+
     var body: some View {
-        Form {
+        HStack {
+            Button(
+                action: {
+                    dismiss()
+                }, label: {
+                    Image(systemName: "arrow.left")
+                }
+            )
+            Spacer()
+            Text("Playment method")
+                .foregroundColor(Color(hex: "#393F42"))
+                .font(.system(size: 16, weight: .medium))
+            Spacer()
+            CartButton(storage: storage, action: nil)
+                .disabled(true)
+        }
+        .padding(.horizontal, .s20)
+        SeparatorView()
+        Spacer()
+        VStack(alignment: .leading) {
+            Spacer()
+            Text("Select existing card")
+                .bold()
             HStack(content: {
                 Image(systemName: "creditcard")
                 Text("**** **** **** 7777")
@@ -19,21 +44,62 @@ struct PlaymentMethod: View {
                 Image(systemName: "trash")
 
             })
-            Section(header: Text("Or inputnew cards")) {
+            .padding()
+            .frame(height: 50)
+            .background(Color.clear)
+            .cornerRadius(10)
+            .overlay {
+                RoundedRectangle(cornerRadius: 10)
+                    .stroke(Color(hex: "#939393"), lineWidth: 1)
+            }
+            Spacer()
+            Spacer()
+        }
+        .padding()
+        .frame(height: 150)
+        SeparatorView()
+        VStack(alignment: .leading) {
+            Text("Or inputnew cards")
+                .bold()
+            HStack {
+                Button(
+                    action: {
+                        showSheet.toggle()
+                    },
+                    label: {
+                        Text("Сhoose payment method")
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+                )
+            }
+            .padding()
+            .frame(height: 50)
+            .background(Color.clear)
+            .cornerRadius(10)
+            .overlay {
+                RoundedRectangle(cornerRadius: 10)
+                    .stroke(Color(hex: "#939393"), lineWidth: 1)
+            }
+            Spacer()
+            Spacer()
+        }
+
+        .padding()
+        .navigationBarBackButtonHidden()
+        .bottomSheet(isPresented: $showSheet, contentView: {
+            VStack {
                 HStack {
                     Button(
                         action: {
                             showSheet.toggle()
-                        },
-                        label: {
-                            Text("Сhoose payment method")
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                        })
+                        }, label: {
+                            Spacer()
+                            Image(systemName: "multiply")
+                                .foregroundStyle(.black)
+                        }
+                    )
                 }
-            }.buttonStyle(.borderless)
-        }
-        .bottomSheet(isPresented: $showSheet, contentView: {
-            VStack {
+                .padding(10)
                 Image("imageOk")
                     .resizable()
                     .frame(width: 150, height: 150)

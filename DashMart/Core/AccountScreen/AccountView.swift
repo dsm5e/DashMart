@@ -21,6 +21,7 @@ struct AccountView: View {
     @ObservedObject private var managerService = ManagerService.shared
     @State private var avatarImage: UIImage?
     @State private var loading = false
+    @State private var isEditProfileDialogPresented = false
     
     private var attributedEmail: AttributedString {
         var string = AttributedString(email)
@@ -63,44 +64,56 @@ struct AccountView: View {
                     }
                     
                 }
-                .sheet(isPresented: $isTermsPresented) {
-                    TermsView()
-                }
-                .confirmationDialog(
-                    "Account Type",
-                    isPresented: $isTypeSelectionPresented,
-                    actions: {
-                        Button("User") {
-                            managerService.logoutAsManager()
-                        }
-                        Button("Manager") {
-                            if managerService.needPassword {
-                                isManagerPasswordPresented = true
-                            } else {
-                                managerService.enterAsManager(nil)
-                            }
-                        }
-                    }
-                )
-                .alert(
-                    "Enter manager password",
-                    isPresented: $isManagerPasswordPresented
-                ) {
-                    TextField("Enter password", text: $managerPassword)
-                    Button("OK") {
-                        isManagerErrorPresented = !managerService.enterAsManager(managerPassword)
-                        managerPassword = ""
-                    }
-                }
-                .alert(
-                    "Error",
-                    isPresented: $isManagerErrorPresented,
-                    actions: { Button("OK") { } },
-                    message: {
-                        Text("Invalid manager password")
-                    }
-                )
             }
+            .sheet(isPresented: $isTermsPresented) {
+                TermsView()
+            }
+            .confirmationDialog(
+                "Account Type",
+                isPresented: $isTypeSelectionPresented,
+                actions: {
+                    Button("User") {
+                        managerService.logoutAsManager()
+                    }
+                    Button("Manager") {
+                        if managerService.needPassword {
+                            isManagerPasswordPresented = true
+                        } else {
+                            managerService.enterAsManager(nil)
+                        }
+                    }
+                }
+            )
+            .alert(
+                "Enter manager password",
+                isPresented: $isManagerPasswordPresented
+            ) {
+                TextField("Enter password", text: $managerPassword)
+                Button("OK") {
+                    isManagerErrorPresented = !managerService.enterAsManager(managerPassword)
+                    managerPassword = ""
+                }
+            }
+            .alert(
+                "Error",
+                isPresented: $isManagerErrorPresented,
+                actions: { Button("OK") { } },
+                message: {
+                    Text("Invalid manager password")
+                }
+            )
+            .bottomSheet(
+                isPresented: $isEditProfileDialogPresented,
+                detents: [.medium()],
+                contentView: {
+                    EditAccountView {
+                        Task {
+                            name = (try? await StorageService.shared.getUserName(force: true)) ?? "UserName"
+                            email = (try? await StorageService.shared.getUserEmail(force: true)) ?? "user@mail.com"
+                        }
+                    }
+                }
+            )
         }
         .task {
             name = (try? await StorageService.shared.getUserName()) ?? "UserName"
@@ -137,6 +150,13 @@ struct AccountView: View {
             }
             
             VStack(alignment: .leading) {
+                if managerService.isManager {
+                    Text("Manager")
+                        .foregroundColor(.white)
+                        .background(Color(hex: "#67C4A7"))
+                        .font(.system(size: 16, weight: .semibold))
+                        .clipShape(.rect(cornerRadius: 3))
+                }
                 Text(name)
                     .foregroundColor(Color(hex: "#333647"))
                     .font(.system(size: 16, weight: .semibold))
@@ -144,6 +164,9 @@ struct AccountView: View {
                     .foregroundStyle(Color(hex: "#7C82A1"))
             }
             .padding(.leading, 40)
+            .onTapGesture {
+                isEditProfileDialogPresented = true
+            }
             Spacer()
         }
     }
@@ -262,7 +285,7 @@ private struct ChangeAvatarMenu: View {
                         avatarImage: self.$avatarImage,
                         isAvatarMenuPresented: $isAvatarMenuPresented)
             .ignoresSafeArea(.all)
-                }
+        }
     }
 }
 
