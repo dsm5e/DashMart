@@ -24,6 +24,7 @@ struct EditAccountView: View {
                     label: {
                         Text("Change Username")
                             .modifier(DashRoundedTitle())
+                            .padding(.horizontal, .s20)
                     }
                 )
                 
@@ -36,6 +37,7 @@ struct EditAccountView: View {
                     label: {
                         Text("Change Email")
                             .modifier(DashRoundedTitle())
+                            .padding(.horizontal, .s20)
                     }
                 )
                 
@@ -48,6 +50,7 @@ struct EditAccountView: View {
                     label: {
                         Text("Change Password")
                             .modifier(DashRoundedTitle())
+                            .padding(.horizontal, .s20)
                     }
                 )
             }
