@@ -249,7 +249,6 @@ struct CartScreen: View {
                 loading = false
             }
         }
-        
     }
 }
 
