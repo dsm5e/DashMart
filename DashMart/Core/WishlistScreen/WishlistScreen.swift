@@ -41,8 +41,8 @@ struct WishlistScreen: View {
                 ZStack {
                     ScrollView {
                         LazyVGrid(
-                            columns: [.init(.adaptive(minimum: 170, maximum: 170))],
-                            spacing: 35
+                            columns: [.init(),.init()],
+                            spacing: 8
                         ) {
                             ForEach(filteredProducts) {
                                 product in
@@ -62,6 +62,7 @@ struct WishlistScreen: View {
                                 )
                             }
                         }
+                        .padding(.horizontal, .s20)
                     }
                     if !loading {
                         Group {
@@ -73,9 +74,9 @@ struct WishlistScreen: View {
                         }
                         .font(.system(size: 16, weight: .semibold))
                         .foregroundColor(Color(hex: "#393F42"))
+                        .padding(.horizontal, .s20)
                     }
                 }
-                .padding(.horizontal, .s20)
             }
             if loading {
                 VStack {
