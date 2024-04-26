@@ -36,6 +36,7 @@
 		776826642BCF03B40004F714 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 776826632BCF03B40004F714 /* GoogleService-Info.plist */; };
 		7768267A2BCF27650004F714 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 776826792BCF27650004F714 /* Kingfisher */; };
 		7768267C2BCF37BF0004F714 /* WishlistScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7768267B2BCF37BF0004F714 /* WishlistScreen.swift */; };
+		777532DF2BDB14DC004B2500 /* EditAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 777532DE2BDB14DC004B2500 /* EditAccountView.swift */; };
 		778435292BD833CF00776D08 /* ManagerEditCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778435282BD833CF00776D08 /* ManagerEditCategory.swift */; };
 		7784352D2BD8382000776D08 /* ManagerEditField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7784352C2BD8382000776D08 /* ManagerEditField.swift */; };
 		77B5A1A92BD6FD3500E86836 /* ManagerScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77B5A1A82BD6FD3500E86836 /* ManagerScreen.swift */; };
@@ -137,6 +138,7 @@
 		7768265C2BCEFFAE0004F714 /* TabBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBar.swift; sourceTree = "<group>"; };
 		776826632BCF03B40004F714 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = "GoogleService-Info.plist"; path = "DashMart/GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		7768267B2BCF37BF0004F714 /* WishlistScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WishlistScreen.swift; sourceTree = "<group>"; };
+		777532DE2BDB14DC004B2500 /* EditAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditAccountView.swift; sourceTree = "<group>"; };
 		778435282BD833CF00776D08 /* ManagerEditCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagerEditCategory.swift; sourceTree = "<group>"; };
 		7784352C2BD8382000776D08 /* ManagerEditField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagerEditField.swift; sourceTree = "<group>"; };
 		77B5A1A82BD6FD3500E86836 /* ManagerScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagerScreen.swift; sourceTree = "<group>"; };
@@ -380,6 +382,7 @@
 				77B87D8E2BD073D50003A468 /* AccountView.swift */,
 				77B87D912BD0856E0003A468 /* TermsView.swift */,
 				2DBAAA8E2BD7AA6D00248525 /* ImagePicker.swift */,
+				777532DE2BDB14DC004B2500 /* EditAccountView.swift */,
 			);
 			path = AccountScreen;
 			sourceTree = "<group>";
@@ -605,6 +608,7 @@
 				776826612BCEFFAE0004F714 /* TabBar.swift in Sources */,
 				77B5A1B32BD70C0A00E86836 /* DashScreen.swift in Sources */,
 				F94506472BCE88760017600B /* TitleFilters.swift in Sources */,
+				777532DF2BDB14DC004B2500 /* EditAccountView.swift in Sources */,
 				3C1281532BCC2FC000DB8F49 /* HomeScreen.swift in Sources */,
 				F9ED78972BCFD595001EC482 /* TitleDetail.swift in Sources */,
 				F9ED78942BCFD382001EC482 /* DetailScreen.swift in Sources */,
