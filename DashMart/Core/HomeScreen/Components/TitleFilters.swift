@@ -15,12 +15,18 @@ struct TitleFilters: View {
         static let buttonTitle: CGFloat = 12
         static let borderColor = Color(hex: "#F0F2F1")
         static let borderWidth: CGFloat = 1
+        static let highlightedBorderColor = Color(hex: "#12B76A")
+        static let highlightedBorderWidth: CGFloat = 2
         static let cornerRadius: CGFloat = 5
         static let buttonWidth: CGFloat = 78
         static let buttonHeigth: CGFloat = 27
     }
     
     let text: String
+    let action: () -> Void
+    
+    @Binding var filtersApplied: Bool
+    @Binding var isButtonActive: Bool
     
     var body: some View {
         HStack {
@@ -28,7 +34,9 @@ struct TitleFilters: View {
                 .font(.system(size: Drawing.titleFontSize))
                 .foregroundStyle(Drawing.titleColor)
             Spacer()
-            Button(action: {}, label: {
+            Button(action: {
+                action()
+            }, label: {
                 HStack {
                     Text("Filters")
                         .font(.system(size: Drawing.buttonTitle))
@@ -38,7 +46,8 @@ struct TitleFilters: View {
                 .padding(.horizontal)
                 .overlay(
                     RoundedRectangle(cornerRadius: Drawing.cornerRadius)
-                        .stroke(Drawing.borderColor, lineWidth: Drawing.borderWidth)
+                        .stroke(filtersApplied ? Drawing.highlightedBorderColor : Drawing.borderColor,
+                                lineWidth: filtersApplied ? Drawing.highlightedBorderWidth : Drawing.borderWidth)
                         .frame(height: Drawing.buttonHeigth)
                 )
             })
@@ -47,5 +56,5 @@ struct TitleFilters: View {
 }
 
 #Preview {
-    TitleFilters(text: "Products")
+    TitleFilters(text: "Products", action: {}, filtersApplied: .constant(true), isButtonActive: .constant(true))
 }

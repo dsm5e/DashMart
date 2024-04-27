@@ -21,6 +21,15 @@ struct SearchResultScreen: View {
     @State private var keyboardHeight: CGFloat = .zero
     @State private var isShowingSearchHistory = true
     
+    
+    @State private var isShowingFilters = false
+    @State private var isButtonActive = false
+    @State private var filtersApplied = false
+    @State private var minPrice: Double?
+    @State private var maxPrice: Double?
+    @State private var filterText = ""
+    
+    
     var body: some View {
         VStack {
             HStack {
@@ -41,18 +50,78 @@ struct SearchResultScreen: View {
                     }
                 )
             }
-            .padding(.horizontal, .s20)
+            .padding(.horizontal, 20)
             .padding(.bottom, 14)
             
             SeparatorView()
-                .padding(.bottom, .s16)
+                .padding(.bottom, 16)
             
             if isShowingSearchHistory {
                 SearchHistoryList()
             } else {
-                TitleFilters(text: "Search result for \(searchInput)")
-                    .padding(.horizontal, .s20)
-                    .padding(.bottom, .s16)
+                VStack {
+                    TitleFilters(text: "Products", action: {
+                        isShowingFilters.toggle()
+                    }, filtersApplied: $filtersApplied, isButtonActive: $isButtonActive)
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 8)
+                    .bottomSheet(isPresented: $isShowingFilters, detents: [.medium()]) {
+                        VStack(spacing: 16) {
+                            Text("Filter Products")
+                                .font(.system(size: 16))
+                                .foregroundStyle(Color(hex: "#393F42"))
+                                .padding()
+                            
+                            HStack {
+                                Text("Price")
+                                    .font(.system(size: 16))
+                                    .foregroundStyle(Color(hex: "#393F42"))
+                                Spacer()
+                            }
+                            .padding(.horizontal)
+                            HStack {
+                                TextField("Min", text: Binding<String>(
+                                    get: { minPrice.map { String($0) } ?? "" },
+                                    set: { minPrice = Double($0) }
+                                ))
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                                
+                                Image(systemName: "ellipsis")
+                                
+                                Spacer()
+                                TextField("Max", text: Binding<String>(
+                                    get: { maxPrice.map { String($0) } ?? "" },
+                                    set: { maxPrice = Double($0) }
+                                ))
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                            }
+                            .padding(.horizontal)
+                            .padding(.bottom, 40)
+                        }
+                        HStack {
+                            Button(
+                                action: {
+                                    clearFilters()
+                                }, label: {
+                                    Text("Clear Filter")
+                                        .foregroundStyle(Color(hex: "#E53935"))
+                                        .modifier(DashRoundedTitle(style: .gray))
+                                }
+                            )
+                            
+                            Button(
+                                action: {
+                                    applyFilters()
+                                }, label: {
+                                    Text("Apply")
+                                        .modifier(DashRoundedTitle())
+                                }
+                            )
+                        }
+                        .padding(.horizontal)
+                        .background(Color.white)
+                    }
+                }
             }
             
             if !searchInput.isEmpty {
@@ -74,8 +143,8 @@ struct SearchResultScreen: View {
                             }
                         }
                     }
-                    .padding(.horizontal, .s20)
-                    .padding(.bottom, .s24)
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 24)
                 }
             }
         }
@@ -87,7 +156,7 @@ struct SearchResultScreen: View {
                 return
             }
             
-            filteredProducts = products.filter { $0.title.lowercased().contains(value.lowercased()) }
+            filteredProducts = products.filter { $0.title.contains(value) }
             isShowingSearchHistory = false
         }
         .onAppear {
@@ -102,5 +171,54 @@ struct SearchResultScreen: View {
         .fullScreenCover(isPresented: $isDetailsPresented) {
             DetailScreen(product: $selectedProduct)
         }
+        .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification)) { _ in
+            if !searchInput.isEmpty {
+                storage.saveSearchHistory(searchInput)
+            }
+        }
+    }
+    
+    func applyFilters(closeBottomSheet: Bool = true) {
+        filteredProducts = products
+        
+        var isFilterApplied = false
+        
+        if !filterText.isEmpty {
+            filteredProducts = filteredProducts.filter { $0.title.localizedCaseInsensitiveContains(filterText) }
+            isFilterApplied = true
+        }
+        
+        if let minPrice = minPrice {
+            filteredProducts = filteredProducts.filter { $0.price >= minPrice }
+            isFilterApplied = true
+        }
+        
+        if let maxPrice = maxPrice {
+            if let minPrice = minPrice, maxPrice < minPrice {
+                self.maxPrice = minPrice
+            }
+            filteredProducts = filteredProducts.filter { $0.price <= maxPrice }
+            isFilterApplied = true
+        }
+        
+        isButtonActive = !filteredProducts.isEmpty
+        
+        if closeBottomSheet {
+            isShowingFilters = false
+        }
+        
+        filtersApplied = true
+        
+    }
+    
+    func clearFilters() {
+        filterText = ""
+        minPrice = nil
+        maxPrice = nil
+        applyFilters(closeBottomSheet: false)
+        isButtonActive = false
+        filtersApplied = false
     }
 }
+
+

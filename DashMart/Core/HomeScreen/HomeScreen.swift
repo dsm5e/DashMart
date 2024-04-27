@@ -31,8 +31,16 @@ struct HomeScreen: View {
         Int(UIScreen.main.bounds.width) / 67
     }
     
+    @State private var isShowingFilters = false
+    @State private var isButtonActive = false
+    @State private var filtersApplied = false
+    @State private var minPrice: Double?
+    @State private var maxPrice: Double?
+    @State private var sortType: SortType = .none
+    @State private var filterText = ""
+    
     var body: some View {
-        VStack(spacing: .s16) {
+        VStack(spacing: 16) {
             NavBarMenu(
                 storage: storage,
                 location: .shared,
@@ -43,7 +51,7 @@ struct HomeScreen: View {
                     isShowingLocation = true
                 }
             )
-            .padding(.horizontal, .s20)
+            .padding(.horizontal, 20)
             
             Button(
                 action: {
@@ -54,7 +62,7 @@ struct HomeScreen: View {
                         .disabled(true)
                 }
             )
-            .padding(.horizontal, .s20)
+            .padding(.horizontal, 20)
             
             if loading {
                 Spacer()
@@ -62,9 +70,7 @@ struct HomeScreen: View {
                 Spacer()
             } else {
                 LazyVGrid(columns: (0..<categoriesInRow).map { _ in .init(.fixed(67)) }) {
-                    ForEach(categories) {
-                        category in
-                        
+                    ForEach(categories) { category in
                         Button(
                             action: {
                                 if category.id == -1 {
@@ -86,58 +92,119 @@ struct HomeScreen: View {
                         )
                     }
                 }
-                .padding(.horizontal, .s20)
+                .padding(.horizontal, 20)
                 
-                
-                TitleFilters(text: "Products")
-                    .padding(.horizontal, .s20)
-                
-                ScrollView {
-                    LazyVGrid(
-                        columns: [.init(),.init()],
-                        spacing: 8
-                    ) {
-                        ForEach(filteredProducts) {
-                            product in
+                VStack {
+                    TitleFilters(text: "Products", action: {
+                        isShowingFilters.toggle()
+                    }, filtersApplied: $filtersApplied, isButtonActive: $isButtonActive)
+                    .padding(.horizontal, 20)
+                    .bottomSheet(isPresented: $isShowingFilters, detents: [.medium()]) {
+                        VStack(spacing: 16) {
+                            Text("Filter Products")
+                                .font(.system(size: 16))
+                                .foregroundStyle(Color(hex: "#393F42"))
+                                .padding()
+                            Picker(selection: $sortType, label: Text("Sort by")) {
+                                Text("None").tag(SortType.none)
+                                Text("A-Z").tag(SortType.alphabeticalAscending)
+                                Text("Z-A").tag(SortType.alphabeticalDescending)
+                            }
+                            .pickerStyle(SegmentedPickerStyle())
+                            .padding()
+                            
+                            HStack {
+                                Text("Price")
+                                    .font(.system(size: 16))
+                                    .foregroundStyle(Color(hex: "#393F42"))
+                                Spacer()
+                            }
+                            .padding(.horizontal)
+                            HStack {
+                                TextField("Min", text: Binding<String>(
+                                    get: { minPrice.map { String($0) } ?? "" },
+                                    set: { minPrice = Double($0) }
+                                ))
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                                
+                                Image(systemName: "ellipsis")
+                                
+                                Spacer()
+                                TextField("Max", text: Binding<String>(
+                                    get: { maxPrice.map { String($0) } ?? "" },
+                                    set: { maxPrice = Double($0) }
+                                ))
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                            }
+                            .padding(.horizontal)
+                            .padding(.bottom, 40)
+                        }
+                        HStack {
+                            Button(
+                                action: {
+                                    clearFilters()
+                                }, label: {
+                                    Text("Clear Filter")
+                                        .foregroundStyle(Color(hex: "#E53935"))
+                                        .modifier(DashRoundedTitle(style: .gray))
+                                }
+                            )
                             
                             Button(
                                 action: {
-                                    selectedProduct = product
-                                    isShowingDetails = true
-                                },
-                                label: {
-                                    ProductItem(
-                                        product: product,
-                                        storage: storage,
-                                        showWishlistButton: false
-                                    )
+                                    applyFilters()
+                                }, label: {
+                                    Text("Apply")
+                                        .modifier(DashRoundedTitle())
                                 }
                             )
                         }
+                        .padding(.horizontal)
+                        .background(Color.white)
                     }
-                    .padding(.horizontal, .s20)
                 }
             }
-        }
-        .padding(.top)
-        .onAppear {
-            Task {
-                loading = true
-                await getProducts()
-                loading = false
+            
+            ScrollView {
+                LazyVGrid(
+                    columns: [.init(),.init()],
+                    spacing: 8
+                ) {
+                    ForEach(filteredProducts) { product in
+                        Button(
+                            action: {
+                                selectedProduct = product
+                                isShowingDetails = true
+                            },
+                            label: {
+                                ProductItem(
+                                    product: product,
+                                    storage: storage,
+                                    showWishlistButton: false
+                                )
+                            }
+                        )
+                    }
+                }
+                .padding(.horizontal, 20)
             }
         }
-        .onChange(of: selectedCategory) {
-            value in
-            
+        
+        .padding(.top)
+        .task {
+            loading = true
+            await getProducts()
+            loading = false
+        }
+        .onChange(of: selectedCategory) { value in
             guard let value else {
                 filteredProducts = products
                 return
             }
             filteredProducts = products.filter { $0.category.id == value }
         }
-        .onChange(of: isShowingAllCategories) {
-            topCategories[topCategories.count - 1] = $0 ? .top : .all
+        .onChange(of: isShowingAllCategories) { _ in
+            topCategories[topCategories.count - 1] = isShowingAllCategories ? .top : .all
         }
         .animation(.linear, value: isShowingAllCategories)
         .fullScreenCover(isPresented: $isShowingSearchResults) {
@@ -155,13 +222,71 @@ struct HomeScreen: View {
             CountrySelection()
         }
     }
+    enum SortType {
+        case none
+        case alphabeticalAscending
+        case alphabeticalDescending
+    }
+    
+    func applyFilters(closeBottomSheet: Bool = true) {
+        filteredProducts = products
+        
+        var isFilterApplied = false
+        
+        if !filterText.isEmpty {
+            filteredProducts = filteredProducts.filter { $0.title.localizedCaseInsensitiveContains(filterText) }
+            isFilterApplied = true
+        }
+        
+        if let minPrice = minPrice {
+            filteredProducts = filteredProducts.filter { $0.price >= minPrice }
+            isFilterApplied = true
+        }
+        
+        if let maxPrice = maxPrice {
+            if let minPrice = minPrice, maxPrice < minPrice {
+                self.maxPrice = minPrice
+            }
+            filteredProducts = filteredProducts.filter { $0.price <= maxPrice }
+            isFilterApplied = true
+        }
+        
+        guard isFilterApplied || sortType != .none else {
+            return
+        }
+        switch sortType {
+        case .alphabeticalAscending:
+            filteredProducts.sort { $0.title < $1.title }
+        case .alphabeticalDescending:
+            filteredProducts.sort { $0.title > $1.title }
+        default:
+            break
+        }
+        
+        isButtonActive = !filteredProducts.isEmpty
+        
+        if closeBottomSheet {
+            isShowingFilters = false
+        }
+        
+        filtersApplied = true
+        
+    }
+    
+    func clearFilters() {
+        filterText = ""
+        minPrice = nil
+        maxPrice = nil
+        sortType = .none
+        applyFilters(closeBottomSheet: false)
+        isButtonActive = false
+        filtersApplied = false
+    }
 }
-
-
 
 extension HomeScreen {
     func getProducts() async {
-        switch await NetworkService.client.sendRequest(request: ProductsRequest()) {
+        switch await NetworkService.client.sendRequest(request: ProductsRequest(categoryId: selectedCategory)) {
         case .success(let result):
             products = result
             filteredProducts = products
@@ -171,9 +296,11 @@ extension HomeScreen {
                 categoriesFrequency[$0.category] = categoriesFrequency[$0.category, default: 0] + 1
             }
             let sortedCategories = categoriesFrequency.sorted { $0.value > $1.value }.map { $0.key }
-            topCategories = sortedCategories.prefix(categoriesInRow - 1) + [.all]
-            if sortedCategories.count + 1 > categoriesInRow {
-                otherCategories = Array(sortedCategories[(categoriesInRow - 1)...])
+            if categories.isEmpty {
+                topCategories = sortedCategories.prefix(categoriesInRow - 1) + [.all]
+                if sortedCategories.count + 1 > categoriesInRow {
+                    otherCategories = Array(sortedCategories[(categoriesInRow - 1)...])
+                }
             }
         case .failure(let error):
             print(error)
@@ -198,3 +325,4 @@ extension Array {
 #Preview {
     HomeScreen()
 }
+

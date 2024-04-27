@@ -14,14 +14,14 @@ struct SearchHistoryList: View {
         VStack(alignment: .leading, spacing: .s8) {
             HStack {
                 Text("Last search")
-                    .font(.system(size: 14))
+                    .font(.system(size: 16))
                     .foregroundStyle(Color(hex: "#393F42"))
                 
                 Spacer()
                 
                 Button(action: {
                     Task {
-                        await storage.clearSearchHistory()
+                        storage.clearSearchHistory()
                     }
                 }) {
                     Text("Clear all")
@@ -32,22 +32,35 @@ struct SearchHistoryList: View {
             .padding(.horizontal, 20)
             
             ScrollView {
-                ForEach(storage.searchHistory, id: \.self) { query in
-                    Button(action: {
-                        
-                    }) {
+                ForEach(storage.searchHistory.indices, id: \.self) { index in
+                    let query = storage.searchHistory[index]
+                    HStack {
+                        Image(systemName: "clock")
+                            .foregroundColor(Color(hex: "#939393"))
                         Text(query)
-                            .foregroundColor(.primary)
+                            .font(.system(size: 14))
+                            .foregroundColor(Color(hex: "#393F42"))
                             .padding(.horizontal, 20)
-                            .padding(.vertical, 8)
+                            .padding(.vertical, 5)
+                        Spacer()
+                        Button(action: {
+                            Task {
+                                storage.removeSearchHistory(at: index)
+                            }
+                        }) {
+                            Image(systemName: "xmark")
+                                .foregroundColor(Color(hex: "#939393"))
+                        }
+                        .padding(.trailing, 20)
                     }
                 }
+                .padding(.horizontal)
             }
         }
     }
 }
 
-
 #Preview {
     SearchHistoryList()
 }
+
