@@ -2,7 +2,7 @@
 //  HomeScreen.swift
 //  DashMart
 //
-//  Created by dsm 5e on 14.04.2024.
+//  Created by Ilya Paddubny on 27.04.2024.
 //
 
 import SwiftUI
@@ -18,6 +18,7 @@ struct HomeScreen: View {
     @State private var isShowingDetails = false
     @State private var isShowingCard = false
     @State private var isShowingLocation = false
+    @State var isShowingFilters = false
     
     @ObservedObject private var storage = StorageService.shared
     
@@ -58,9 +59,9 @@ struct HomeScreen: View {
         .bottomSheet(isPresented: $isShowingLocation, detents: [.medium()]) {
             CountrySelection()
         }
-        .bottomSheet(isPresented: $viewModel.isShowingFilters, detents: [.medium()]) {
+        .bottomSheet(isPresented: $isShowingFilters, detents: [.medium()]) {
             FilterBotomSheet(
-                isPresented: $viewModel.isShowingFilters,
+                isPresented: $isShowingFilters,
                 sortingOrder: $viewModel.sortType,
                 priceBounds: $viewModel.priceBounds,
                 priceRange: viewModel.sliderPosition,
@@ -72,7 +73,7 @@ struct HomeScreen: View {
         
     }
     
-    //MARK: main sections
+    //MARK: views
     private var searchSection: some View {
         Button(
             action: {
@@ -122,9 +123,10 @@ struct HomeScreen: View {
     
     private var filterSection: some View {
         VStack {
-            TitleFilters(text: "Products", action: {
-                viewModel.isShowingFilters.toggle()
-            }, filtersApplied: $viewModel.filtersApplied, isButtonActive: $viewModel.isButtonActive)
+            TitleFilters(text: "Products",
+                         action: {
+                isShowingFilters.toggle()
+            }, filtersApplied: $viewModel.isFiltersApplied)
             .padding(.horizontal, 20)
         }
     }
@@ -168,59 +170,6 @@ struct HomeScreen: View {
         )
     }
     
-    func applyFilters(closeBottomSheet: Bool = true) {
-        
-        var isFilterApplied = false
-        
-        if !viewModel.filterText.isEmpty {
-            viewModel.filteredProductsByCategory = viewModel.filteredProductsByCategory.filter { $0.title.localizedCaseInsensitiveContains(viewModel.filterText) }
-            isFilterApplied = true
-        }
-        
-        if let minPrice = viewModel.minPrice {
-            viewModel.filteredProductsByCategory = viewModel.filteredProductsByCategory.filter { $0.price >= minPrice }
-            isFilterApplied = true
-        }
-        
-        if let maxPrice = viewModel.maxPrice {
-            if let minPrice = viewModel.minPrice, maxPrice < minPrice {
-                viewModel.maxPrice = minPrice
-            }
-            viewModel.filteredProductsByCategory = viewModel.filteredProductsByCategory.filter { $0.price <= maxPrice }
-            isFilterApplied = true
-        }
-        
-        guard isFilterApplied || viewModel.sortType != .none else {
-            return
-        }
-        switch viewModel.sortType {
-        case .alphabeticalAscending:
-            viewModel.filteredProductsByCategory.sort { $0.title < $1.title }
-        case .alphabeticalDescending:
-            viewModel.filteredProductsByCategory.sort { $0.title > $1.title }
-        default:
-            break
-        }
-        
-        viewModel.isButtonActive = !viewModel.filteredProductsByCategory.isEmpty
-        
-        if closeBottomSheet {
-            viewModel.isShowingFilters = false
-        }
-        
-        viewModel.filtersApplied = true
-        
-    }
-    
-    func clearFilters() {
-        viewModel.filterText = ""
-        viewModel.minPrice = nil
-        viewModel.maxPrice = nil
-        viewModel.sortType = .none
-        applyFilters(closeBottomSheet: false)
-        viewModel.isButtonActive = false
-        viewModel.filtersApplied = false
-    }
 }
 
 extension CategoryEntity {

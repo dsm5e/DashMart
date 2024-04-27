@@ -62,7 +62,7 @@ struct SearchResultScreen: View {
                 VStack {
                     TitleFilters(text: "Products", action: {
                         isShowingFilters.toggle()
-                    }, filtersApplied: $filtersApplied, isButtonActive: $isButtonActive)
+                    }, filtersApplied: $filtersApplied)
                     .padding(.horizontal, 20)
                     .padding(.bottom, 8)
                     .bottomSheet(isPresented: $isShowingFilters, detents: [.medium()]) {

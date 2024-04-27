@@ -9,8 +9,8 @@ import Foundation
 import UIKit
 
 class HomeVM: ObservableObject {
-    @MainActor @Published var products = [ProductEntity]()
-    @MainActor @Published var filteredProductsByCategory = [ProductEntity]() {
+    @MainActor var products = [ProductEntity]()
+    @MainActor var filteredProductsByCategory = [ProductEntity]() {
         didSet {
             sliderPosition = 0...Int(ceil(getMaxPrice()))
             priceBounds = 0...Int(ceil(getMaxPrice()))
@@ -22,7 +22,6 @@ class HomeVM: ObservableObject {
             objectWillChange.send()
         }
     }
-    
     var filteredProducts: [ProductEntity] {
         return sortedFilteredProducts
     }
@@ -35,16 +34,8 @@ class HomeVM: ObservableObject {
     @MainActor @Published var selectedProduct: ProductEntity? = nil
     @MainActor @Published private(set) var loading = false
     
-    @MainActor @Published var isShowingFilters = false
-    @MainActor @Published var isButtonActive = false
-    
-    @MainActor @Published var filtersApplied = false
-    
-    @MainActor @Published var minPrice: Double?
-    @MainActor @Published var maxPrice: Double?
+    @MainActor @Published var isFiltersApplied = false
     @MainActor @Published var sortType: SortType = .none
-    
-    @MainActor @Published var filterText = ""
     
     @MainActor @Published var sliderPosition: ClosedRange<Int> = 0...10
     @MainActor @Published var priceBounds: ClosedRange<Int> = 0...10
@@ -62,9 +53,11 @@ class HomeVM: ObservableObject {
             if let selectedCategory = selectedCategory {
                 filteredProductsByCategory = products.filter { $0.category.id == selectedCategory }
                 updateSortedFilteredProducts()
+                updateFiltersApplied()
             } else {
                 filteredProductsByCategory = products // Reset to all products when no category selected
                 updateSortedFilteredProducts()
+                updateFiltersApplied()
             }
         }
     }
@@ -97,15 +90,19 @@ class HomeVM: ObservableObject {
     
     @MainActor
     lazy var clearFilter: (() -> Void) = { [weak self] in
-//        self?.filteredProducts = self?.products ?? []
-        print(self?.getMaxPrice())
+        self?.sliderPosition = self?.priceBounds ?? 0...10
+        self?.sortType = .none
+        self?.updateFiltersApplied()
     }
 
     
     @MainActor
     lazy var applyFilter: (SortType, ClosedRange<Int>) -> Void = { [weak self] sortingType, range in
         self?.sliderPosition = range
+        self?.sortType = sortingType
         self?.updateSortedFilteredProducts()
+        self?.objectWillChange.send()
+        self?.updateFiltersApplied()
     }
     
     @MainActor 
@@ -115,6 +112,23 @@ class HomeVM: ObservableObject {
     
     @MainActor
     private func updateSortedFilteredProducts() {
-        sortedFilteredProducts = filteredProductsByCategory.filter { ($0.price <= Double(sliderPosition.upperBound)) && ($0.price >= Double(sliderPosition.lowerBound)) }.sorted { $0.title < $1.title }
+        switch sortType {
+        case .none:
+            sortedFilteredProducts = filteredProductsByCategory.filter { ($0.price <= Double(sliderPosition.upperBound)) && ($0.price >= Double(sliderPosition.lowerBound)) }
+        case .alphabeticalAscending:
+            sortedFilteredProducts = filteredProductsByCategory.filter { ($0.price <= Double(sliderPosition.upperBound)) && ($0.price >= Double(sliderPosition.lowerBound)) }.sorted { $0.title < $1.title }
+        case .alphabeticalDescending:
+            sortedFilteredProducts = filteredProductsByCategory.filter { ($0.price <= Double(sliderPosition.upperBound)) && ($0.price >= Double(sliderPosition.lowerBound)) }.sorted { $0.title > $1.title }
+        }
+        
+    }
+    
+    @MainActor
+    private func updateFiltersApplied() {
+        isFiltersApplied = (sortType != .none) || (sliderPosition != priceBounds)
+    }
+    
+    deinit {
+        print("🔴 deinit")
     }
 }
