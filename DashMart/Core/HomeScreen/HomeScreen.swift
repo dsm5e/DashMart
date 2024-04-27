@@ -39,6 +39,8 @@ struct HomeScreen: View {
     @State private var sortType: SortType = .none
     @State private var filterText = ""
     
+    @State var sliderPosition: ClosedRange<Int> = 1...5
+    
     var body: some View {
         VStack(spacing: 16) {
             NavBarMenu(
@@ -113,31 +115,34 @@ struct HomeScreen: View {
                             .pickerStyle(SegmentedPickerStyle())
                             .padding()
                             
-                            HStack {
-                                Text("Price")
-                                    .font(.system(size: 16))
-                                    .foregroundStyle(Color(hex: "#393F42"))
-                                Spacer()
-                            }
-                            .padding(.horizontal)
-                            HStack {
-                                TextField("Min", text: Binding<String>(
-                                    get: { minPrice.map { String($0) } ?? "" },
-                                    set: { minPrice = Double($0) }
-                                ))
-                                .textFieldStyle(RoundedBorderTextFieldStyle())
-                                
-                                Image(systemName: "ellipsis")
-                                
-                                Spacer()
-                                TextField("Max", text: Binding<String>(
-                                    get: { maxPrice.map { String($0) } ?? "" },
-                                    set: { maxPrice = Double($0) }
-                                ))
-                                .textFieldStyle(RoundedBorderTextFieldStyle())
-                            }
-                            .padding(.horizontal)
-                            .padding(.bottom, 40)
+                            
+                            RangedSliderView(value: $sliderPosition, bounds: 1...10)
+                               
+//                            HStack {
+//                                Text("Price")
+//                                    .font(.system(size: 16))
+//                                    .foregroundStyle(Color(hex: "#393F42"))
+//                                Spacer()
+//                            }
+//                            .padding(.horizontal)
+//                            HStack {
+//                                TextField("Min", text: Binding<String>(
+//                                    get: { minPrice.map { String($0) } ?? "" },
+//                                    set: { minPrice = Double($0) }
+//                                ))
+//                                .textFieldStyle(RoundedBorderTextFieldStyle())
+//                                
+//                                Image(systemName: "ellipsis")
+//                                
+//                                Spacer()
+//                                TextField("Max", text: Binding<String>(
+//                                    get: { maxPrice.map { String($0) } ?? "" },
+//                                    set: { maxPrice = Double($0) }
+//                                ))
+//                                .textFieldStyle(RoundedBorderTextFieldStyle())
+//                            }
+//                            .padding(.horizontal)
+//                            .padding(.bottom, 40)
                         }
                         HStack {
                             Button(

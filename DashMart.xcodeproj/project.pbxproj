@@ -10,6 +10,7 @@
 		2D818D142BD2B25E00F65F87 /* NetworkManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7757B00F2BCD849E00C6F56A /* NetworkManager.framework */; };
 		2D818D152BD2B25E00F65F87 /* NetworkManager.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7757B00F2BCD849E00C6F56A /* NetworkManager.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		2D818D3F2BD6E83700F65F87 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D818D3E2BD6E83700F65F87 /* UIImage+Extension.swift */; };
+		2D8C51BE2BDD1443001F5E6D /* RangedSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D8C51BD2BDD1443001F5E6D /* RangedSliderView.swift */; };
 		2DBAAA8F2BD7AA6D00248525 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBAAA8E2BD7AA6D00248525 /* ImagePicker.swift */; };
 		2DD0148F2BD92FCE00EB737D /* OnboardingShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD0148E2BD92FCE00EB737D /* OnboardingShape.swift */; };
 		3C1281512BCC2FC000DB8F49 /* DashMartApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C1281502BCC2FC000DB8F49 /* DashMartApp.swift */; };
@@ -110,6 +111,7 @@
 
 /* Begin PBXFileReference section */
 		2D818D3E2BD6E83700F65F87 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
+		2D8C51BD2BDD1443001F5E6D /* RangedSliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RangedSliderView.swift; sourceTree = "<group>"; };
 		2DBAAA8D2BD7030000248525 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		2DBAAA8E2BD7AA6D00248525 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		2DD0148E2BD92FCE00EB737D /* OnboardingShape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingShape.swift; sourceTree = "<group>"; };
@@ -326,6 +328,7 @@
 				77B5A1B22BD70C0A00E86836 /* DashScreen.swift */,
 				7729E5F22BD479EE0036C1ED /* SeparatorView.swift */,
 				7784352C2BD8382000776D08 /* ManagerEditField.swift */,
+				2D8C51BD2BDD1443001F5E6D /* RangedSliderView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -610,6 +613,7 @@
 				F9ED78942BCFD382001EC482 /* DetailScreen.swift in Sources */,
 				77B87D922BD0856E0003A468 /* TermsView.swift in Sources */,
 				7758CDE12BCED3A80038E801 /* Color+hex.swift in Sources */,
+				2D8C51BE2BDD1443001F5E6D /* RangedSliderView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
