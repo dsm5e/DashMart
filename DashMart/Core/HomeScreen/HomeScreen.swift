@@ -96,7 +96,10 @@ struct HomeScreen: View {
                 .bottomSheet(isPresented: $isShowingFilters, detents: [.medium()]) {
                     FilterProducts(
                         products: products,
-                        filteredProducts: $filteredProducts, showAlphabeticalSort: true
+                        filteredProducts: $filteredProducts, 
+                        showAlphabeticalSort: true,
+                        isPresented: $isShowingFilters
+                        
                     )
                 }
                 .padding(.horizontal, 20)

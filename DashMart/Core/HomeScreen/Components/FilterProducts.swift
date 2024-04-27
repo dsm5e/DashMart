@@ -12,8 +12,10 @@ struct FilterProducts: View {
     @State private var minPrice: Double?
     @State private var maxPrice: Double?
     @State private var sortType: SortType = .none
+    
     @Binding var products: [ProductEntity]
     @Binding var filteredProducts: [ProductEntity]
+    @Binding var isPresented: Bool
     
     @State private var isButtonActive = false
     @State private var isShowingFilters = false
@@ -21,10 +23,11 @@ struct FilterProducts: View {
     
     var showAlphabeticalSort: Bool
     
-    init(products: [ProductEntity], filteredProducts: Binding<[ProductEntity]>, showAlphabeticalSort: Bool) {
+    init(products: [ProductEntity], filteredProducts: Binding<[ProductEntity]>, showAlphabeticalSort: Bool, isPresented: Binding<Bool>) {
         self._products = .constant(products)
         self._filteredProducts = filteredProducts
         self.showAlphabeticalSort = showAlphabeticalSort
+        self._isPresented = isPresented
     }
     
     var body: some View {
@@ -72,6 +75,7 @@ struct FilterProducts: View {
             Button(
                 action: {
                     clearFilters()
+                    isPresented = false
                 }, label: {
                     Text("Clear Filter")
                         .foregroundStyle(Color(hex: "#E53935"))
@@ -82,6 +86,7 @@ struct FilterProducts: View {
             Button(
                 action: {
                     applyFilters()
+                    isPresented = false
                 }, label: {
                     Text("Apply")
                         .modifier(DashRoundedTitle())

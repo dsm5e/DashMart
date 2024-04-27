@@ -60,7 +60,9 @@ struct SearchResultScreen: View {
                 .bottomSheet(isPresented: $isShowingFilters, detents: [.medium()]) {
                     FilterProducts(
                         products: products,
-                        filteredProducts: $filteredProducts, showAlphabeticalSort: false
+                        filteredProducts: $filteredProducts, 
+                        showAlphabeticalSort: false,
+                        isPresented: $isShowingFilters
                     )
                 }
                 .padding(.horizontal, 20)
