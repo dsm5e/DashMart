@@ -19,19 +19,20 @@ struct FilterProductsVM: View {
     @State private var searchInput: String = ""
     
     @State private var filterText = ""
-    
+
     var showAlphabeticalSort: Bool
     
     init(showAlphabeticalSort: Bool) {
         self.showAlphabeticalSort = showAlphabeticalSort
     }
+   
     
     var body: some View {
-        VStack {
-            TitleFilters(text: "Products", action: {
-                isShowingFilters.toggle()
-            }, filtersApplied: $filtersApplied, isButtonActive: $isButtonActive)
-            .bottomSheet(isPresented: $isShowingFilters, detents: [.medium()]) {
+//        VStack {
+//            TitleFilters(text: "Products", action: {
+//                isShowingFilters.toggle()
+//            }, filtersApplied: $filtersApplied, isButtonActive: $isButtonActive)
+//            .bottomSheet(isPresented: $isShowingFilters, detents: [.medium()]) {
                 VStack(spacing: 16) {
                     Text("Filter Products")
                         .font(.system(size: 16))
@@ -95,8 +96,8 @@ struct FilterProductsVM: View {
                 .padding(.horizontal)
                 .background(Color.white)
             }
-        }
-    }
+//       }
+//    }
     
     enum SortType {
         case none
@@ -149,6 +150,7 @@ struct FilterProductsVM: View {
         }
         
         filtersApplied = true
+        
     }
     
     func clearFilters() {
@@ -160,12 +162,11 @@ struct FilterProductsVM: View {
         isButtonActive = false
         filtersApplied = false
     }
-
 }
+
 
 #Preview {
     FilterProductsVM(showAlphabeticalSort: true)
 }
-
 
 

@@ -21,6 +21,10 @@ struct SearchResultScreen: View {
     @State private var keyboardHeight: CGFloat = .zero
     @State private var isShowingSearchHistory = true
     
+    @State private var isShowingFilters = false
+    @State private var isButtonActive = false
+    @State private var filtersApplied = false
+    
     var body: some View {
         VStack {
             HStack {
@@ -50,7 +54,13 @@ struct SearchResultScreen: View {
             if isShowingSearchHistory {
                 SearchHistoryList()
             } else {
-                FilterProductsVM(showAlphabeticalSort: false)
+                TitleFilters(text: "Products", action: {
+                    isShowingFilters.toggle()
+                }, filtersApplied: $filtersApplied, isButtonActive: $isButtonActive)
+                .padding(.horizontal, 20)
+                .bottomSheet(isPresented: $isShowingFilters, detents: [.medium()]) {
+                    FilterProductsVM(showAlphabeticalSort: false)
+                }
             }
             
             if !searchInput.isEmpty {

@@ -31,6 +31,10 @@ struct HomeScreen: View {
         Int(UIScreen.main.bounds.width) / 67
     }
     
+    @State private var isShowingFilters = false 
+    @State private var isButtonActive = false
+    @State private var filtersApplied = false
+    
     var body: some View {
         VStack(spacing: 16) {
             NavBarMenu(
@@ -85,9 +89,13 @@ struct HomeScreen: View {
                     }
                 }
                 .padding(.horizontal, 20)
-                
-                FilterProductsVM(showAlphabeticalSort: true)
-                
+            
+                TitleFilters(text: "Products", action: {
+                    isShowingFilters.toggle()
+                }, filtersApplied: $filtersApplied, isButtonActive: $isButtonActive)
+                .bottomSheet(isPresented: $isShowingFilters, detents: [.medium()]) {
+                    FilterProductsVM(showAlphabeticalSort: true)
+                }
                     .padding(.horizontal, 20)
                 
                 ScrollView {
