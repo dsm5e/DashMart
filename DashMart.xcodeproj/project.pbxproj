@@ -67,6 +67,7 @@
 		CAF7DC142BCD5A6A00BCE0DF /* OnboardingPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF7DC132BCD5A6A00BCE0DF /* OnboardingPage.swift */; };
 		CAF7DC162BCD5A7900BCE0DF /* PageIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF7DC152BCD5A7800BCE0DF /* PageIndicator.swift */; };
 		CAF7DC182BCD5A8900BCE0DF /* OnboardingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF7DC172BCD5A8900BCE0DF /* OnboardingItem.swift */; };
+		F93700722BDD032300F486E8 /* FilterProducts.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93700712BDD032300F486E8 /* FilterProducts.swift */; };
 		F94506412BCE87F90017600B /* NavBarMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = F94506402BCE87F90017600B /* NavBarMenu.swift */; };
 		F94506472BCE88760017600B /* TitleFilters.swift in Sources */ = {isa = PBXBuildFile; fileRef = F94506462BCE88760017600B /* TitleFilters.swift */; };
 		F945064D2BCE88DD0017600B /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F945064C2BCE88DC0017600B /* CustomButton.swift */; };
@@ -161,6 +162,7 @@
 		CAF7DC132BCD5A6A00BCE0DF /* OnboardingPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingPage.swift; sourceTree = "<group>"; };
 		CAF7DC152BCD5A7800BCE0DF /* PageIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageIndicator.swift; sourceTree = "<group>"; };
 		CAF7DC172BCD5A8900BCE0DF /* OnboardingItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingItem.swift; sourceTree = "<group>"; };
+		F93700712BDD032300F486E8 /* FilterProducts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterProducts.swift; sourceTree = "<group>"; };
 		F94506402BCE87F90017600B /* NavBarMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavBarMenu.swift; sourceTree = "<group>"; };
 		F94506462BCE88760017600B /* TitleFilters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleFilters.swift; sourceTree = "<group>"; };
 		F945064C2BCE88DC0017600B /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
@@ -410,6 +412,7 @@
 			isa = PBXGroup;
 			children = (
 				F94506402BCE87F90017600B /* NavBarMenu.swift */,
+				F93700712BDD032300F486E8 /* FilterProducts.swift */,
 				F94506462BCE88760017600B /* TitleFilters.swift */,
 				F9ED78BA2BD53D49001EC482 /* SearchHistoryList.swift */,
 				F945064C2BCE88DC0017600B /* CustomButton.swift */,
@@ -569,6 +572,7 @@
 				77F87E222BCECA6200506EB7 /* AuthorizeStore.swift in Sources */,
 				7729E5F12BD472470036C1ED /* CategoryView.swift in Sources */,
 				77F87E632BCECF0200506EB7 /* View+Extension.swift in Sources */,
+				F93700722BDD032300F486E8 /* FilterProducts.swift in Sources */,
 				7757B0252BCD891B00C6F56A /* ProductsRequest.swift in Sources */,
 				7758CDE62BCEDF970038E801 /* ContentView.swift in Sources */,
 				2D818D3F2BD6E83700F65F87 /* UIImage+Extension.swift in Sources */,
