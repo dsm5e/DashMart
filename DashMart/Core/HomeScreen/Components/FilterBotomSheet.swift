@@ -16,9 +16,10 @@ enum SortType {
 struct FilterBotomSheet: View {
     @Binding var isPresented: Bool
     @Binding var sortingOrder: SortType
-    @Binding var priceRange: ClosedRange<Int>
-    let applyAction: () -> ()
-    let clearAction: () -> ()
+    @Binding var priceBounds: ClosedRange<Int>
+    @State var priceRange: ClosedRange<Int>
+    let applyAction: (SortType, ClosedRange<Int>) -> Void
+    let clearAction: () -> Void
     
     var body: some View {
         VStack(spacing: 10) {
@@ -43,7 +44,7 @@ struct FilterBotomSheet: View {
                 .font(.system(size: 16))
                 .bold()
                 .foregroundStyle(Color(hex: "#393F42"))
-            RangedSliderView(value: $priceRange, bounds: 0...10)
+            RangedSliderView(value: $priceRange, bounds: priceBounds)
                 .padding(.leading, 48)
                 .padding(.trailing, 48)
         }
@@ -62,7 +63,7 @@ struct FilterBotomSheet: View {
             
             Button(
                 action: {
-                    applyAction()
+                    applyAction(sortingOrder, priceRange)
 //                    applyFilters()
                 }, label: {
                     Text("Apply")
