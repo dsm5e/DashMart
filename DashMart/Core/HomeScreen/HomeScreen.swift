@@ -101,83 +101,6 @@ struct HomeScreen: View {
                         isShowingFilters.toggle()
                     }, filtersApplied: $filtersApplied, isButtonActive: $isButtonActive)
                     .padding(.horizontal, 20)
-                    .bottomSheet(isPresented: $isShowingFilters, detents: [.medium()]) {
-                        VStack(spacing: 10) {
-                            Text("Apply filter by")
-                                .font(.system(size: 24))
-                                .bold()
-                                .foregroundStyle(Color(hex: "#393F42"))
-                                .padding()
-                            Text("Name")
-                                .font(.system(size: 16))
-                                .bold()
-                                .foregroundStyle(Color(hex: "#393F42"))
-                            Picker(selection: $sortType, label: Text("Sort by")) {
-                                Text("None").tag(SortType.none)
-                                Text("A-Z").tag(SortType.alphabeticalAscending)
-                                Text("Z-A").tag(SortType.alphabeticalDescending)
-                            }
-                            .pickerStyle(SegmentedPickerStyle())
-                            .padding()
-                            
-                            Text("Price range")
-                                .font(.system(size: 16))
-                                .bold()
-                                .foregroundStyle(Color(hex: "#393F42"))
-                            RangedSliderView(value: $sliderPosition, bounds: 0...10)
-                                .padding(.leading, 48)
-                                .padding(.trailing, 48)
-                                .padding(.bottom, 18)
-//                            HStack {
-//                                Text("Price")
-//                                    .font(.system(size: 16))
-//                                    .foregroundStyle(Color(hex: "#393F42"))
-//                                Spacer()
-//                            }
-//                            .padding(.horizontal)
-//                            HStack {
-//                                TextField("Min", text: Binding<String>(
-//                                    get: { minPrice.map { String($0) } ?? "" },
-//                                    set: { minPrice = Double($0) }
-//                                ))
-//                                .textFieldStyle(RoundedBorderTextFieldStyle())
-//                                
-//                                Image(systemName: "ellipsis")
-//                                
-//                                Spacer()
-//                                TextField("Max", text: Binding<String>(
-//                                    get: { maxPrice.map { String($0) } ?? "" },
-//                                    set: { maxPrice = Double($0) }
-//                                ))
-//                                .textFieldStyle(RoundedBorderTextFieldStyle())
-//                            }
-//                            .padding(.horizontal)
-//                            .padding(.bottom, 40)
-                        }
-                        HStack {
-                            Button(
-                                action: {
-                                    clearFilters()
-                                }, label: {
-                                    Text("Clear Filter")
-                                        .foregroundStyle(Color(hex: "#E53935"))
-                                        .modifier(DashRoundedTitle(style: .gray))
-                                }
-                            )
-                            
-                            Button(
-                                action: {
-                                    applyFilters()
-                                }, label: {
-                                    Text("Apply")
-                                        .modifier(DashRoundedTitle())
-                                }
-                            )
-                        }
-                        .padding(.horizontal)
-                        Spacer()
-                        .background(Color.white)
-                    }
                 }
             }
             
@@ -236,6 +159,82 @@ struct HomeScreen: View {
         }
         .bottomSheet(isPresented: $isShowingLocation, detents: [.medium()]) {
             CountrySelection()
+        }
+        .bottomSheet(isPresented: $isShowingFilters, detents: [.medium()]) {
+            VStack(spacing: 10) {
+                Text("Apply filter by")
+                    .font(.system(size: 24))
+                    .bold()
+                    .foregroundStyle(Color(hex: "#393F42"))
+                    .padding()
+                Text("Product name")
+                    .font(.system(size: 16))
+                    .bold()
+                    .foregroundStyle(Color(hex: "#393F42"))
+                Picker(selection: $sortType, label: Text("Sort by")) {
+                    Text("None").tag(SortType.none)
+                    Text("A-Z").tag(SortType.alphabeticalAscending)
+                    Text("Z-A").tag(SortType.alphabeticalDescending)
+                }
+                .pickerStyle(SegmentedPickerStyle())
+                .padding()
+                
+                Text("Price range")
+                    .font(.system(size: 16))
+                    .bold()
+                    .foregroundStyle(Color(hex: "#393F42"))
+                RangedSliderView(value: $sliderPosition, bounds: 0...10)
+                    .padding(.leading, 48)
+                    .padding(.trailing, 48)
+//                            HStack {
+//                                Text("Price")
+//                                    .font(.system(size: 16))
+//                                    .foregroundStyle(Color(hex: "#393F42"))
+//                                Spacer()
+//                            }
+//                            .padding(.horizontal)
+//                            HStack {
+//                                TextField("Min", text: Binding<String>(
+//                                    get: { minPrice.map { String($0) } ?? "" },
+//                                    set: { minPrice = Double($0) }
+//                                ))
+//                                .textFieldStyle(RoundedBorderTextFieldStyle())
+//
+//                                Image(systemName: "ellipsis")
+//
+//                                Spacer()
+//                                TextField("Max", text: Binding<String>(
+//                                    get: { maxPrice.map { String($0) } ?? "" },
+//                                    set: { maxPrice = Double($0) }
+//                                ))
+//                                .textFieldStyle(RoundedBorderTextFieldStyle())
+//                            }
+//                            .padding(.horizontal)
+//                            .padding(.bottom, 40)
+            }
+            HStack {
+                Button(
+                    action: {
+                        clearFilters()
+                        sliderPosition = 0...sliderPosition.upperBound
+                    }, label: {
+                        Text("Clear Filter")
+                            .foregroundStyle(Color(hex: "#E53935"))
+                            .modifier(DashRoundedTitle(style: .gray))
+                    }
+                )
+                
+                Button(
+                    action: {
+                        applyFilters()
+                    }, label: {
+                        Text("Apply")
+                            .modifier(DashRoundedTitle())
+                    }
+                )
+            }
+            .padding(.horizontal)
+            .background(Color.white)
         }
     }
     enum SortType {
