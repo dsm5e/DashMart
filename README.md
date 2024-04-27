@@ -17,6 +17,9 @@
 
 ---
 
+![2024-04-2215 48 29-ezgif com-video-to-gif-converter](https://github.com/dsm5e/DashMart/assets/60872698/a07fee14-c6a6-468d-a59d-f61e202bc9c9)
+
+
 ## Базовое задание:
 
 ### Главный экран
