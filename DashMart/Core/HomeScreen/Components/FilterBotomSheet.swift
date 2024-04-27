@@ -51,9 +51,8 @@ struct FilterBotomSheet: View {
         HStack {
             Button(
                 action: {
-//                    clearFilters()
-//                    sliderPosition = 0...sliderPosition.upperBound
                     clearAction()
+                    isPresented = false
                 }, label: {
                     Text("Clear Filter")
                         .foregroundStyle(Color(hex: "#E53935"))
@@ -64,7 +63,7 @@ struct FilterBotomSheet: View {
             Button(
                 action: {
                     applyAction(sortingOrder, priceRange)
-//                    applyFilters()
+                    isPresented = false
                 }, label: {
                     Text("Apply")
                         .modifier(DashRoundedTitle())

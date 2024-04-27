@@ -173,12 +173,12 @@ struct HomeScreen: View {
         var isFilterApplied = false
         
         if !viewModel.filterText.isEmpty {
-            viewModel.filteredProducts = viewModel.filteredProducts.filter { $0.title.localizedCaseInsensitiveContains(viewModel.filterText) }
+            viewModel.filteredProductsByCategory = viewModel.filteredProductsByCategory.filter { $0.title.localizedCaseInsensitiveContains(viewModel.filterText) }
             isFilterApplied = true
         }
         
         if let minPrice = viewModel.minPrice {
-            viewModel.filteredProducts = viewModel.filteredProducts.filter { $0.price >= minPrice }
+            viewModel.filteredProductsByCategory = viewModel.filteredProductsByCategory.filter { $0.price >= minPrice }
             isFilterApplied = true
         }
         
@@ -186,7 +186,7 @@ struct HomeScreen: View {
             if let minPrice = viewModel.minPrice, maxPrice < minPrice {
                 viewModel.maxPrice = minPrice
             }
-            viewModel.filteredProducts = viewModel.filteredProducts.filter { $0.price <= maxPrice }
+            viewModel.filteredProductsByCategory = viewModel.filteredProductsByCategory.filter { $0.price <= maxPrice }
             isFilterApplied = true
         }
         
@@ -195,14 +195,14 @@ struct HomeScreen: View {
         }
         switch viewModel.sortType {
         case .alphabeticalAscending:
-            viewModel.filteredProducts.sort { $0.title < $1.title }
+            viewModel.filteredProductsByCategory.sort { $0.title < $1.title }
         case .alphabeticalDescending:
-            viewModel.filteredProducts.sort { $0.title > $1.title }
+            viewModel.filteredProductsByCategory.sort { $0.title > $1.title }
         default:
             break
         }
         
-        viewModel.isButtonActive = !viewModel.filteredProducts.isEmpty
+        viewModel.isButtonActive = !viewModel.filteredProductsByCategory.isEmpty
         
         if closeBottomSheet {
             viewModel.isShowingFilters = false

@@ -10,11 +10,21 @@ import UIKit
 
 class HomeVM: ObservableObject {
     @MainActor @Published var products = [ProductEntity]()
-    @MainActor @Published var filteredProducts = [ProductEntity]() {
+    @MainActor @Published var filteredProductsByCategory = [ProductEntity]() {
         didSet {
             sliderPosition = 0...Int(ceil(getMaxPrice()))
             priceBounds = 0...Int(ceil(getMaxPrice()))
         }
+    }
+    
+    private var sortedFilteredProducts = [ProductEntity]() {
+        didSet {
+            objectWillChange.send()
+        }
+    }
+    
+    var filteredProducts: [ProductEntity] {
+        return sortedFilteredProducts
     }
     
     @MainActor @Published var isShowingAllCategories = false
@@ -50,9 +60,11 @@ class HomeVM: ObservableObject {
     @MainActor @Published var selectedCategory: Int? = nil {
         didSet {
             if let selectedCategory = selectedCategory {
-                filteredProducts = products.filter { $0.category.id == selectedCategory }
+                filteredProductsByCategory = products.filter { $0.category.id == selectedCategory }
+                updateSortedFilteredProducts()
             } else {
-                filteredProducts = products // Reset to all products when no category selected
+                filteredProductsByCategory = products // Reset to all products when no category selected
+                updateSortedFilteredProducts()
             }
         }
     }
@@ -63,8 +75,8 @@ class HomeVM: ObservableObject {
         switch await NetworkService.client.sendRequest(request: ProductsRequest(categoryId: selectedCategory)) {
         case .success(let result):
             products = result
-            filteredProducts = products
-            
+            filteredProductsByCategory = products
+            updateSortedFilteredProducts()
             var categoriesFrequency = [CategoryEntity: Int]()
             products.forEach {
                 categoriesFrequency[$0.category] = categoriesFrequency[$0.category, default: 0] + 1
@@ -92,12 +104,17 @@ class HomeVM: ObservableObject {
     
     @MainActor
     lazy var applyFilter: (SortType, ClosedRange<Int>) -> Void = { [weak self] sortingType, range in
-        print(range.upperBound)
+        self?.sliderPosition = range
+        self?.updateSortedFilteredProducts()
     }
     
     @MainActor 
     func getMaxPrice() -> Double {
-        return filteredProducts.max(by: { $0.price < $1.price })?.price ?? 10.0
+        return filteredProductsByCategory.max(by: { $0.price < $1.price })?.price ?? 10.0
     }
     
+    @MainActor
+    private func updateSortedFilteredProducts() {
+        sortedFilteredProducts = filteredProductsByCategory.filter { ($0.price <= Double(sliderPosition.upperBound)) && ($0.price >= Double(sliderPosition.lowerBound)) }.sorted { $0.title < $1.title }
+    }
 }
