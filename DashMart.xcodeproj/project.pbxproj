@@ -12,6 +12,7 @@
 		2D818D3F2BD6E83700F65F87 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D818D3E2BD6E83700F65F87 /* UIImage+Extension.swift */; };
 		2D8C51BE2BDD1443001F5E6D /* RangedSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D8C51BD2BDD1443001F5E6D /* RangedSliderView.swift */; };
 		2D8C51CC2BDD3271001F5E6D /* FilterBotomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D8C51CB2BDD3271001F5E6D /* FilterBotomSheet.swift */; };
+		2D8C51CE2BDD382B001F5E6D /* HomeVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D8C51CD2BDD382B001F5E6D /* HomeVM.swift */; };
 		2DBAAA8F2BD7AA6D00248525 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBAAA8E2BD7AA6D00248525 /* ImagePicker.swift */; };
 		2DD0148F2BD92FCE00EB737D /* OnboardingShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD0148E2BD92FCE00EB737D /* OnboardingShape.swift */; };
 		3C1281512BCC2FC000DB8F49 /* DashMartApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C1281502BCC2FC000DB8F49 /* DashMartApp.swift */; };
@@ -114,6 +115,7 @@
 		2D818D3E2BD6E83700F65F87 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		2D8C51BD2BDD1443001F5E6D /* RangedSliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RangedSliderView.swift; sourceTree = "<group>"; };
 		2D8C51CB2BDD3271001F5E6D /* FilterBotomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterBotomSheet.swift; sourceTree = "<group>"; };
+		2D8C51CD2BDD382B001F5E6D /* HomeVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVM.swift; sourceTree = "<group>"; };
 		2DBAAA8D2BD7030000248525 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		2DBAAA8E2BD7AA6D00248525 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		2DD0148E2BD92FCE00EB737D /* OnboardingShape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingShape.swift; sourceTree = "<group>"; };
@@ -259,6 +261,7 @@
 			isa = PBXGroup;
 			children = (
 				3C1281522BCC2FC000DB8F49 /* HomeScreen.swift */,
+				2D8C51CD2BDD382B001F5E6D /* HomeVM.swift */,
 				F945063F2BCE87A40017600B /* Components */,
 				F94506502BCE89350017600B /* SearchResultScreen */,
 				F9ED78922BCFD1BC001EC482 /* DetailView */,
@@ -598,6 +601,7 @@
 				3C1281512BCC2FC000DB8F49 /* DashMartApp.swift in Sources */,
 				77B5A1B12BD7038D00E86836 /* ManagerEditProduct.swift in Sources */,
 				77B5A1AD2BD7010500E86836 /* CGFloat+Extension.swift in Sources */,
+				2D8C51CE2BDD382B001F5E6D /* HomeVM.swift in Sources */,
 				77B5A1AF2BD7030E00E86836 /* ManagerEditScreen.swift in Sources */,
 				77F87E5F2BCECC6400506EB7 /* RouterService.swift in Sources */,
 				CAF7DC162BCD5A7900BCE0DF /* PageIndicator.swift in Sources */,

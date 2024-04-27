@@ -10,23 +10,16 @@ import Kingfisher
 import BottomSheet
 
 struct HomeScreen: View {
+    @ObservedObject var viewModel = HomeVM()
+    
     @State private var searchInput: String = ""
     @State private var isShowingSearchResults = false
-    @State private var isShowingDetails = false
-    @State private var isShowingCard = false
-    @State private var isShowingLocation = false
     @ObservedObject private var storage = StorageService.shared
-    @State private var products = [ProductEntity]()
-    @State private var filteredProducts = [ProductEntity]()
-    @State private var isShowingAllCategories = false
+    
     private var categories: [CategoryEntity] {
-        isShowingAllCategories ? topCategories + otherCategories : topCategories
+        viewModel.isShowingAllCategories ? viewModel.topCategories + viewModel.otherCategories : viewModel.topCategories
     }
-    @State private var topCategories = [CategoryEntity]()
-    @State private var otherCategories = [CategoryEntity]()
-    @State private var selectedCategory: Int? = nil
-    @State private var selectedProduct: ProductEntity? = nil
-    @State private var loading = false
+    
     private var categoriesInRow: Int {
         Int(UIScreen.main.bounds.width) / 67
     }
@@ -47,10 +40,10 @@ struct HomeScreen: View {
                 storage: storage,
                 location: .shared,
                 cartButtonAction: {
-                    isShowingCard = true
+                    viewModel.isShowingCard = true
                 },
                 locationAction: {
-                    isShowingLocation = true
+                    viewModel.isShowingLocation = true
                 }
             )
             .padding(.horizontal, 20)
@@ -66,7 +59,7 @@ struct HomeScreen: View {
             )
             .padding(.horizontal, 20)
             
-            if loading {
+            if viewModel.loading {
                 Spacer()
                 ProgressView()
                 Spacer()
@@ -76,19 +69,19 @@ struct HomeScreen: View {
                         Button(
                             action: {
                                 if category.id == -1 {
-                                    isShowingAllCategories.toggle()
+                                    viewModel.isShowingAllCategories.toggle()
                                 } else {
-                                    if selectedCategory == category.id {
-                                        selectedCategory = nil
+                                    if viewModel.selectedCategory == category.id {
+                                        viewModel.selectedCategory = nil
                                     } else {
-                                        selectedCategory = category.id
+                                        viewModel.selectedCategory = category.id
                                     }
                                 }
                             },
                             label: {
                                 CategoryView(
                                     category: category,
-                                    isSelected: category.id == selectedCategory
+                                    isSelected: category.id == viewModel.selectedCategory
                                 )
                             }
                         )
@@ -109,11 +102,11 @@ struct HomeScreen: View {
                     columns: [.init(),.init()],
                     spacing: 8
                 ) {
-                    ForEach(filteredProducts) { product in
+                    ForEach(viewModel.filteredProducts) { product in
                         Button(
                             action: {
-                                selectedProduct = product
-                                isShowingDetails = true
+                                viewModel.selectedProduct = product
+                                viewModel.isShowingDetails = true
                             },
                             label: {
                                 ProductItem(
@@ -131,33 +124,33 @@ struct HomeScreen: View {
         
         .padding(.top)
         .task {
-            loading = true
+            viewModel.loading = true
             await getProducts()
-            loading = false
+            viewModel.loading = false
         }
-        .onChange(of: selectedCategory) { value in
+        .onChange(of: viewModel.selectedCategory) { value in
             guard let value else {
-                filteredProducts = products
+                viewModel.filteredProducts = viewModel.products
                 return
             }
-            filteredProducts = products.filter { $0.category.id == value }
+            viewModel.filteredProducts = viewModel.products.filter { $0.category.id == value }
         }
-        .onChange(of: isShowingAllCategories) { _ in
-            topCategories[topCategories.count - 1] = isShowingAllCategories ? .top : .all
+        .onChange(of: viewModel.isShowingAllCategories) { _ in
+            viewModel.topCategories[viewModel.topCategories.count - 1] = viewModel.isShowingAllCategories ? .top : .all
         }
-        .animation(.linear, value: isShowingAllCategories)
+        .animation(.linear, value: viewModel.isShowingAllCategories)
         .fullScreenCover(isPresented: $isShowingSearchResults) {
             SearchResultScreen(
-                products: $products
+                products: $viewModel.products
             )
         }
-        .fullScreenCover(isPresented: $isShowingDetails) {
-            DetailScreen(product: $selectedProduct)
+        .fullScreenCover(isPresented: $viewModel.isShowingDetails) {
+            DetailScreen(product: $viewModel.selectedProduct)
         }
-        .fullScreenCover(isPresented: $isShowingCard) {
+        .fullScreenCover(isPresented: $viewModel.isShowingCard) {
             CartScreen()
         }
-        .bottomSheet(isPresented: $isShowingLocation, detents: [.medium()]) {
+        .bottomSheet(isPresented: $viewModel.isShowingLocation, detents: [.medium()]) {
             CountrySelection()
         }
         .bottomSheet(isPresented: $isShowingFilters, detents: [.medium()]) {
@@ -176,12 +169,12 @@ struct HomeScreen: View {
         var isFilterApplied = false
         
         if !filterText.isEmpty {
-            filteredProducts = filteredProducts.filter { $0.title.localizedCaseInsensitiveContains(filterText) }
+            viewModel.filteredProducts = viewModel.filteredProducts.filter { $0.title.localizedCaseInsensitiveContains(filterText) }
             isFilterApplied = true
         }
         
         if let minPrice = minPrice {
-            filteredProducts = filteredProducts.filter { $0.price >= minPrice }
+            viewModel.filteredProducts = viewModel.filteredProducts.filter { $0.price >= minPrice }
             isFilterApplied = true
         }
         
@@ -189,7 +182,7 @@ struct HomeScreen: View {
             if let minPrice = minPrice, maxPrice < minPrice {
                 self.maxPrice = minPrice
             }
-            filteredProducts = filteredProducts.filter { $0.price <= maxPrice }
+            viewModel.filteredProducts = viewModel.filteredProducts.filter { $0.price <= maxPrice }
             isFilterApplied = true
         }
         
@@ -198,14 +191,14 @@ struct HomeScreen: View {
         }
         switch sortType {
         case .alphabeticalAscending:
-            filteredProducts.sort { $0.title < $1.title }
+            viewModel.filteredProducts.sort { $0.title < $1.title }
         case .alphabeticalDescending:
-            filteredProducts.sort { $0.title > $1.title }
+            viewModel.filteredProducts.sort { $0.title > $1.title }
         default:
             break
         }
         
-        isButtonActive = !filteredProducts.isEmpty
+        isButtonActive = !viewModel.filteredProducts.isEmpty
         
         if closeBottomSheet {
             isShowingFilters = false
@@ -228,25 +221,25 @@ struct HomeScreen: View {
 
 extension HomeScreen {
     func getProducts() async {
-        switch await NetworkService.client.sendRequest(request: ProductsRequest(categoryId: selectedCategory)) {
+        switch await NetworkService.client.sendRequest(request: ProductsRequest(categoryId: viewModel.selectedCategory)) {
         case .success(let result):
-            products = result
-            filteredProducts = products
+            viewModel.products = result
+            viewModel.filteredProducts = viewModel.products
             
             var categoriesFrequency = [CategoryEntity: Int]()
-            products.forEach {
+            viewModel.products.forEach {
                 categoriesFrequency[$0.category] = categoriesFrequency[$0.category, default: 0] + 1
             }
             let sortedCategories = categoriesFrequency.sorted { $0.value > $1.value }.map { $0.key }
             if categories.isEmpty {
-                topCategories = sortedCategories.prefix(categoriesInRow - 1) + [.all]
+                viewModel.topCategories = sortedCategories.prefix(categoriesInRow - 1) + [.all]
                 if sortedCategories.count + 1 > categoriesInRow {
-                    otherCategories = Array(sortedCategories[(categoriesInRow - 1)...])
+                    viewModel.otherCategories = Array(sortedCategories[(categoriesInRow - 1)...])
                 }
             }
         case .failure(let error):
             print(error)
-            loading = false
+            viewModel.loading = false
         }
     }
 }
