@@ -57,7 +57,7 @@ struct SearchResultScreen: View {
                 .padding(.bottom, 16)
             
             if isShowingSearchHistory {
-                SearchHistoryList()
+                SearchHistoryList(onSearchSelected: onSearchSelected)
             } else {
                 VStack {
                     TitleFilters(text: "Products", action: {
@@ -176,6 +176,10 @@ struct SearchResultScreen: View {
                 storage.saveSearchHistory(searchInput)
             }
         }
+    }
+    
+    func onSearchSelected(_ query: String) {
+        searchInput = query
     }
     
     func applyFilters(closeBottomSheet: Bool = true) {
