@@ -30,7 +30,7 @@ struct RangedSliderView: View {
                 .fill(Color("GreenSecondary").opacity(0.3))
                 .frame(height: 4)
             ZStack {
-                let sliderBoundDifference = sliderBounds.count
+                let sliderBoundDifference = sliderBounds.count - 1 
                 let stepWidthInPixel = CGFloat(sliderSize.width) / CGFloat(sliderBoundDifference)
                 
                 // Calculate Left Thumb initial position

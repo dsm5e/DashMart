@@ -39,7 +39,7 @@ struct HomeScreen: View {
     @State private var sortType: SortType = .none
     @State private var filterText = ""
     
-    @State var sliderPosition: ClosedRange<Int> = 1...5
+    @State var sliderPosition: ClosedRange<Int> = 0...10
     
     var body: some View {
         VStack(spacing: 16) {
@@ -102,11 +102,16 @@ struct HomeScreen: View {
                     }, filtersApplied: $filtersApplied, isButtonActive: $isButtonActive)
                     .padding(.horizontal, 20)
                     .bottomSheet(isPresented: $isShowingFilters, detents: [.medium()]) {
-                        VStack(spacing: 16) {
-                            Text("Filter Products")
-                                .font(.system(size: 16))
+                        VStack(spacing: 10) {
+                            Text("Apply filter by")
+                                .font(.system(size: 24))
+                                .bold()
                                 .foregroundStyle(Color(hex: "#393F42"))
                                 .padding()
+                            Text("Name")
+                                .font(.system(size: 16))
+                                .bold()
+                                .foregroundStyle(Color(hex: "#393F42"))
                             Picker(selection: $sortType, label: Text("Sort by")) {
                                 Text("None").tag(SortType.none)
                                 Text("A-Z").tag(SortType.alphabeticalAscending)
@@ -115,9 +120,14 @@ struct HomeScreen: View {
                             .pickerStyle(SegmentedPickerStyle())
                             .padding()
                             
-                            
-                            RangedSliderView(value: $sliderPosition, bounds: 1...10)
-                               
+                            Text("Price range")
+                                .font(.system(size: 16))
+                                .bold()
+                                .foregroundStyle(Color(hex: "#393F42"))
+                            RangedSliderView(value: $sliderPosition, bounds: 0...10)
+                                .padding(.leading, 48)
+                                .padding(.trailing, 48)
+                                .padding(.bottom, 18)
 //                            HStack {
 //                                Text("Price")
 //                                    .font(.system(size: 16))
@@ -165,6 +175,7 @@ struct HomeScreen: View {
                             )
                         }
                         .padding(.horizontal)
+                        Spacer()
                         .background(Color.white)
                     }
                 }
