@@ -14,6 +14,7 @@
 		2D8C51CC2BDD3271001F5E6D /* FilterBotomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D8C51CB2BDD3271001F5E6D /* FilterBotomSheet.swift */; };
 		2D8C51CE2BDD382B001F5E6D /* HomeVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D8C51CD2BDD382B001F5E6D /* HomeVM.swift */; };
 		2DBAAA8F2BD7AA6D00248525 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBAAA8E2BD7AA6D00248525 /* ImagePicker.swift */; };
+		2DCE47812BDDADAD0079E93E /* SearchResultVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DCE47802BDDADAD0079E93E /* SearchResultVM.swift */; };
 		2DD0148F2BD92FCE00EB737D /* OnboardingShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD0148E2BD92FCE00EB737D /* OnboardingShape.swift */; };
 		3C1281512BCC2FC000DB8F49 /* DashMartApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C1281502BCC2FC000DB8F49 /* DashMartApp.swift */; };
 		3C1281532BCC2FC000DB8F49 /* HomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C1281522BCC2FC000DB8F49 /* HomeScreen.swift */; };
@@ -118,6 +119,7 @@
 		2D8C51CD2BDD382B001F5E6D /* HomeVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVM.swift; sourceTree = "<group>"; };
 		2DBAAA8D2BD7030000248525 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		2DBAAA8E2BD7AA6D00248525 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		2DCE47802BDDADAD0079E93E /* SearchResultVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultVM.swift; sourceTree = "<group>"; };
 		2DD0148E2BD92FCE00EB737D /* OnboardingShape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingShape.swift; sourceTree = "<group>"; };
 		3C12814D2BCC2FC000DB8F49 /* DashMart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DashMart.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C1281502BCC2FC000DB8F49 /* DashMartApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashMartApp.swift; sourceTree = "<group>"; };
@@ -431,6 +433,7 @@
 			isa = PBXGroup;
 			children = (
 				F94506512BCE89430017600B /* SearchResultScreen.swift */,
+				2DCE47802BDDADAD0079E93E /* SearchResultVM.swift */,
 			);
 			name = SearchResultScreen;
 			path = Components/SearchResultScreen;
@@ -596,6 +599,7 @@
 				7757B02C2BCD9E4F00C6F56A /* CategoriesRequest.swift in Sources */,
 				7729E5F32BD479EE0036C1ED /* SeparatorView.swift in Sources */,
 				7729E5F72BD48F700036C1ED /* SearchTextField.swift in Sources */,
+				2DCE47812BDDADAD0079E93E /* SearchResultVM.swift in Sources */,
 				CAF7DC122BCD5A5800BCE0DF /* OnboardingView.swift in Sources */,
 				77F87E212BCECA6200506EB7 /* AuthorizeReducer.swift in Sources */,
 				3C1281512BCC2FC000DB8F49 /* DashMartApp.swift in Sources */,

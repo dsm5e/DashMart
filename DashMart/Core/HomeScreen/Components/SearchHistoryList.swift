@@ -40,7 +40,7 @@ struct SearchHistoryList: View {
                         Text(query)
                             .font(.system(size: 14))
                             .foregroundColor(Color(hex: "#393F42"))
-                            .padding(.horizontal, 20)
+                            .padding(.horizontal, 10)
                             .padding(.vertical, 5)
                         Spacer()
                         Button(action: {

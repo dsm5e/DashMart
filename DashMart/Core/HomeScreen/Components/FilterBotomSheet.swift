@@ -20,6 +20,7 @@ struct FilterBotomSheet: View {
     @State var priceRange: ClosedRange<Int>
     let applyAction: (SortType, ClosedRange<Int>) -> Void
     let clearAction: () -> Void
+    var isSortingOrderPresented: Bool = true
     
     var body: some View {
         VStack(spacing: 10) {
@@ -28,17 +29,11 @@ struct FilterBotomSheet: View {
                 .bold()
                 .foregroundStyle(Color(hex: "#393F42"))
                 .padding()
-            Text("Product name")
-                .font(.system(size: 16))
-                .bold()
-                .foregroundStyle(Color(hex: "#393F42"))
-            Picker(selection: $sortingOrder, label: Text("Sort by")) {
-                Text("None").tag(SortType.none)
-                Text("A-Z").tag(SortType.alphabeticalAscending)
-                Text("Z-A").tag(SortType.alphabeticalDescending)
+            if isSortingOrderPresented {
+                sortByNameSection
+                .pickerStyle(SegmentedPickerStyle())
+                .padding()
             }
-            .pickerStyle(SegmentedPickerStyle())
-            .padding()
             
             Text("Price range")
                 .font(.system(size: 16))
@@ -48,6 +43,7 @@ struct FilterBotomSheet: View {
                 .padding(.leading, 48)
                 .padding(.trailing, 48)
         }
+        
         HStack {
             Button(
                 action: {
@@ -72,6 +68,20 @@ struct FilterBotomSheet: View {
         }
         .padding(.horizontal)
         .background(Color.white)
+    }
+    
+    private var sortByNameSection: some View {
+        Group {
+            Text("Product name")
+                .font(.system(size: 16))
+                .bold()
+                .foregroundStyle(Color(hex: "#393F42"))
+            Picker(selection: $sortingOrder, label: Text("Sort by")) {
+                Text("None").tag(SortType.none)
+                Text("A-Z").tag(SortType.alphabeticalAscending)
+                Text("Z-A").tag(SortType.alphabeticalDescending)
+            }
+        }
     }
 }
 

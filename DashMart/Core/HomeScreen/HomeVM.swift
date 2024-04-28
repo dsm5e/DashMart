@@ -128,7 +128,4 @@ class HomeVM: ObservableObject {
         isFiltersApplied = (sortType != .none) || (sliderPosition != priceBounds)
     }
     
-    deinit {
-        print("🔴 deinit")
-    }
 }

@@ -48,7 +48,7 @@ struct HomeScreen: View {
         }
         .animation(.linear, value: viewModel.isShowingAllCategories)
         .fullScreenCover(isPresented: $isShowingSearchResults) {
-            SearchResultScreen(products: $viewModel.products)
+            SearchResultScreen(products: viewModel.products)
         }
         .fullScreenCover(isPresented: $isShowingDetails) {
             DetailScreen(product: $viewModel.selectedProduct)
