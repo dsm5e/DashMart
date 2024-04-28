@@ -11,6 +11,7 @@ struct PlaymentMethod: View {
     @ObservedObject private var storage = StorageService.shared
     @State private var showSheet = false
     @State private var showAlertPDF = false
+
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
@@ -27,8 +28,12 @@ struct PlaymentMethod: View {
                 .foregroundColor(Color(hex: "#393F42"))
                 .font(.system(size: 16, weight: .medium))
             Spacer()
-            CartButton(storage: storage, action: nil)
-                .disabled(true)
+            CartButton(
+                storage: storage,
+                action: {
+                    dismiss()
+                }
+            )
         }
         .padding(.horizontal, .s20)
         SeparatorView()
@@ -148,11 +153,11 @@ struct PlaymentMethod: View {
                 } label: {
                     Text("Continue")
                         .font(.system(size: 16, weight: .bold))
+                        .frame(width: 350, height: 40)
+                        .foregroundStyle(.white)
+                        .background(Color(hex: "#67C4A7"))
+                        .cornerRadius(5)
                 }
-                .frame(width: 350, height: 40)
-                .foregroundStyle(.white)
-                .background(Color(hex: "#67C4A7"))
-                .cornerRadius(5)
                 Spacer()
             }
         })

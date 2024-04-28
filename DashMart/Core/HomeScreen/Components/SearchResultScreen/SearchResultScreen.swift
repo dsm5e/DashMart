@@ -76,6 +76,9 @@ struct SearchResultScreen: View {
         .fullScreenCover(isPresented: $isDetailsPresented) {
             DetailScreen(product: $selectedProduct)
         }
+        .fullScreenCover(isPresented: $isCartPresented) {
+            CartScreen()
+        }
         .bottomSheet(isPresented: $isShowingFilters, detents: [.medium()]) {
             FilterBotomSheet(
                 isPresented: $isShowingFilters,
