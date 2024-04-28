@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SearchHistoryList: View {
     @ObservedObject private var storage = StorageService.shared
+    let selectHistoryItemAction: (String) -> Void
     
     var body: some View {
         VStack(alignment: .leading, spacing: .s8) {
@@ -34,24 +35,30 @@ struct SearchHistoryList: View {
             ScrollView {
                 ForEach(storage.searchHistory.indices, id: \.self) { index in
                     let query = storage.searchHistory[index]
-                    HStack {
-                        Image(systemName: "clock")
-                            .foregroundColor(Color(hex: "#939393"))
-                        Text(query)
-                            .font(.system(size: 14))
-                            .foregroundColor(Color(hex: "#393F42"))
-                            .padding(.horizontal, 20)
-                            .padding(.vertical, 5)
-                        Spacer()
-                        Button(action: {
-                            Task {
-                                storage.removeSearchHistory(at: index)
-                            }
-                        }) {
-                            Image(systemName: "xmark")
+
+                    Button {
+                        self.selectHistoryItemAction(query)
+                    } label: {
+                        HStack {
+                            Image(systemName: "clock")
                                 .foregroundColor(Color(hex: "#939393"))
+                            Text(query)
+                                .font(.system(size: 14))
+                                .foregroundColor(Color(hex: "#393F42"))
+                                .padding(.horizontal, 10)
+                                .padding(.vertical, 5)
+                            
+                            Spacer()
+                            Button(action: {
+                                Task {
+                                    storage.removeSearchHistory(at: index)
+                                }
+                            }) {
+                                Image(systemName: "xmark")
+                                    .foregroundColor(Color(hex: "#939393"))
+                            }
+                            .padding(.trailing, 20)
                         }
-                        .padding(.trailing, 20)
                     }
                 }
                 .padding(.horizontal)
@@ -61,6 +68,6 @@ struct SearchHistoryList: View {
 }
 
 #Preview {
-    SearchHistoryList()
+    SearchHistoryList { query in }
 }
 

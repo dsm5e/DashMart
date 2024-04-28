@@ -8,14 +8,16 @@
 import SwiftUI
 
 struct SearchResultScreen: View {
+    @StateObject var viewModel: SearchResultVM
     @State var searchInput: String = ""
-    @Binding var products: [ProductEntity]
     
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject private var storage = StorageService.shared
-    @State private var filteredProducts = [ProductEntity]()
+    
     @FocusState private var focused: Bool?
     @State private var selectedProduct: ProductEntity? = nil
+    
+    
     @State private var isDetailsPresented = false
     @State private var isCartPresented = false
     @State private var keyboardHeight: CGFloat = .zero
@@ -24,32 +26,17 @@ struct SearchResultScreen: View {
     
     @State private var isShowingFilters = false
     @State private var isButtonActive = false
-    @State private var filtersApplied = false
+    
     @State private var minPrice: Double?
     @State private var maxPrice: Double?
-    @State private var filterText = ""
     
+    init(products: [ProductEntity]) {
+        _viewModel = StateObject(wrappedValue: SearchResultVM(products: products))
+    }
     
     var body: some View {
         VStack {
-            HStack {
-                Button {
-                    presentationMode.wrappedValue.dismiss()
-                } label: {
-                    Image(systemName: "arrow.left")
-                        .foregroundStyle(Color(hex: "#393F42"))
-                }
-                
-                SearchTextField(searchInput: $searchInput)
-                    .focused($focused, equals: true)
-                
-                CartButton(
-                    storage: storage,
-                    action: {
-                        isCartPresented = true
-                    }
-                )
-            }
+            searchSection
             .padding(.horizontal, 20)
             .padding(.bottom, 14)
             
@@ -57,110 +44,28 @@ struct SearchResultScreen: View {
                 .padding(.bottom, 16)
             
             if isShowingSearchHistory {
-                SearchHistoryList()
+                SearchHistoryList(selectHistoryItemAction: searchHistoryItemSelected)
             } else {
-                VStack {
-                    TitleFilters(text: "Products", action: {
-                        isShowingFilters.toggle()
-                    }, filtersApplied: $filtersApplied, isButtonActive: $isButtonActive)
-                    .padding(.horizontal, 20)
-                    .padding(.bottom, 8)
-                    .bottomSheet(isPresented: $isShowingFilters, detents: [.medium()]) {
-                        VStack(spacing: 16) {
-                            Text("Filter Products")
-                                .font(.system(size: 16))
-                                .foregroundStyle(Color(hex: "#393F42"))
-                                .padding()
-                            
-                            HStack {
-                                Text("Price")
-                                    .font(.system(size: 16))
-                                    .foregroundStyle(Color(hex: "#393F42"))
-                                Spacer()
-                            }
-                            .padding(.horizontal)
-                            HStack {
-                                TextField("Min", text: Binding<String>(
-                                    get: { minPrice.map { String($0) } ?? "" },
-                                    set: { minPrice = Double($0) }
-                                ))
-                                .textFieldStyle(RoundedBorderTextFieldStyle())
-                                
-                                Image(systemName: "ellipsis")
-                                
-                                Spacer()
-                                TextField("Max", text: Binding<String>(
-                                    get: { maxPrice.map { String($0) } ?? "" },
-                                    set: { maxPrice = Double($0) }
-                                ))
-                                .textFieldStyle(RoundedBorderTextFieldStyle())
-                            }
-                            .padding(.horizontal)
-                            .padding(.bottom, 40)
-                        }
-                        HStack {
-                            Button(
-                                action: {
-                                    clearFilters()
-                                }, label: {
-                                    Text("Clear Filter")
-                                        .foregroundStyle(Color(hex: "#E53935"))
-                                        .modifier(DashRoundedTitle(style: .gray))
-                                }
-                            )
-                            
-                            Button(
-                                action: {
-                                    applyFilters()
-                                }, label: {
-                                    Text("Apply")
-                                        .modifier(DashRoundedTitle())
-                                }
-                            )
-                        }
-                        .padding(.horizontal)
-                        .background(Color.white)
-                    }
-                }
+                filterSection
             }
             
             if !searchInput.isEmpty {
-                ScrollView {
-                    LazyVGrid(
-                        columns: [.init(),.init()],
-                        spacing: 8
-                    ) {
-                        ForEach(filteredProducts) { product in
-                            Button(action: {
-                                selectedProduct = product
-                                isDetailsPresented = true
-                            }) {
-                                ProductItem(
-                                    product: product,
-                                    storage: storage,
-                                    showWishlistButton: false
-                                )
-                            }
-                        }
-                    }
-                    .padding(.horizontal, 20)
-                    .padding(.bottom, 24)
-                }
+                productsSection
             }
         }
         .ignoresSafeArea(edges: .bottom)
         .onChange(of: searchInput) { value in
             guard !value.isEmpty else {
-                filteredProducts = products
+                viewModel.filteredProductsByUserInput = viewModel.products
                 isShowingSearchHistory = true
                 return
             }
             
-            filteredProducts = products.filter { $0.title.contains(value) }
+            viewModel.filteredProductsByUserInput = viewModel.products.filter { $0.title.contains(value) }
             isShowingSearchHistory = false
         }
         .onAppear {
-            filteredProducts = products
+            viewModel.filteredProductsByUserInput = viewModel.products
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 self.focused = true
             }
@@ -171,54 +76,83 @@ struct SearchResultScreen: View {
         .fullScreenCover(isPresented: $isDetailsPresented) {
             DetailScreen(product: $selectedProduct)
         }
-        .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification)) { _ in
-            if !searchInput.isEmpty {
-                storage.saveSearchHistory(searchInput)
-            }
+        .bottomSheet(isPresented: $isShowingFilters, detents: [.medium()]) {
+            FilterBotomSheet(
+                isPresented: $isShowingFilters,
+                sortingOrder: $viewModel.sortType,
+                priceBounds: $viewModel.priceBounds,
+                priceRange: viewModel.sliderPosition,
+                applyAction: viewModel.applyFilter,
+                clearAction: viewModel.clearFilter,
+                isSortingOrderPresented: false
+            )
         }
     }
     
-    func applyFilters(closeBottomSheet: Bool = true) {
-        filteredProducts = products
-        
-        var isFilterApplied = false
-        
-        if !filterText.isEmpty {
-            filteredProducts = filteredProducts.filter { $0.title.localizedCaseInsensitiveContains(filterText) }
-            isFilterApplied = true
-        }
-        
-        if let minPrice = minPrice {
-            filteredProducts = filteredProducts.filter { $0.price >= minPrice }
-            isFilterApplied = true
-        }
-        
-        if let maxPrice = maxPrice {
-            if let minPrice = minPrice, maxPrice < minPrice {
-                self.maxPrice = minPrice
+    private var searchSection: some View {
+        HStack {
+            Button {
+                presentationMode.wrappedValue.dismiss()
+            } label: {
+                Image(systemName: "arrow.left")
+                    .foregroundStyle(Color(hex: "#393F42"))
             }
-            filteredProducts = filteredProducts.filter { $0.price <= maxPrice }
-            isFilterApplied = true
+            
+            SearchTextField(searchInput: $searchInput)
+                .focused($focused, equals: true)
+                .onSubmit {
+                    if !searchInput.isEmpty {
+                        storage.saveSearchHistory(searchInput)
+                    }
+                }
+            
+            CartButton(
+                storage: storage,
+                action: {
+                    isCartPresented = true
+                }
+            )
         }
-        
-        isButtonActive = !filteredProducts.isEmpty
-        
-        if closeBottomSheet {
-            isShowingFilters = false
-        }
-        
-        filtersApplied = true
-        
     }
     
-    func clearFilters() {
-        filterText = ""
-        minPrice = nil
-        maxPrice = nil
-        applyFilters(closeBottomSheet: false)
-        isButtonActive = false
-        filtersApplied = false
+    private var productsSection: some View {
+        ScrollView {
+            LazyVGrid(
+                columns: [.init(),.init()],
+                spacing: 8
+            ) {
+                ForEach(viewModel.filteredProducts) { product in
+                    Button(action: {
+                        selectedProduct = product
+                        isDetailsPresented = true
+                    }) {
+                        ProductItem(
+                            product: product,
+                            storage: storage,
+                            showWishlistButton: false
+                        )
+                    }
+                }
+            }
+            .padding(.horizontal, 20)
+            .padding(.bottom, 24)
+        }
+    }
+    
+    private var filterSection: some View {
+        VStack {
+            TitleFilters(text: "Products", action: {
+                isShowingFilters.toggle()
+            }, filtersApplied: $viewModel.isFiltersApplied)
+            .padding(.horizontal, 20)
+            .padding(.bottom, 8)
+        }
+    }
+    
+    func searchHistoryItemSelected(_ query: String) {
+        searchInput = query
     }
 }
+
 
 
