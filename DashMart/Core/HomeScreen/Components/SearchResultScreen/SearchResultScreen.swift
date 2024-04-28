@@ -44,7 +44,7 @@ struct SearchResultScreen: View {
                 .padding(.bottom, 16)
             
             if isShowingSearchHistory {
-                SearchHistoryList()
+                SearchHistoryList(selectHistoryItemAction: searchHistoryItemSelected)
             } else {
                 filterSection
             }
@@ -149,7 +149,9 @@ struct SearchResultScreen: View {
         }
     }
     
-    
+    func searchHistoryItemSelected(_ query: String) {
+        searchInput = query
+    }
 }
 
 
