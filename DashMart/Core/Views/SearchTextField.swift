@@ -10,6 +10,7 @@ import SwiftUI
 struct SearchTextField: View {
     
     @Binding var searchInput: String
+    @State private var isEditing = false
     
     var body: some View {
         HStack{
@@ -24,6 +25,17 @@ struct SearchTextField: View {
                         .font(.system(size: 13))
                 }
                 .padding(.leading, 14)
+            
+            if !$searchInput.wrappedValue.isEmpty {
+                Button(action: {
+                    searchInput = ""
+                    isEditing = false
+                }) {
+                    Image(systemName: "xmark.circle")
+                        .font(.system(size: 16))
+                        .foregroundColor(Color(hex: "#939393"))
+                }
+            }
         }
         .padding(.vertical, 12)
         .padding(.horizontal, 14)
