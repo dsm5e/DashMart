@@ -59,7 +59,7 @@ struct TabBar: View {
                         Image(selection == 2 ? .Tab.Green.paper : .Tab.paper)
                         Text("Manager")
                     }
-                    .tag(4)
+                    .tag(2)
                 AccountView(router: router)
                     .tabItem {
                         Image(selection == 3 ? .Tab.Green.profile : .Tab.profile)
