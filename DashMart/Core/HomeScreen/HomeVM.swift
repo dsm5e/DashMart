@@ -93,6 +93,8 @@ class HomeVM: ObservableObject {
         self?.sliderPosition = self?.priceBounds ?? 0...10
         self?.sortType = .none
         self?.updateFiltersApplied()
+        self?.updateSortedFilteredProducts()
+        self?.objectWillChange.send()
     }
 
     

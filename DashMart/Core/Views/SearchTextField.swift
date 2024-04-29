@@ -13,7 +13,7 @@ struct SearchTextField: View {
     @State private var isEditing = false
     
     var body: some View {
-        HStack{
+        HStack {
             Image(.search)
                 .renderingMode(.template)
                 .foregroundColor(Color(hex: "#939393"))
