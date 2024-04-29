@@ -154,6 +154,8 @@ struct SearchResultScreen: View {
     
     func searchHistoryItemSelected(_ query: String) {
         searchInput = query
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+
     }
 }
 
