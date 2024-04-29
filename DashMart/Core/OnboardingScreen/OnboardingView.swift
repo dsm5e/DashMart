@@ -34,11 +34,13 @@ struct OnboardingView: View {
                 Spacer()
 
                 Button(action: {
-                    if currentPageIndex < onboardingData.count - 1 {
-                        currentPageIndex += 1
-                    } else {
-                        router.openApp()
-                    }
+                    withAnimation {
+                            if currentPageIndex < onboardingData.count - 1 {
+                                currentPageIndex += 1
+                            } else {
+                                router.openApp()
+                            }
+                        }
                 }) {
                     Image(systemName: "arrowtriangle.right.circle")
                         .resizable()
