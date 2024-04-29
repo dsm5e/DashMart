@@ -54,6 +54,7 @@ struct AuthorizeView: View {
                                     LoginTextField(text: $userName, title: "Name", placeholder: "Enter your name", secured: false)
                                 }
                                 LoginTextField(text: $email, title: "E-mail", placeholder: "Enter your email address", secured: false)
+                                    .autocapitalization(.none)
                                 LoginTextField(text: $password, title: "Password", placeholder: "Enter your password", secured: true)
                                 if store.state.loginType == .signUp {
                                     LoginTextField(text: $repeatedPassword, title: "Confirm Password", placeholder: "Repeat Password", secured: true)
