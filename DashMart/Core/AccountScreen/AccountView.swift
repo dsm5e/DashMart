@@ -23,6 +23,8 @@ struct AccountView: View {
     @State private var loading = false
     @State private var isEditProfileDialogPresented = false
     
+    @State private var showAlert = false
+    
     private var attributedEmail: AttributedString {
         var string = AttributedString(email)
         string.font = .systemFont(ofSize: 14)
@@ -193,19 +195,28 @@ struct AccountView: View {
                 title: "Sign Out",
                 rightIcon: Image(.signout),
                 handler: {
-                    loading = true
-                    Task {
-                        @MainActor in
-                        
-                        if await AuthorizeService.shared.logout() {
-                            managerService.logout()
-                            router.openAuth()
-                        }
-                        loading = false
-                    }
+                    showAlert = true
                 },
                 titleColor: Color(hex: "#666C8E")
             )
+            .alert(isPresented: $showAlert) {
+                Alert(
+                    title: Text(""),
+                    message: Text("Are you sure you want to sign out?").bold(),
+                    primaryButton: .default(Text("Yes")) {
+                        loading = true
+                        Task {
+                            @MainActor in
+                            if await AuthorizeService.shared.logout() {
+                                managerService.logout()
+                                router.openAuth()
+                            }
+                            loading = false
+                        }
+                    },
+                    secondaryButton: .cancel(Text("Cancel"))
+                )
+            }
         }
     }
 }
